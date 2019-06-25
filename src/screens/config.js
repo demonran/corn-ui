@@ -1,22 +1,26 @@
 export default [{
-        title:"基础信息",
-        items:[{
-                name:"分类管理",
-                path:"/category"
-            },{
-                name:"颜色管理",
-                path:"/color"
-            },{
-                name:"规格管理",
-                path:"/spec"
-            },
-        ]
+        title:"概况",
+        path:"/nosupport"
     },{
-        title:"库存管理",
-        items:[{
-                name:"商品基础数据",
-                path:"/stock"
-            }
-        ]
+        title:"报名",
+        path:"/nosupport"
+    },{
+        title:"学员",
+        path:"/nosupport"
+    },{
+        title:"线下课",
+        path:"/offlinecourse"
+    },{
+        title:"线上课",
+        path:"/nosupport"
+    },{
+        title:"动态",
+        path:"/nosupport"
+    },{
+        title:"财务",
+        path:"/nosupport"
+    },{
+        title:"设置",
+        path:"/nosupport"
     }
 ];

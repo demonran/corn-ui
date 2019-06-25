@@ -3,8 +3,10 @@ import Vue from "vue";
 import Router from 'vue-router';
 import Main from '@/screens/main';
 import Login from "@/screens/login";
+import Nosupport from "@/screens/nosupport";
+import OfflineCourse from "@/screens/offlinecourse";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -16,6 +18,12 @@ export default new Router({
         {
           path:'/color',
           component:Login
+        },{
+          path:'/nosupport',
+          component:Nosupport
+        },{
+          path:'/offlinecourse',
+          component:OfflineCourse
         }
       ]
     },
