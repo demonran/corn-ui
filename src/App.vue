@@ -1,31 +1,70 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view/>
   </div>
 </template>
 
 <script>
+import enquireScreen from './utils/device'
+
 export default {
-  name: 'app',
-  created()
-  {
-      Bus.$on("login", ()=>{
-        this.$router.push("/login");
-      })
+  name: 'App',
+  created () {
+    let _this = this
+    enquireScreen(isMobile => {
+      _this.$store.commit('setting/setDevice', isMobile)
+    })
   }
 }
 </script>
 
 <style lang="less">
-body {
-  background-color: #fbf9fe;
-  width: 100%;
-  height: 100%;
-  font-size: 16px;
-}
+  body{
+    overflow: hidden;
+  }
+  .ant-tabs-bar{
+    margin-bottom: 0 !important;
+  }
 
-#app{
-  width: 100%;
-  height: 100%;
-}
+  .scroll {
+    &::-webkit-scrollbar{
+        width: 6px;     /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+    }
+    &::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+        border-radius: 2px;
+        background: gray;
+    }
+    &::-webkit-scrollbar-track {/*滚动条里面轨道*/
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  :global{
+    //拖拽控件全局样式
+    .dragable-ghost{
+      border: 1px dashed #aaaaaa;
+      opacity: 0.65;
+    }
+    .dragable-chose{
+      border: 1px dashed #aaaaaa;
+      opacity: 0.65;
+    }
+    .dragable-drag{
+      border: 1px dashed #aaaaaa;
+      opacity: 0.65;
+    }
+    //页面切换动画
+    .page-toggle-enter-active{
+      transition: all 0.2s ease-in 0.25s;
+    }
+    .page-toggle-leave-active{
+      transition: all 0.2s ease-out 0s;
+    }
+    .page-toggle-enter, .page-toggle-leave-to{
+      opacity: 0;
+      padding: 0px;
+    }
+  }
 </style>
