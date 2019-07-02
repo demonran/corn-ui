@@ -15,7 +15,7 @@
                 </a-input>
               </a-form-item>
               <a-form-item :hasFeedback="true">
-                <a-input v-decorator="['password',{rules: [{ required: true, message: 'password', whitespace: true}]}]" 
+                <a-input v-decorator="['password',{rules: [{ required: true, message: 'password', whitespace: true}]}]"
                     size="large" placeholder="密码" type="password">
                   <a-icon slot="prefix" type="lock" />
                 </a-input>
@@ -40,7 +40,7 @@
 
 <script>
 import GlobalFooter from '../../layouts/GlobalFooter'
-import {mapActions} from "vuex";
+import {mapActions} from 'vuex'
 
 export default {
   name: 'Login',
@@ -69,32 +69,31 @@ export default {
     }
   },
   methods: {
-    ...mapActions("account",["login"]),
-    
+    ...mapActions('account', ['login']),
+
     async resetVerify () {
-          this.verifyImg = "http://64.202.187.159:8081/api/kaptcha?t="+Date.now()
+      this.verifyImg = 'http://64.202.187.159:8081/api/kaptcha?t=' + Date.now()
     },
     onSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
           this.logging = true
-          this.login({name:this.form.getFieldValue('name'),
-                      password:this.form.getFieldValue('password'),
-                      verifyCode:this.form.getFieldValue('verifyCode')}).then(res=>{
-              
-              console.log( res );
-              this.logging = false
-              const result = res.data
-              if (result.code >= 0) {
-                const user = result.data.user
-                this.$router.push('/dashboard/workplace')
-                this.$store.commit('account/setuser', user)
-                this.$message.success(result.message, 3)
-              } else {
-                this.$message.error(result.message)
-              }
-           })
+          this.login({name: this.form.getFieldValue('name'),
+            password: this.form.getFieldValue('password'),
+            verifyCode: this.form.getFieldValue('verifyCode')}).then(res => {
+            console.log(res)
+            this.logging = false
+            const result = res.data
+            if (result.code >= 0) {
+              const user = result.data.user
+              this.$router.push('/dashboard/workplace')
+              this.$store.commit('account/setuser', user)
+              this.$message.success(result.message, 3)
+            } else {
+              this.$message.error(result.message)
+            }
+          })
         }
       })
     }
