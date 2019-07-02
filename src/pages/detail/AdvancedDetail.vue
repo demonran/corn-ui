@@ -121,13 +121,13 @@
 </template>
 
 <script>
-import PageLayout from '../../layouts/PageLayout'
-import DetailList from '../../components/tool/DetailList'
-import AStepItem from '../../components/tool/AStepItem'
-import {operation1, operation2, operation3, operationColumns} from '../../mock/common/tableData'
+import PageLayout from '../../layouts/PageLayout';
+import DetailList from '../../components/tool/DetailList';
+import AStepItem from '../../components/tool/AStepItem';
+import {operation1, operation2, operation3, operationColumns} from '../../mock/common/tableData';
 
-const DetailListItem = DetailList.Item
-const AStepItemGroup = AStepItem.Group
+const DetailListItem = DetailList.Item;
+const AStepItemGroup = AStepItem.Group;
 
 const tabList = [
   {
@@ -142,7 +142,7 @@ const tabList = [
     key: '3',
     tab: '操作日志三'
   }
-]
+];
 
 export default {
   name: 'AdvancedDetail',
@@ -154,15 +154,15 @@ export default {
       operation2,
       operation3,
       activeTabKey: '2'
-    }
+    };
   },
   methods: {
     onTabChange (key) {
-      console.log(key)
+      console.log(key);
     }
   },
   components: {AStepItemGroup, AStepItem, DetailListItem, DetailList, PageLayout}
-}
+};
 </script>
 
 <style lang="less" scoped>

@@ -43,11 +43,11 @@
 </template>
 
 <script>
-import SearchForm from './SearchForm'
+import SearchForm from './SearchForm';
 export default {
   name: 'ApplicationList',
   components: {SearchForm}
-}
+};
 </script>
 
 <style lang="less" scoped>

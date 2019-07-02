@@ -45,26 +45,26 @@ export default {
   data () {
     return {
       loadding: false
-    }
+    };
   },
   computed: {
     theme () {
-      return this.$store.state.setting.layout === 'side' ? 'light' : this.$store.state.setting.theme
+      return this.$store.state.setting.layout === 'side' ? 'light' : this.$store.state.setting.theme;
     }
   },
   methods: {
     fetchNotice () {
       if (this.loadding) {
-        this.loadding = false
-        return
+        this.loadding = false;
+        return;
       }
-      this.loadding = true
+      this.loadding = true;
       setTimeout(() => {
-        this.loadding = false
-      }, 2000)
+        this.loadding = false;
+      }, 2000);
     }
   }
-}
+};
 </script>
 
 <style lang="less">

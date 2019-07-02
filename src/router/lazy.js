@@ -1,11 +1,11 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import PageView from '@/layouts/PageView'
-import RouteView from '@/layouts/RouteView'
-import MenuView from '@/layouts/MenuView2'
-import Login from '@/pages/login/Login'
+import Vue from 'vue';
+import Router from 'vue-router';
+import PageView from '@/layouts/PageView';
+import RouteView from '@/layouts/RouteView';
+import MenuView from '@/layouts/MenuView2';
+import Login from '@/pages/login/Login';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -225,4 +225,4 @@ export default new Router({
       ]
     }
   ]
-})
+});

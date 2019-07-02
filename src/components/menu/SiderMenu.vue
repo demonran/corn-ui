@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import IMenu from './menu'
+import IMenu from './menu';
 export default {
   name: 'SiderMenu',
   components: {IMenu},
@@ -38,18 +38,18 @@ export default {
   },
   computed: {
     isMobile () {
-      return this.$store.state.setting.isMobile
+      return this.$store.state.setting.isMobile;
     },
     systemName () {
-      return this.$store.state.setting.systemName
+      return this.$store.state.setting.systemName;
     }
   },
   methods: {
     onSelect (obj) {
-      this.$emit('menuSelect', obj)
+      this.$emit('menuSelect', obj);
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

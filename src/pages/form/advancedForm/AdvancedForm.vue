@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import RepositoryForm from './RepositoryForm'
-import TaskForm from './TaskForm'
-import TableForm from './TableForm'
-import FooterToolBar from '../../../components/tool/FooterToolBar'
+import RepositoryForm from './RepositoryForm';
+import TaskForm from './TaskForm';
+import TableForm from './TableForm';
+import FooterToolBar from '../../../components/tool/FooterToolBar';
 
 export default {
   name: 'AdvancedForm',
@@ -28,23 +28,23 @@ export default {
     return {
       desc: '高级表单常见于一次性输入和提交大批量数据的场景。',
       loading: false
-    }
+    };
   },
   methods: {
     validate () {
       this.$refs.repository.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
+          console.log('Received values of form: ', values);
         }
-      })
+      });
       this.$refs.task.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
+          console.log('Received values of form: ', values);
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

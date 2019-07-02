@@ -10,7 +10,7 @@
 export default {
   name: 'GlobalFooter',
   props: ['copyright', 'linkList']
-}
+};
 </script>
 
 <style lang="less" scoped>

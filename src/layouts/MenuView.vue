@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import GlobalLayout from './GlobalLayout'
-import Contextmenu from '../components/menu/Contextmenu'
+import GlobalLayout from './GlobalLayout';
+import Contextmenu from '../components/menu/Contextmenu';
 export default {
   name: 'MenuView',
   components: {Contextmenu, GlobalLayout},
@@ -40,69 +40,69 @@ export default {
         { key: '2', icon: 'arrow-right', text: '关闭右侧' },
         { key: '3', icon: 'close', text: '关闭其它' }
       ]
-    }
+    };
   },
   computed: {
     multipage () {
-      return this.$store.state.setting.multipage
+      return this.$store.state.setting.multipage;
     }
   },
   created () {
-    this.pageList.push(this.$route)
-    this.linkList.push(this.$route.fullPath)
-    this.activePage = this.$route.fullPath
+    this.pageList.push(this.$route);
+    this.linkList.push(this.$route.fullPath);
+    this.activePage = this.$route.fullPath;
   },
   watch: {
     '$route': function (newRoute, oldRoute) {
-      let list = []
-      this.activePage = newRoute.fullPath
+      let list = [];
+      this.activePage = newRoute.fullPath;
       if (!this.multipage) {
-        this.linkList = [newRoute.fullPath]
-        list.push(newRoute)
+        this.linkList = [newRoute.fullPath];
+        list.push(newRoute);
       } else if (this.linkList.indexOf(newRoute.fullPath) < 0) {
-        this.linkList.push(newRoute.fullPath)
-        list = this.pageList.slice(0)
-        list.push(newRoute)
+        this.linkList.push(newRoute.fullPath);
+        list = this.pageList.slice(0);
+        list.push(newRoute);
       }
       if (list.length > 0) {
         this.$nextTick(() => {
-          this.pageList = list
-        })
+          this.pageList = list;
+        });
       }
     },
     'activePage': function (key) {
-      this.$router.push(key)
+      this.$router.push(key);
     },
     'multipage': function (newVal, oldVal) {
       if (!newVal) {
-        this.linkList = [this.$route.fullPath]
-        this.pageList = [this.$route]
+        this.linkList = [this.$route.fullPath];
+        this.pageList = [this.$route];
       }
     }
   },
   methods: {
     changePage (key) {
-      this.activePage = key
+      this.activePage = key;
     },
     editPage (key, action) {
-      this[action](key)
+      this[action](key);
     },
     remove (key) {
       if (this.pageList.length === 1) {
-        this.$message.warning('这是最后一页，不能再关闭了啦')
-        return
+        this.$message.warning('这是最后一页，不能再关闭了啦');
+        return;
       }
-      this.pageList = this.pageList.filter(item => item.fullPath !== key)
-      let index = this.linkList.indexOf(key)
-      this.linkList = this.linkList.filter(item => item !== key)
-      index = index >= this.linkList.length ? this.linkList.length - 1 : index
-      this.activePage = this.linkList[index]
+      this.pageList = this.pageList.filter(item => item.fullPath !== key);
+      let index = this.linkList.indexOf(key);
+      this.linkList = this.linkList.filter(item => item !== key);
+      index = index >= this.linkList.length ? this.linkList.length - 1 : index;
+      this.activePage = this.linkList[index];
     },
     onContextmenu (e) {
-      const pagekey = this.getPageKey(e.target)
+      const pagekey = this.getPageKey(e.target);
       if (pagekey !== null) {
-        e.preventDefault()
-        this.menuVisible = true
+        e.preventDefault();
+        this.menuVisible = true;
       }
     },
     /**
@@ -114,54 +114,54 @@ export default {
      * @returns {String}
      */
     getPageKey (target, depth) {
-      depth = depth || 0
+      depth = depth || 0;
       if (depth > 2) {
-        return null
+        return null;
       }
-      let pageKey = target.getAttribute('pagekey')
-      pageKey = pageKey || (target.previousElementSibling ? target.previousElementSibling.getAttribute('pagekey') : null)
-      return pageKey || (target.firstElementChild ? this.getPageKey(target.firstElementChild, ++depth) : null)
+      let pageKey = target.getAttribute('pagekey');
+      pageKey = pageKey || (target.previousElementSibling ? target.previousElementSibling.getAttribute('pagekey') : null);
+      return pageKey || (target.firstElementChild ? this.getPageKey(target.firstElementChild, ++depth) : null);
     },
     onMenuSelect (key, target) {
-      let pageKey = this.getPageKey(target)
+      let pageKey = this.getPageKey(target);
       switch (key) {
         case '1':
-          this.closeLeft(pageKey)
-          break
+          this.closeLeft(pageKey);
+          break;
         case '2':
-          this.closeRight(pageKey)
-          break
+          this.closeRight(pageKey);
+          break;
         case '3':
-          this.closeOthers(pageKey)
-          break
+          this.closeOthers(pageKey);
+          break;
         default:
-          break
+          break;
       }
     },
     closeOthers (pageKey) {
-      let index = this.linkList.indexOf(pageKey)
-      this.linkList = this.linkList.slice(index, index + 1)
-      this.pageList = this.pageList.slice(index, index + 1)
-      this.activePage = this.linkList[0]
+      let index = this.linkList.indexOf(pageKey);
+      this.linkList = this.linkList.slice(index, index + 1);
+      this.pageList = this.pageList.slice(index, index + 1);
+      this.activePage = this.linkList[0];
     },
     closeLeft (pageKey) {
-      let index = this.linkList.indexOf(pageKey)
-      this.linkList = this.linkList.slice(index)
-      this.pageList = this.pageList.slice(index)
+      let index = this.linkList.indexOf(pageKey);
+      this.linkList = this.linkList.slice(index);
+      this.pageList = this.pageList.slice(index);
       if (this.linkList.indexOf(this.activePage) < 0) {
-        this.activePage = this.linkList[0]
+        this.activePage = this.linkList[0];
       }
     },
     closeRight (pageKey) {
-      let index = this.linkList.indexOf(pageKey)
-      this.linkList = this.linkList.slice(0, index + 1)
-      this.pageList = this.pageList.slice(0, index + 1)
+      let index = this.linkList.indexOf(pageKey);
+      this.linkList = this.linkList.slice(0, index + 1);
+      this.pageList = this.pageList.slice(0, index + 1);
       if (this.linkList.indexOf(this.activePage < 0)) {
-        this.activePage = this.linkList[this.linkList.length - 1]
+        this.activePage = this.linkList[this.linkList.length - 1];
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

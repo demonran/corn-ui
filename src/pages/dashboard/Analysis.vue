@@ -102,23 +102,23 @@
 </template>
 
 <script>
-import ChartCard from '../../components/card/ChartCard'
-import MiniArea from '../../components/chart/MiniArea'
-import MiniBar from '../../components/chart/MiniBar'
-import MiniProgress from '../../components/chart/MiniProgress'
-import Bar from '../../components/chart/Bar'
-import RankingList from '../../components/chart/RankingList'
-import HotSearch from '../../components/analysis/HotSearch'
-import SalesData from '../../components/analysis/SalesData'
-import Trend from '../../components/chart/Trend'
+import ChartCard from '../../components/card/ChartCard';
+import MiniArea from '../../components/chart/MiniArea';
+import MiniBar from '../../components/chart/MiniBar';
+import MiniProgress from '../../components/chart/MiniProgress';
+import Bar from '../../components/chart/Bar';
+import RankingList from '../../components/chart/RankingList';
+import HotSearch from '../../components/analysis/HotSearch';
+import SalesData from '../../components/analysis/SalesData';
+import Trend from '../../components/chart/Trend';
 
-const rankList = []
+const rankList = [];
 
 for (let i = 0; i < 8; i++) {
   rankList.push({
     name: '桃源村' + i + '号店',
     total: 1234.56 - i * 100
-  })
+  });
 }
 
 export default {
@@ -126,10 +126,10 @@ export default {
   data () {
     return {
       rankList
-    }
+    };
   },
   components: {Trend, SalesData, HotSearch, RankingList, Bar, MiniProgress, MiniBar, MiniArea, ChartCard}
-}
+};
 </script>
 
 <style lang="less" scoped>

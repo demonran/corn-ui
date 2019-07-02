@@ -21,7 +21,7 @@ export default {
   data () {
     return {
       drawerWidth: 0
-    }
+    };
   },
   props: {
     openDrawer: {
@@ -41,32 +41,32 @@ export default {
     }
   },
   mounted () {
-    this.drawerWidth = this.getDrawerWidth()
+    this.drawerWidth = this.getDrawerWidth();
   },
   watch: {
     'drawerWidth': function (val) {
       if (this.placement === 'left') {
-        this.$refs.handler.style.left = val + 'px'
+        this.$refs.handler.style.left = val + 'px';
       } else {
-        this.$refs.handler.style.right = val + 'px'
+        this.$refs.handler.style.right = val + 'px';
       }
     }
   },
   methods: {
     open () {
-      this.$emit('change', true)
+      this.$emit('change', true);
     },
     close () {
-      this.$emit('change', false)
+      this.$emit('change', false);
     },
     handle () {
-      this.$emit('change', !this.openDrawer)
+      this.$emit('change', !this.openDrawer);
     },
     getDrawerWidth () {
-      return this.$refs.drawer.clientWidth
+      return this.$refs.drawer.clientWidth;
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

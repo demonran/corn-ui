@@ -23,16 +23,16 @@
 </template>
 
 <script>
-import GlobalHeader from './GlobalHeader'
-import GlobalFooter from './GlobalFooter'
-import Drawer from '../components/tool/Drawer'
-import SiderMenu from '../components/menu/SiderMenu'
-import Setting from '../components/setting/Setting'
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import GlobalHeader from './GlobalHeader';
+import GlobalFooter from './GlobalFooter';
+import Drawer from '../components/tool/Drawer';
+import SiderMenu from '../components/menu/SiderMenu';
+import Setting from '../components/setting/Setting';
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 
-const minHeight = window.innerHeight - 64 - 24 - 122
+const minHeight = window.innerHeight - 64 - 24 - 122;
 
-let menuData = []
+let menuData = [];
 
 export default {
   name: 'GlobalLayout',
@@ -44,43 +44,43 @@ export default {
       menuData: menuData,
       showSetting: false,
       setting: {suppressScrollX: true}
-    }
+    };
   },
   computed: {
     isMobile () {
-      return this.$store.state.setting.isMobile
+      return this.$store.state.setting.isMobile;
     },
     theme () {
-      return this.$store.state.setting.theme
+      return this.$store.state.setting.theme;
     },
     layout () {
-      return this.$store.state.setting.layout
+      return this.$store.state.setting.layout;
     },
     linkList () {
-      return this.$store.state.setting.footerLinks
+      return this.$store.state.setting.footerLinks;
     },
     copyright () {
-      return this.$store.state.setting.copyright
+      return this.$store.state.setting.copyright;
     }
   },
   methods: {
     toggleCollapse () {
-      this.collapsed = !this.collapsed
+      this.collapsed = !this.collapsed;
     },
     onDrawerChange (show) {
-      this.collapsed = show
+      this.collapsed = show;
     },
     onMenuSelect () {
-      this.toggleCollapse()
+      this.toggleCollapse();
     },
     onSettingDrawerChange (val) {
-      this.showSetting = val
+      this.showSetting = val;
     }
   },
   beforeCreate () {
-    menuData = this.$router.options.routes.find((item) => item.path === '/').children
+    menuData = this.$router.options.routes.find((item) => item.path === '/').children;
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

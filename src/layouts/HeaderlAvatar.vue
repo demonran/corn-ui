@@ -29,10 +29,10 @@ export default {
   name: 'HeaderAvatar',
   computed: {
     currUser () {
-      return this.$store.state.account.user
+      return this.$store.state.account.user;
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

@@ -15,17 +15,17 @@ export default {
   },
   mutations: {
     setDevice (state, isMobile) {
-      state.isMobile = isMobile
+      state.isMobile = isMobile;
     },
     setTheme (state, theme) {
-      state.theme = theme
+      state.theme = theme;
     },
     setLayout (state, layout) {
-      state.layout = layout
+      state.layout = layout;
     },
     setMultipage (state, multipage) {
-      console.log('setMultipage', multipage)
-      state.multipage = multipage
+      console.log('setMultipage', multipage);
+      state.multipage = multipage;
     }
   }
-}
+};

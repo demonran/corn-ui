@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import GlobalFooter from '../../layouts/GlobalFooter'
-import {mapActions} from 'vuex'
+import GlobalFooter from '../../layouts/GlobalFooter';
+import {mapActions} from 'vuex';
 
 export default {
   name: 'Login',
@@ -50,54 +50,54 @@ export default {
       logging: false,
       verifyImg: '',
       form: this.$form.createForm(this)
-    }
+    };
   },
 
   mounted () {
-    this.resetVerify()
+    this.resetVerify();
   },
   computed: {
     systemName () {
-      return this.$store.state.setting.systemName
+      return this.$store.state.setting.systemName;
     },
     linkList () {
-      return this.$store.state.setting.footerLinks
+      return this.$store.state.setting.footerLinks;
     },
     copyright () {
-      return this.$store.state.setting.copyright
+      return this.$store.state.setting.copyright;
     }
   },
   methods: {
     ...mapActions('account', ['login']),
 
     async resetVerify () {
-      this.verifyImg = '/api/kaptcha?t=' + Date.now()
+      this.verifyImg = '/api/kaptcha?t=' + Date.now();
     },
     onSubmit (e) {
-      e.preventDefault()
+      e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          this.logging = true
+          this.logging = true;
           this.login({name: this.form.getFieldValue('name'),
             password: this.form.getFieldValue('password'),
             verifyCode: this.form.getFieldValue('verifyCode')}).then(res => {
-            console.log(res)
-            this.logging = false
+            console.log(res);
+            this.logging = false;
             if (res.errorNo === 200) {
               // const user = result.data.user
               // this.$router.push('/dashboard/workplace')
               // this.$store.commit('account/setuser', user)
-              this.$message.success(res.errorDesc, 3)
+              this.$message.success(res.errorDesc, 3);
             } else {
-              this.resetVerify()
-              this.$message.error(res.errorDesc)
+              this.resetVerify();
+              this.$message.error(res.errorDesc);
             }
-          })
+          });
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Result from '../../components/result/Result'
+import Result from '../../components/result/Result';
 export default {
   name: 'Error',
   components: {Result},
@@ -32,9 +32,9 @@ export default {
     return {
       title: '提交失败',
       description: '请核对并修改以下信息后，再重新提交。'
-    }
+    };
   }
-}
+};
 </script>
 
 <style scoped>

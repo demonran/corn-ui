@@ -11,16 +11,16 @@
 </template>
 
 <script>
-import Result from '../../../components/result/Result'
+import Result from '../../../components/result/Result';
 export default {
   name: 'Step3',
   components: {Result},
   methods: {
     doOnceAgin () {
-      this.$emit('finish')
+      this.$emit('finish');
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -80,21 +80,21 @@ export default {
   props: ['showSubmit'],
   methods: {
     handleSubmit (e) {
-      e.preventDefault()
+      e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
+          console.log('Received values of form: ', values);
         }
-      })
+      });
     },
     validate (rule, value, f) {
       if (value !== undefined && value !== 'iczer') {
-        f('输入\'iczer\'试下？')
+        f('输入\'iczer\'试下？');
       }
-      f()
+      f();
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

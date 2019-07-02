@@ -35,12 +35,12 @@
 </template>
 
 <script>
-import Result from '../../components/result/Result'
-import DetailList from '../../components/tool/DetailList'
-import AStepItem from '../../components/tool/AStepItem'
+import Result from '../../components/result/Result';
+import DetailList from '../../components/tool/DetailList';
+import AStepItem from '../../components/tool/AStepItem';
 
-const AStepItemGroup = AStepItem.Group
-const DetailListItem = DetailList.Item
+const AStepItemGroup = AStepItem.Group;
+const DetailListItem = DetailList.Item;
 export default {
   name: 'Success',
   components: {AStepItemGroup, AStepItem, DetailListItem, DetailList, Result},
@@ -51,14 +51,14 @@ export default {
       ' 如果仅是简单操作，使用 Message 全局提示反馈即可。\n' +
       ' 本文字区域可以展示简单的补充说明，如果有类似展示\n' +
       ' “单据”的需求，下面这个灰色区域可以呈现比较复杂的内容。'
-    }
+    };
   },
   methods: {
     print () {
-      window.print()
+      window.print();
     }
   }
-}
+};
 </script>
 
 <style scoped>

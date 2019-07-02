@@ -50,10 +50,10 @@ export default {
   },
   computed: {
     layout () {
-      return this.$store.state.setting.layout
+      return this.$store.state.setting.layout;
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

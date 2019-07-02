@@ -52,21 +52,21 @@ export default {
   data () {
     return {
       loading: false
-    }
+    };
   },
   methods: {
     nextStep () {
-      let _this = this
-      _this.loading = true
+      let _this = this;
+      _this.loading = true;
       setTimeout(function () {
-        _this.$emit('nextStep')
-      }, 1500)
+        _this.$emit('nextStep');
+      }, 1500);
     },
     prevStep () {
-      this.$emit('prevStep')
+      this.$emit('prevStep');
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

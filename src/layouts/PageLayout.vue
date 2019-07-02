@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import PageHeader from '../components/page/PageHeader'
+import PageHeader from '../components/page/PageHeader';
 export default {
   name: 'PageLayout',
   components: {PageHeader},
@@ -28,25 +28,25 @@ export default {
   data () {
     return {
       breadcrumb: []
-    }
+    };
   },
   computed: {
     layout () {
-      return this.$store.state.setting.layout
+      return this.$store.state.setting.layout;
     }
   },
   mounted () {
-    this.getBreadcrumb()
+    this.getBreadcrumb();
   },
   updated () {
-    this.getBreadcrumb()
+    this.getBreadcrumb();
   },
   methods: {
     getBreadcrumb () {
-      this.breadcrumb = this.$route.matched
+      this.breadcrumb = this.$route.matched;
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
