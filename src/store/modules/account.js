@@ -31,7 +31,7 @@ export default {
   },
   actions: {
     async login ({dispatch, commit}, {name, password, verifyCode}) {
-      let ret = await postLogin({username: name, password, verifyCode})
+      let ret = await postLogin({userName: name, password, verifyCode})
 
       return ret
     }
