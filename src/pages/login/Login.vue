@@ -71,7 +71,7 @@ export default {
     ...mapActions('account', ['login']),
 
     async resetVerify () {
-      this.verifyImg = 'http://64.202.187.159:8081/api/kaptcha?t=' + Date.now()
+      this.verifyImg = '/api/kaptcha?t=' + Date.now()
     },
     onSubmit (e) {
       e.preventDefault()
