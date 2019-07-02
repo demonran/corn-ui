@@ -39,7 +39,7 @@
 
 <script>
 import GlobalFooter from '../../layouts/GlobalFooter';
-import {mapActions,mapState} from 'vuex';
+import {mapActions, mapState} from 'vuex';
 
 export default {
   name: 'Login',
@@ -53,11 +53,11 @@ export default {
   },
 
   mounted () {
-    this.form.setFieldsValue({name:"limengmeng",password:'123456'});
+    this.form.setFieldsValue({name: 'limengmeng', password: '123456'});
     this.resetVerify();
   },
   computed: {
-    ...mapState("setting",["systemName","copyright"]) 
+    ...mapState('setting', ['systemName', 'copyright'])
   },
   methods: {
     ...mapActions('account', ['login']),
@@ -68,7 +68,7 @@ export default {
     async onSubmit (e) {
       e.preventDefault();
       let values = await this.validateForm();
-      if( !values ) return;
+      if (!values) return;
       this.logging = true;
       let error = await this.login(values);
       this.logging = false;
@@ -76,17 +76,18 @@ export default {
         this.resetVerify();
         this.$message.error(error);
       }
+      this.$message.success('登陆成功！');
+      this.$router.push('/course/offline');
     },
-    validateForm()
-    {
-      return new Promise((resolve,reject)=>{
-          this.form.validateFields((err, values) => {
+    validateForm () {
+      return new Promise((resolve, reject) => {
+        this.form.validateFields((err, values) => {
           if (err) {
             resolve();
             return;
           }
           resolve(values);
-        })
+        });
       });
     }
   }

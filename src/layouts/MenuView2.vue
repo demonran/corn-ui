@@ -31,7 +31,7 @@
           <router-view v-else />
         </transition>
         <div style="padding: 0px">
-          <global-footer :link-list="linkList" :copyright="copyright" />
+          <global-footer :link-list="[]" :copyright="copyright" />
         </div>
       </div>
       <!-- </VuePerfectScrollbar> -->
@@ -56,6 +56,7 @@ export default {
   data () {
     return {
       pageList: [],
+      linkList: [],
       activePage: '',
       menuVisible: false,
       menuItemList: [
@@ -82,9 +83,7 @@ export default {
     layout () {
       return this.$store.state.setting.layout;
     },
-    linkList () {
-      return this.$store.state.setting.footerLinks;
-    },
+
     copyright () {
       return this.$store.state.setting.copyright;
     }

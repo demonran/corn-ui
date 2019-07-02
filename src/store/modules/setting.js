@@ -4,8 +4,8 @@ export default {
     isMobile: false,
     theme: 'dark',
     layout: 'side',
-    systemName: '玉米苗',
-    copyright: '2019 玉米苗. All Rights Reserved',
+    systemName: '玉米苗教育',
+    copyright: '2019 玉米苗教育. All Rights Reserved',
     footerLinks: [
       {link: 'https://pro.ant.design', name: 'Pro首页'},
       {link: 'https://github.com/iczer/vue-antd-admin', icon: 'github'},

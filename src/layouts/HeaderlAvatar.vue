@@ -15,21 +15,35 @@
       </a-menu-item>
       <a-menu-divider />
       <a-menu-item>
-        <router-link to="/login">
+        <a @click="clickLoginout">
           <a-icon type="poweroff" />
           <span>退出登录</span>
-        </router-link>
+        </a>
       </a-menu-item>
     </a-menu>
   </a-dropdown>
 </template>
 
 <script>
+import {mapActions} from 'vuex';
+
 export default {
   name: 'HeaderAvatar',
   computed: {
     currUser () {
       return this.$store.state.account.user;
+    }
+  },
+  methods: {
+    ...mapActions('account', ['loginout']),
+    async clickLoginout () {
+      let error = await this.loginout();
+      if (error) {
+        this.$message.error(error);
+        return;
+      }
+      this.$message.success('登出成功！');
+      this.$router.push('/login');
     }
   }
 };
