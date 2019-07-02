@@ -1,4 +1,5 @@
 import PouchDB from 'pouchdb'
+import {postLogin} from '../../services/user'
 
 var db = new PouchDB('admindb')
 
@@ -30,7 +31,9 @@ export default {
   },
   actions: {
     async login ({dispatch, commit}, {name, password, verifyCode}) {
-      console.log(name, password, verifyCode)
+      let ret = await postLogin({username: name, password, verifyCode})
+
+      return ret
     }
   }
 }

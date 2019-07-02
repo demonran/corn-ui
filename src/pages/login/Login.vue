@@ -7,22 +7,22 @@
             <span>{{systemName}}</span>
           </div>
 
-          <a-form @submit="onSubmit">
+          <a-form @submit="onSubmit" :form="form">
               <a-form-item :hasFeedback="true">
-                <a-input v-decorator="['name',{rules: [{ required: true, message: 'Username', whitespace: true}]}]"
+                <a-input v-decorator="['name',{rules: [{ required: true, message: '请填写用户名'}]}]"
                      size="large" placeholder="用户名" >
                   <a-icon slot="prefix" type="user" />
                 </a-input>
               </a-form-item>
               <a-form-item :hasFeedback="true">
-                <a-input v-decorator="['password',{rules: [{ required: true, message: 'password', whitespace: true}]}]"
+                <a-input v-decorator="['password',{rules: [{ required: true, message: '请填写密码'}]}]"
                     size="large" placeholder="密码" type="password">
                   <a-icon slot="prefix" type="lock" />
                 </a-input>
               </a-form-item>
               <a-form-item>
                 <div class="verify-row">
-                  <a-input v-decorator="['verifyCode', {rules: [{ required: true, message: '验证码', whitespace: true}]}]"  size="large" placeholder="验证码">
+                  <a-input v-decorator="['verifyCode', {rules: [{ required: true, message: '验证码不能为空'}]}]"  size="large" placeholder="验证码">
                     <a-icon slot="prefix" type="lock" />
                   </a-input>
                   <img class="verifyCode" :src="verifyImg" alt="" @click="resetVerify">
@@ -48,12 +48,11 @@ export default {
   data () {
     return {
       logging: false,
-      verifyImg: ''
+      verifyImg: '',
+      form: this.$form.createForm(this)
     }
   },
-  beforeCreate () {
-    this.form = this.$form.createForm(this, {})
-  },
+
   mounted () {
     this.resetVerify()
   },
@@ -84,14 +83,14 @@ export default {
             verifyCode: this.form.getFieldValue('verifyCode')}).then(res => {
             console.log(res)
             this.logging = false
-            const result = res.data
-            if (result.code >= 0) {
-              const user = result.data.user
-              this.$router.push('/dashboard/workplace')
-              this.$store.commit('account/setuser', user)
-              this.$message.success(result.message, 3)
+            if (res.errorNo === 200) {
+              // const user = result.data.user
+              // this.$router.push('/dashboard/workplace')
+              // this.$store.commit('account/setuser', user)
+              this.$message.success(res.errorDesc, 3)
             } else {
-              this.$message.error(result.message)
+              this.resetVerify()
+              this.$message.error(res.errorDesc)
             }
           })
         }

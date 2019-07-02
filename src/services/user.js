@@ -1,6 +1,6 @@
 import http from './http'
-// import qs from 'qs'
+import qs from 'qs'
 
-export async function getKaptcha () {
-  return http.get('/api/kaptcha', {headers: {'Content-Type': 'image/jpeg'}})
+export async function postLogin (data) {
+  return http.post('/api/login', qs.stringify(data))
 }

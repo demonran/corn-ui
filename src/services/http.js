@@ -17,14 +17,16 @@ export default {
   async get (...params) {
     let ret = await http.get(...params)
     if (ret.status === 200) {
-      return {errorNo: 200, result: ret.data, errorDesc: 'success'}
+      let data = ret.data
+      return {errorNo: data.statusCode ? data.statusCode : 200, result: data.data, errorDesc: data.errorMessage ? data.errorMessage : 'success'}
     }
     return {errorNo: ret.status, errorDesc: ret.statusText}
   },
   async post (...params) {
     let ret = await http.post(...params)
     if (ret.status === 200) {
-      return {errorNo: 200, result: ret.data, errorDesc: 'success'}
+      let data = ret.data
+      return {errorNo: data.statusCode ? data.statusCode : 200, result: data.data, errorDesc: data.errorMessage ? data.errorMessage : 'success'}
     }
     return {errorNo: ret.status, errorDesc: ret.statusText}
   }

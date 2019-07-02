@@ -5,6 +5,7 @@ import App from './App'
 import router from './router/lazy'
 import 'ant-design-vue/dist/antd.css'
 import Antd from 'ant-design-vue'
+// import { Form } from 'ant-design-vue'
 import Viser from 'viser-vue'
 import axios from 'axios'
 import '@/mock'
@@ -17,6 +18,7 @@ Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.use(Viser)
 Vue.use(Antd)
+// Vue.prototype.$form = Form
 
 /* eslint-disable no-new */
 new Vue({
