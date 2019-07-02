@@ -32,8 +32,12 @@ export default {
   actions: {
     async login ({dispatch, commit}, {name, password, verifyCode}) {
       let ret = await postLogin({userName: name, password, verifyCode});
+      if( ret.errorNo === 200 ) {
 
-      return ret;
+         commit("setuser", ret.data);
+         return;
+      }
+      return ret.errorDesc;
     }
   }
 };

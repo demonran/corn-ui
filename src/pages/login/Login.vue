@@ -6,7 +6,6 @@
             <img alt="logo" src="../../assets/logo.svg" />
             <span>{{systemName}}</span>
           </div>
-
           <a-form @submit="onSubmit" :form="form">
               <a-form-item :hasFeedback="true">
                 <a-input v-decorator="['name',{rules: [{ required: true, message: '请填写用户名'}]}]"
@@ -29,18 +28,18 @@
                 </div>
               </a-form-item>
               <a-form-item>
-                <a-button :loading="logging" size="large" htmlType="submit" type="primary">Sign in</a-button>
+                <a-button :loading="logging" size="large" htmlType="submit" type="primary">登陆</a-button>
               </a-form-item>
         </a-form>
        </div>
       </div>
-       <global-footer :link-list="linkList" :copyright="copyright" />
+       <global-footer :link-list="[]" :copyright="copyright" />
   </div>
 </template>
 
 <script>
 import GlobalFooter from '../../layouts/GlobalFooter';
-import {mapActions} from 'vuex';
+import {mapActions,mapState} from 'vuex';
 
 export default {
   name: 'Login',
@@ -54,18 +53,11 @@ export default {
   },
 
   mounted () {
+    this.form.setFieldsValue({name:"limengmeng",password:'123456'});
     this.resetVerify();
   },
   computed: {
-    systemName () {
-      return this.$store.state.setting.systemName;
-    },
-    linkList () {
-      return this.$store.state.setting.footerLinks;
-    },
-    copyright () {
-      return this.$store.state.setting.copyright;
-    }
+    ...mapState("setting",["systemName","copyright"]) 
   },
   methods: {
     ...mapActions('account', ['login']),
@@ -73,27 +65,28 @@ export default {
     async resetVerify () {
       this.verifyImg = '/api/kaptcha?t=' + Date.now();
     },
-    onSubmit (e) {
+    async onSubmit (e) {
       e.preventDefault();
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          this.logging = true;
-          this.login({name: this.form.getFieldValue('name'),
-            password: this.form.getFieldValue('password'),
-            verifyCode: this.form.getFieldValue('verifyCode')}).then(res => {
-            console.log(res);
-            this.logging = false;
-            if (res.errorNo === 200) {
-              // const user = result.data.user
-              // this.$router.push('/dashboard/workplace')
-              // this.$store.commit('account/setuser', user)
-              this.$message.success(res.errorDesc, 3);
-            } else {
-              this.resetVerify();
-              this.$message.error(res.errorDesc);
-            }
-          });
-        }
+      let values = await this.validateForm();
+      if( !values ) return;
+      this.logging = true;
+      let error = await this.login(values);
+      this.logging = false;
+      if (error) {
+        this.resetVerify();
+        this.$message.error(error);
+      }
+    },
+    validateForm()
+    {
+      return new Promise((resolve,reject)=>{
+          this.form.validateFields((err, values) => {
+          if (err) {
+            resolve();
+            return;
+          }
+          resolve(values);
+        })
       });
     }
   }
