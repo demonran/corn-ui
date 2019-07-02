@@ -64,7 +64,7 @@ export default new Router({
             }
           ]
         },
-        
+
         {
           path: '/form',
           name: '表单页',

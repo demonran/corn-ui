@@ -1,5 +1,5 @@
-import {getCategory} from "./category";
+import * as user from './user'
 
 export default {
-    getCategory
+  user
 }

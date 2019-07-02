@@ -10,7 +10,7 @@
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
+    "lint": "eslint  --fix --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js"
   },
   "dependencies": {
@@ -23,7 +23,7 @@
     "mockjs": "^1.0.1-beta3",
     "pouchdb": "^7.0.0",
     "viser-vue": "^2.2.5",
-    "vue": "^2.5.17",
+    "vue": "2.5.17",
     "vue-perfect-scrollbar": "^0.1.0",
     "vue-router": "^3.0.1",
     "vuedraggable": "^2.16.0",

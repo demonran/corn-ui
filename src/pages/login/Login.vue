@@ -7,27 +7,29 @@
             <span>{{systemName}}</span>
           </div>
 
-          <a-form @submit="onSubmit" :autoFormCreate="(form) => this.form = form">
-              <a-form-item
-                fieldDecoratorId="name"
-                :hasFeedback="true"
-                :fieldDecoratorOptions="{rules: [{ required: true, message: 'Username', whitespace: true}]}"
-              >
-                <a-input size="large" placeholder="admin" >
+          <a-form @submit="onSubmit">
+              <a-form-item :hasFeedback="true">
+                <a-input v-decorator="['name',{rules: [{ required: true, message: 'Username', whitespace: true}]}]"
+                     size="large" placeholder="用户名" >
                   <a-icon slot="prefix" type="user" />
                 </a-input>
               </a-form-item>
-              <a-form-item
-                fieldDecoratorId="password"
-                :hasFeedback="true"
-                :fieldDecoratorOptions="{rules: [{ required: true, message: 'password', whitespace: true}]}"
-              >
-                <a-input size="large" placeholder="888888" type="password">
+              <a-form-item :hasFeedback="true">
+                <a-input v-decorator="['password',{rules: [{ required: true, message: 'password', whitespace: true}]}]" 
+                    size="large" placeholder="密码" type="password">
                   <a-icon slot="prefix" type="lock" />
                 </a-input>
               </a-form-item>
               <a-form-item>
-                <a-button :loading="logging" style="width: 100%;margin-top: 24px" size="large" htmlType="submit" type="primary">Sign in</a-button>
+                <div class="verify-row">
+                  <a-input v-decorator="['verifyCode', {rules: [{ required: true, message: '验证码', whitespace: true}]}]"  size="large" placeholder="验证码">
+                    <a-icon slot="prefix" type="lock" />
+                  </a-input>
+                  <img class="verifyCode" :src="verifyImg" alt="" @click="resetVerify">
+                </div>
+              </a-form-item>
+              <a-form-item>
+                <a-button :loading="logging" size="large" htmlType="submit" type="primary">Sign in</a-button>
               </a-form-item>
         </a-form>
        </div>
@@ -38,14 +40,22 @@
 
 <script>
 import GlobalFooter from '../../layouts/GlobalFooter'
+import {mapActions} from "vuex";
 
 export default {
   name: 'Login',
   components: {GlobalFooter},
   data () {
     return {
-      logging: false
+      logging: false,
+      verifyImg: ''
     }
+  },
+  beforeCreate () {
+    this.form = this.$form.createForm(this, {})
+  },
+  mounted () {
+    this.resetVerify()
   },
   computed: {
     systemName () {
@@ -59,26 +69,32 @@ export default {
     }
   },
   methods: {
+    ...mapActions("account",["login"]),
+    
+    async resetVerify () {
+          this.verifyImg = "http://64.202.187.159:8081/api/kaptcha?t="+Date.now()
+    },
     onSubmit (e) {
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
           this.logging = true
-          this.$axios.post('/login', {
-            name: this.form.getFieldValue('name'),
-            password: this.form.getFieldValue('password')
-          }).then((res) => {
-            this.logging = false
-            const result = res.data
-            if (result.code >= 0) {
-              const user = result.data.user
-              this.$router.push('/dashboard/workplace')
-              this.$store.commit('account/setuser', user)
-              this.$message.success(result.message, 3)
-            } else {
-              this.$message.error(result.message)
-            }
-          })
+          this.login({name:this.form.getFieldValue('name'),
+                      password:this.form.getFieldValue('password'),
+                      verifyCode:this.form.getFieldValue('verifyCode')}).then(res=>{
+              
+              console.log( res );
+              this.logging = false
+              const result = res.data
+              if (result.code >= 0) {
+                const user = result.data.user
+                this.$router.push('/dashboard/workplace')
+                this.$store.commit('account/setuser', user)
+                this.$message.success(result.message, 3)
+              } else {
+                this.$message.error(result.message)
+              }
+           })
         }
       })
     }
@@ -93,7 +109,7 @@ export default {
   left: 50%;
   margin: -160px 0 0 -160px;
   width: 320px;
-  height: 320px;
+  height: 360px;
   padding: 36px;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.08);
 
@@ -145,5 +161,12 @@ export default {
           // color: @primary-color;
           // .text-gradient();
         }
-    }
+  }
+  .verifyCode{
+    width: 80px;
+    margin-left: 4px;
+  }
+  .verify-row{
+    display: flex;
+  }
 </style>

@@ -10,7 +10,9 @@ import axios from 'axios'
 import '@/mock'
 import store from './store'
 import PouchDB from 'pouchdb'
+import services from './services/index'
 
+Vue.prototype.$srv = services
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.use(Viser)

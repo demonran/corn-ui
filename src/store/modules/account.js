@@ -27,5 +27,11 @@ export default {
         }
       })
     }
+  },
+  actions:{
+    async login({dispatch,commit},{name,password,verifyCode})
+    {
+       console.log(name,password, verifyCode);
+    }
   }
 }
