@@ -29,7 +29,7 @@
     </div>
 
    <a-card class="course-list" :body-style="{padding: '10px 10px'}" :bordered="true">
-      
+
        <div slot="title">
            <a-button type="primary" ghost>开启</a-button>
            <a-button type="primary" ghost>停招</a-button>
@@ -44,7 +44,7 @@
 
            <div class="label name">名称</div>
            <a-input placeholder="课程名称" class="input"/>
-          
+
            <a-button type="primary" class="search-btn">查询</a-button>
            <a-button type="primary" ghost>重置</a-button>
        </div>
@@ -68,7 +68,7 @@
 
        </a-table>
        <div class="footer">
-           
+
        </div>
    </a-card>
   </page-layout>
@@ -82,30 +82,30 @@ export default {
   components: {PageLayout, PageHeader},
   data () {
     return {
-      filterStatus:'0',
-      columns:[
+      filterStatus: '0',
+      columns: [
         {
-            title: '序号',
-            key: 'id',
-            width:'60px',
-            scopedSlots: { customRender: 'id' },
+          title: '序号',
+          key: 'id',
+          width: '60px',
+          scopedSlots: { customRender: 'id' }
         },
         {
-            title: '课程名称',
-            dataIndex: 'courseTitle',
-            key: 'courseTitle',
+          title: '课程名称',
+          dataIndex: 'courseTitle',
+          key: 'courseTitle'
         },
         {
-            title: '类型',
-            width:'80px',
-            dataIndex: 'courseCategory',
-            key: 'courseCategory',
+          title: '类型',
+          width: '80px',
+          dataIndex: 'courseCategory',
+          key: 'courseCategory'
         },
         {
-            title: '费用',
-            width:'80px',
-            dataIndex: 'price',
-            key: 'price',
+          title: '费用',
+          width: '80px',
+          dataIndex: 'price',
+          key: 'price'
         },
         // {
         //     title: '起始时间',
@@ -118,48 +118,55 @@ export default {
         //     key: 'startClassTime',
         // },
         {
-            title: '主讲老师',
-            width:'100px',
-            dataIndex: 'teacher',
-            key: 'teacher',
+          title: '主讲老师',
+          width: '100px',
+          dataIndex: 'teacher',
+          key: 'teacher'
         },
         {
-            title: '招生人数',
-            width:'90px',
-            dataIndex: 'limitStudents',
-            key: 'limitStudents',
+          title: '招生人数',
+          width: '90px',
+          dataIndex: 'limitStudents',
+          key: 'limitStudents'
         },
         {
-            title: '已有学员',
-            width:'90px',
-            dataIndex: 'totalAmount',
-            key: 'totalAmount',
+          title: '已有学员',
+          width: '90px',
+          dataIndex: 'totalAmount',
+          key: 'totalAmount'
         },
         {
-            title: '总课时',
-            width:'80px',
-            dataIndex: 'lesson',
-            key: 'lesson',
+          title: '总课时',
+          width: '80px',
+          dataIndex: 'lesson',
+          key: 'lesson'
         },
         {
-            title: '状态',
-            width:'80px',
-            dataIndex: 'courseId',
-            key: 'courseId',
+          title: '状态',
+          width: '80px',
+          dataIndex: 'courseId',
+          key: 'courseId'
         },
         {
-            title: '操作',
-            key: 'action',
-            width:'130px',
-            scopedSlots: { customRender: 'action' },
-        },
+          title: '操作',
+          key: 'action',
+          width: '130px',
+          scopedSlots: { customRender: 'action' }
+        }
       ],
-      data:[
-          {
-              courseTitle:"2019美术提高班",courseCategory:"少儿类",price:20000,
-              beginDate:'2019.09.11 - 2020.09.09',startClassTime:'09:00 - 12:00',
-              teacher:'王犁犁',limitStudents:1000,totalAmount:100,lesson:30,courseId:'停招',
-          }
+      data: [
+        {
+          courseTitle: '2019美术提高班',
+          courseCategory: '少儿类',
+          price: 20000,
+          beginDate: '2019.09.11 - 2020.09.09',
+          startClassTime: '09:00 - 12:00',
+          teacher: '王犁犁',
+          limitStudents: 1000,
+          totalAmount: 100,
+          lesson: 30,
+          courseId: '停招'
+        }
       ],
       selectedRowKeys: [] // Check here to configure the default column
     };
@@ -167,15 +174,15 @@ export default {
   computed: {
   },
   mounted () {
-    
+
   },
   updated () {
-    
+
   },
   methods: {
     onSelectChange (selectedRowKeys) {
       console.log('selectedRowKeys changed: ', selectedRowKeys);
-      this.selectedRowKeys = selectedRowKeys
+      this.selectedRowKeys = selectedRowKeys;
     }
   }
 };
