@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <router-view/>
+    <div class="g-loading" v-if="showLoading">
+        <span class="ant-spin-dot ant-spin-dot-spin"><i/><i/><i /><i /></span>
+    </div>
   </div>
 </template>
 
@@ -9,10 +12,28 @@ import enquireScreen from './utils/device';
 
 export default {
   name: 'App',
+  data () {
+    return {
+      showLoading: true
+    };
+  },
   created () {
     let _this = this;
+    let Bus = window.Bus;
     enquireScreen(isMobile => {
       _this.$store.commit('setting/setDevice', isMobile);
+    });
+    Bus.$on('showLoading', () => {
+      this.showLoading = true;
+    });
+    Bus.$on('hideLoading', () => {
+      this.showLoading = false;
+    });
+    Bus.$on('Login401', () => {
+      let fullPath = this.$route.fullPath;
+      setTimeout(() => {
+        this.$router.push('/login?from=' + fullPath);
+      }, 100);
     });
   }
 };
