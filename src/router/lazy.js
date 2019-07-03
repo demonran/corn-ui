@@ -54,6 +54,13 @@ export default new Router({
               name: '线下课程',
               component: () => import('@/pages/offlineCourse/list'),
               icon: 'none'
+            },
+            {
+              path: '/course/addOffline',
+              name: '添加线下课程',
+              invisible: true,
+              component: () => import('@/pages/offlineCourse/add'),
+              icon: 'none'
             }
           ]
         },

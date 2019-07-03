@@ -25,7 +25,7 @@
 <template>
   <page-layout  title="线下课程列表">
     <div slot="action">
-      <a-button type="primary">新建</a-button>
+      <a-button type="primary" @click="addCourse">新建</a-button>
     </div>
 
    <a-card class="course-list" :body-style="{padding: '10px 10px'}" :bordered="true">
@@ -180,6 +180,9 @@ export default {
 
   },
   methods: {
+    addCourse () {
+      this.$router.push('/course/addOffline');
+    },
     onSelectChange (selectedRowKeys) {
       console.log('selectedRowKeys changed: ', selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
