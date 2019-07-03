@@ -64,7 +64,7 @@ export default {
   }
   .page-content{
     &.side{
-      margin: 24px 24px 0px;
+      margin: 10px 10px 0px;
     }
     &.head{
       margin: 24px auto 0;
