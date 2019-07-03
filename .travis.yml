@@ -1,0 +1,14 @@
+language: node_js
+node_js: stable
+install:
+- npm install
+script:
+- npm run build
+before_install:
+- openssl aes-256-cbc -K $encrypted_fc6400de037d_key -iv $encrypted_fc6400de037d_iv
+  -in id_rsa.enc -out ~/.ssh/id_rsa -d
+- chmod 600 ~/.ssh/id_rsa
+addons:
+  ssh_known_hosts: "64.202.187.159"
+after_success:
+- scp -r dist/* zolomanage@$IP:/home/zolomanage/html
