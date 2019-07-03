@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import DetailList from '../../components/tool/DetailList'
-import PageLayout from '../../layouts/PageLayout'
+import DetailList from '../../components/tool/DetailList';
+import PageLayout from '../../layouts/PageLayout';
 
-const DetailListItem = DetailList.Item
+const DetailListItem = DetailList.Item;
 
 const goodsColumns = [
   {
@@ -75,7 +75,7 @@ const goodsColumns = [
     key: 'amount',
     align: 'right'
   }
-]
+];
 
 const goodsData = [
   {
@@ -110,7 +110,7 @@ const goodsData = [
     num: '3',
     amount: '25.50'
   }
-]
+];
 
 const scheduleColumns = [
   {
@@ -138,7 +138,7 @@ const scheduleColumns = [
     dataIndex: 'cost',
     key: 'cost'
   }
-]
+];
 
 const scheduleData = [
   {
@@ -181,7 +181,7 @@ const scheduleData = [
     operator: '用户',
     cost: '5mins'
   }
-]
+];
 
 export default {
   name: 'BasicDetail',
@@ -192,9 +192,9 @@ export default {
       goodsData,
       scheduleColumns,
       scheduleData
-    }
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

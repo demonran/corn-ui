@@ -26,35 +26,35 @@ const Group = {
     return {
       values: [],
       options: []
-    }
+    };
   },
   provide () {
     return {
       groupContext: this
-    }
+    };
   },
   watch: {
     'values': function (newVal, oldVal) {
       // 此条件是为解决单选时，触发两次chang事件问题
       if (!(newVal.length === 1 && oldVal.length === 1 && newVal[0] === oldVal[0])) {
-        this.$emit('change', this.values)
+        this.$emit('change', this.values);
       }
     }
   },
   methods: {
     handleChange (option) {
       if (!option.checked) {
-        this.values = this.values.filter(item => item !== option.value)
+        this.values = this.values.filter(item => item !== option.value);
       } else {
         if (!this.multiple) {
-          this.values = [option.value]
+          this.values = [option.value];
           this.options.forEach(item => {
             if (item.value !== option.value) {
-              item.sChecked = false
+              item.sChecked = false;
             }
-          })
+          });
         } else {
-          this.values.push(option.value)
+          this.values.push(option.value);
         }
       }
     }
@@ -66,9 +66,9 @@ const Group = {
         attrs: {style: 'display: flex'}
       },
       [this.$slots.default]
-    )
+    );
   }
-}
+};
 
 export default {
   name: 'ImgCheckbox',
@@ -90,7 +90,7 @@ export default {
   data () {
     return {
       sChecked: this.checked
-    }
+    };
   },
   inject: ['groupContext'],
   watch: {
@@ -98,27 +98,27 @@ export default {
       const option = {
         value: this.value,
         checked: this.sChecked
-      }
-      this.$emit('change', option)
-      const groupContext = this.groupContext
+      };
+      this.$emit('change', option);
+      const groupContext = this.groupContext;
       if (groupContext) {
-        groupContext.handleChange(option)
+        groupContext.handleChange(option);
       }
     }
   },
   created () {
-    const groupContext = this.groupContext
+    const groupContext = this.groupContext;
     if (groupContext) {
-      this.sChecked = groupContext.defaultValues.length > 0 ? groupContext.defaultValues.indexOf(this.value) >= 0 : this.sChecked
-      groupContext.options.push(this)
+      this.sChecked = groupContext.defaultValues.length > 0 ? groupContext.defaultValues.indexOf(this.value) >= 0 : this.sChecked;
+      groupContext.options.push(this);
     }
   },
   methods: {
     toggle () {
-      this.sChecked = !this.sChecked
+      this.sChecked = !this.sChecked;
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

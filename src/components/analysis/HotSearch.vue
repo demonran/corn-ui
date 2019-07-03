@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import MiniArea from '../chart/MiniArea'
+import MiniArea from '../chart/MiniArea';
 
-const searchData = []
+const searchData = [];
 for (let i = 0; i < 50; i++) {
   searchData.push({
     index: i + 1,
@@ -44,7 +44,7 @@ for (let i = 0; i < 50; i++) {
     count: Math.floor(Math.random() * 1000),
     range: Math.floor(Math.random() * 100),
     status: Math.floor((Math.random() * 10) % 2)
-  })
+  });
 }
 
 const columns = [
@@ -71,7 +71,7 @@ const columns = [
     key: 'range',
     scopedSlots: {customRender: 'rang'}
   }
-]
+];
 
 export default {
   name: 'HotSearch',
@@ -80,9 +80,9 @@ export default {
     return {
       searchData,
       columns
-    }
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

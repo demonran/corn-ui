@@ -4,8 +4,8 @@ export default {
     isMobile: false,
     theme: 'dark',
     layout: 'side',
-    systemName: 'DealCrumbs',
-    copyright: '© 2019 DealCrumbs. All Rights Reserved',
+    systemName: '玉米苗教育',
+    copyright: '2019 玉米苗教育. All Rights Reserved',
     footerLinks: [
       {link: 'https://pro.ant.design', name: 'Pro首页'},
       {link: 'https://github.com/iczer/vue-antd-admin', icon: 'github'},
@@ -15,17 +15,17 @@ export default {
   },
   mutations: {
     setDevice (state, isMobile) {
-      state.isMobile = isMobile
+      state.isMobile = isMobile;
     },
     setTheme (state, theme) {
-      state.theme = theme
+      state.theme = theme;
     },
     setLayout (state, layout) {
-      state.layout = layout
+      state.layout = layout;
     },
     setMultipage (state, multipage) {
-      console.log('setMultipage', multipage)
-      state.multipage = multipage
+      console.log('setMultipage', multipage);
+      state.multipage = multipage;
     }
   }
-}
+};

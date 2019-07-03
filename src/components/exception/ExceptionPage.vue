@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Config from './typeConfig'
+import Config from './typeConfig';
 
 export default {
   name: 'ExceptionPage',
@@ -23,9 +23,9 @@ export default {
   data () {
     return {
       config: Config
-    }
+    };
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

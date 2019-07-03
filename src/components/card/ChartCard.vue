@@ -24,7 +24,7 @@
 export default {
   name: 'ChartCard',
   props: ['title', 'total']
-}
+};
 </script>
 
 <style scoped>

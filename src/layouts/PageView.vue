@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import PageHeader from '../components/page/PageHeader'
-import PageLayout from './PageLayout'
+import PageHeader from '../components/page/PageHeader';
+import PageLayout from './PageLayout';
 export default {
   name: 'PageView',
   components: {PageLayout, PageHeader},
@@ -24,31 +24,31 @@ export default {
       desc: '',
       linkList: [],
       extraImage: ''
-    }
+    };
   },
   computed: {
     multipage () {
-      return this.$store.state.setting.multipage
+      return this.$store.state.setting.multipage;
     }
   },
   mounted () {
-    this.getPageHeaderInfo()
+    this.getPageHeaderInfo();
   },
   updated () {
-    this.getPageHeaderInfo()
+    this.getPageHeaderInfo();
   },
   methods: {
     getPageHeaderInfo () {
-      this.title = this.$route.name
-      const page = this.$refs.page
+      this.title = this.$route.name;
+      const page = this.$refs.page;
       if (page) {
-        this.desc = page.desc
-        this.linkList = page.linkList
-        this.extraImage = page.extraImage
+        this.desc = page.desc;
+        this.linkList = page.linkList;
+        this.extraImage = page.extraImage;
       }
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

@@ -27,15 +27,15 @@
 </template>
 
 <script>
-import SearchForm from './SearchForm'
-import AvatarList from '../../../components/tool/AvatarList'
+import SearchForm from './SearchForm';
+import AvatarList from '../../../components/tool/AvatarList';
 
-const AvatarListItem = AvatarList.Item
+const AvatarListItem = AvatarList.Item;
 
 export default {
   name: 'ProjectList',
   components: {AvatarListItem, AvatarList, SearchForm}
-}
+};
 </script>
 
 <style lang="less" scoped>

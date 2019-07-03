@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import HeaderSearch from './HeaderSearch'
-import HeaderNotice from './HeaderNotice'
-import HeaderAvatar from './HeaderlAvatar'
-import IMenu from '../components/menu/menu'
+import HeaderSearch from './HeaderSearch';
+import HeaderNotice from './HeaderNotice';
+import HeaderAvatar from './HeaderlAvatar';
+import IMenu from '../components/menu/menu';
 
 export default {
   name: 'GlobalHeader',
@@ -28,27 +28,27 @@ export default {
   props: ['collapsed', 'menuData'],
   computed: {
     isMobile () {
-      return this.$store.state.setting.isMobile
+      return this.$store.state.setting.isMobile;
     },
     layout () {
-      return this.$store.state.setting.layout
+      return this.$store.state.setting.layout;
     },
     theme () {
-      return this.layout === 'side' ? 'light' : this.$store.state.setting.theme
+      return this.layout === 'side' ? 'light' : this.$store.state.setting.theme;
     },
     systemName () {
-      return this.$store.state.setting.systemName
+      return this.$store.state.setting.systemName;
     }
   },
   methods: {
     toggleCollapse () {
-      this.$emit('toggleCollapse')
+      this.$emit('toggleCollapse');
     },
     onSelect (obj) {
-      this.$emit('menuSelect', obj)
+      this.$emit('menuSelect', obj);
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

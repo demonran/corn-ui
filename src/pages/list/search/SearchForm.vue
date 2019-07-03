@@ -68,10 +68,10 @@
 </template>
 
 <script>
-import TagSelect from '../../../components/tool/TagSelect'
-import FormRow from '../../../components/form/FormRow'
+import TagSelect from '../../../components/tool/TagSelect';
+import FormRow from '../../../components/form/FormRow';
 
-const TagSelectOption = TagSelect.Option
+const TagSelectOption = TagSelect.Option;
 
 export default {
   name: 'SearchForm',
@@ -80,10 +80,10 @@ export default {
     lookMyself () {
       this.form.setFieldsValue({
         owner: '3'
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

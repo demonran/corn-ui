@@ -1,11 +1,11 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import PageView from '@/layouts/PageView'
-import RouteView from '@/layouts/RouteView'
-import MenuView from '@/layouts/MenuView2'
-import Login from '@/pages/login/Login'
+import Vue from 'vue';
+import Router from 'vue-router';
+import PageView from '@/layouts/PageView';
+import RouteView from '@/layouts/RouteView';
+import MenuView from '@/layouts/MenuView2';
+import Login from '@/pages/login/Login';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -44,15 +44,15 @@ export default new Router({
           ]
         },
         {
-          path: '/category',
-          name: 'Category Setup',
+          path: '/course',
+          name: '课程',
           component: RouteView,
           icon: 'table',
           children: [
             {
-              path: '/category/list',
-              name: 'CategoryList',
-              component: () => import('@/pages/category/list'),
+              path: '/course/offline',
+              name: '线下课程',
+              component: () => import('@/pages/offlineCourse/list'),
               icon: 'none'
             }
           ]
@@ -225,4 +225,4 @@ export default new Router({
       ]
     }
   ]
-})
+});

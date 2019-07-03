@@ -25,13 +25,13 @@ export default {
     activeKey () {
       switch (this.$route.path) {
         case '/list/search/article':
-          return '1'
+          return '1';
         case '/list/search/application':
-          return '2'
+          return '2';
         case '/list/search/project':
-          return '3'
+          return '3';
         default:
-          return '1'
+          return '1';
       }
     }
   },
@@ -39,20 +39,20 @@ export default {
     navigate (key) {
       switch (key) {
         case '1':
-          this.$router.push('/list/search/article')
-          break
+          this.$router.push('/list/search/article');
+          break;
         case '2':
-          this.$router.push('/list/search/application')
-          break
+          this.$router.push('/list/search/application');
+          break;
         case '3':
-          this.$router.push('/list/search/project')
-          break
+          this.$router.push('/list/search/project');
+          break;
         default:
-          this.$router.push('/workplace')
+          this.$router.push('/workplace');
       }
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import StandardTable from '../../components/table/StandardTable'
+import StandardTable from '../../components/table/StandardTable';
 const columns = [
   {
     title: '规则编号',
@@ -130,9 +130,9 @@ const columns = [
     dataIndex: 'updatedAt',
     sorter: true
   }
-]
+];
 
-const dataSource = []
+const dataSource = [];
 
 for (let i = 0; i < 100; i++) {
   dataSource.push({
@@ -142,7 +142,7 @@ for (let i = 0; i < 100; i++) {
     callNo: Math.floor(Math.random() * 1000),
     status: Math.floor(Math.random() * 10) % 4,
     updatedAt: '2018-07-26'
-  })
+  });
 }
 
 export default {
@@ -155,19 +155,19 @@ export default {
       dataSource: dataSource,
       selectedRowKeys: [],
       selectedRows: []
-    }
+    };
   },
   methods: {
     toggleAdvanced () {
-      this.advanced = !this.advanced
+      this.advanced = !this.advanced;
     },
     onchange (selectedRowKeys, selectedRows) {
-      this.selectedRowKeys = selectedRowKeys
-      this.selectedRows = selectedRows
+      this.selectedRowKeys = selectedRowKeys;
+      this.selectedRows = selectedRows;
     },
     remove () {
-      this.dataSource = this.dataSource.filter(item => this.selectedRowKeys.indexOf(item.key) < 0)
-      this.selectedRows = this.selectedRows.filter(item => this.selectedRowKeys.indexOf(item.key) < 0)
+      this.dataSource = this.dataSource.filter(item => this.selectedRowKeys.indexOf(item.key) < 0);
+      this.selectedRows = this.selectedRows.filter(item => this.selectedRowKeys.indexOf(item.key) < 0);
     },
     addNew () {
       this.dataSource.unshift({
@@ -177,15 +177,15 @@ export default {
         callNo: Math.floor(Math.random() * 1000),
         status: Math.floor(Math.random() * 10) % 4,
         updatedAt: '2018-07-26'
-      })
+      });
     },
     handleMenuClick (e) {
       if (e.key === 'delete') {
-        this.remove()
+        this.remove();
       }
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

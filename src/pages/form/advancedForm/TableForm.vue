@@ -72,7 +72,7 @@ const columns = [
     key: 'action',
     scopedSlots: { customRender: 'operation' }
   }
-]
+];
 
 const dataSource = [
   {
@@ -96,7 +96,7 @@ const dataSource = [
     editable: false,
     department: '财务部'
   }
-]
+];
 
 export default {
   name: 'TableForm',
@@ -104,11 +104,11 @@ export default {
     return {
       columns,
       dataSource
-    }
+    };
   },
   methods: {
     handleSubmit (e) {
-      e.preventDefault()
+      e.preventDefault();
     },
     newMeber () {
       this.dataSource.push({
@@ -118,39 +118,39 @@ export default {
         department: '',
         editable: true,
         isNew: true
-      })
+      });
     },
     remove (key) {
-      const newData = this.dataSource.filter(item => item.key !== key)
-      this.dataSource = newData
+      const newData = this.dataSource.filter(item => item.key !== key);
+      this.dataSource = newData;
     },
     saveRow (key) {
-      let target = this.dataSource.filter(item => item.key === key)[0]
-      target.editable = false
-      target.isNew = false
+      let target = this.dataSource.filter(item => item.key === key)[0];
+      target.editable = false;
+      target.isNew = false;
     },
     toggle (key) {
-      let target = this.dataSource.filter(item => item.key === key)[0]
-      target.editable = !target.editable
+      let target = this.dataSource.filter(item => item.key === key)[0];
+      target.editable = !target.editable;
     },
     getRowByKey (key, newData) {
-      const data = this.dataSource
-      return (newData || data).filter(item => item.key === key)[0]
+      const data = this.dataSource;
+      return (newData || data).filter(item => item.key === key)[0];
     },
     cancle (key) {
-      let target = this.dataSource.filter(item => item.key === key)[0]
-      target.editable = false
+      let target = this.dataSource.filter(item => item.key === key)[0];
+      target.editable = false;
     },
     handleChange (value, key, column) {
-      const newData = [...this.dataSource]
-      const target = newData.filter(item => key === item.key)[0]
+      const newData = [...this.dataSource];
+      const target = newData.filter(item => key === item.key)[0];
       if (target) {
-        target[column] = value
-        this.dataSource = newData
+        target[column] = value;
+        this.dataSource = newData;
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

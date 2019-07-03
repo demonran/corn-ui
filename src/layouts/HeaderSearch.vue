@@ -19,18 +19,18 @@ export default {
     return {
       dataSource: ['选项一', '选项二'],
       searchMode: false
-    }
+    };
   },
   methods: {
     enterSearchMode () {
-      this.searchMode = true
-      setTimeout(() => this.$refs.input.focus(), 300)
+      this.searchMode = true;
+      setTimeout(() => this.$refs.input.focus(), 300);
     },
     leaveSearchMode () {
-      this.searchMode = false
+      this.searchMode = false;
     }
   }
-}
+};
 </script>
 
 <style lang="less">

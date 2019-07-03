@@ -5,17 +5,17 @@
 </template>
 
 <script>
-import enquireScreen from './utils/device'
+import enquireScreen from './utils/device';
 
 export default {
   name: 'App',
   created () {
-    let _this = this
+    let _this = this;
     enquireScreen(isMobile => {
-      _this.$store.commit('setting/setDevice', isMobile)
-    })
+      _this.$store.commit('setting/setDevice', isMobile);
+    });
   }
-}
+};
 </script>
 
 <style lang="less">

@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import Step1 from './Step1'
-import Step2 from './Step2'
-import Step3 from './Step3'
+import Step1 from './Step1';
+import Step2 from './Step2';
+import Step3 from './Step3';
 
 export default {
   name: 'StepForm',
@@ -25,24 +25,24 @@ export default {
     return {
       desc: '将一个冗长或用户不熟悉的表单任务分成多个步骤，指导用户完成。',
       current: 0
-    }
+    };
   },
   methods: {
     nextStep () {
       if (this.current < 2) {
-        this.current += 1
+        this.current += 1;
       }
     },
     prevStep () {
       if (this.current > 0) {
-        this.current -= 1
+        this.current -= 1;
       }
     },
     finish () {
-      this.current = 0
+      this.current = 0;
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

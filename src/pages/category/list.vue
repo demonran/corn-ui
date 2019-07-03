@@ -38,10 +38,10 @@
 </template>
 
 <script>
-import PageHeader from '../../components/page/PageHeader'
-import PageLayout from '../../layouts/PageLayout'
-import HeadInfo from '../../components/tool/HeadInfo'
-import Radar from '../../components/chart/Radar'
+import PageHeader from '../../components/page/PageHeader';
+import PageLayout from '../../layouts/PageLayout';
+import HeadInfo from '../../components/tool/HeadInfo';
+import Radar from '../../components/chart/Radar';
 
 export default {
   name: 'WorkPlace',
@@ -52,17 +52,17 @@ export default {
       loading: true,
       activities: [],
       teams: []
-    }
+    };
   },
   computed: {
     currUser () {
-      return this.$store.state.account.user
+      return this.$store.state.account.user;
     }
   },
   mounted () {
-    this.getProjectList()
-    this.getActivites()
-    this.getTeams()
+    this.getProjectList();
+    this.getActivites();
+    this.getTeams();
   },
   methods: {
     getProjectList () {
@@ -70,28 +70,28 @@ export default {
         method: 'get',
         url: '/project'
       }).then(res => {
-        this.projects = res.data
-        this.loading = false
-      })
+        this.projects = res.data;
+        this.loading = false;
+      });
     },
     getActivites () {
       this.$axios({
         method: 'get',
         url: '/work/activity'
       }).then(res => {
-        this.activities = res.data
-      })
+        this.activities = res.data;
+      });
     },
     getTeams () {
       this.$axios({
         method: 'get',
         url: '/work/team'
       }).then(res => {
-        this.teams = res.data
-      })
+        this.teams = res.data;
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="less">

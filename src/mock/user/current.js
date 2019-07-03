@@ -1,5 +1,5 @@
-import Mock from 'mockjs'
-import '@/mock/extend'
+import Mock from 'mockjs';
+import '@/mock/extend';
 
 const userDB = Mock.mock({
   'list|2-10': [
@@ -12,8 +12,8 @@ const userDB = Mock.mock({
       position: '@position'
     }
   ]
-}).list
+}).list;
 
 Mock.mock('/user/current', 'get', () => {
-  return userDB[0]
-})
+  return userDB[0];
+});

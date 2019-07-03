@@ -1,32 +1,32 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Dashboard from '@/pages/dashboard/Analysis'
-import NotFound from '@/pages/exception/404'
-import NotPermit from '@/pages/exception/403'
-import ServerError from '@/pages/exception/500'
-import PageView from '@/layouts/PageView'
-import RouteView from '@/layouts/RouteView'
-import MenuView from '@/layouts/MenuView'
-import BasicForm from '@/pages/form/BasicForm'
-import StepForm from '@/pages/form/stepForm/StepForm'
-import AdvancedForm from '@/pages/form/advancedForm/AdvancedForm'
-import Success from '@/pages/result/Success'
-import Error from '@/pages/result/Error'
-import QueryList from '@/pages/list/QueryList'
-import StandardList from '@/pages/list/StandardList'
-import CardList from '@/pages/list/CardList'
-import SearchLayout from '@/pages/list/search/SearchLayout'
-import ArticleList from '@/pages/list/search/ArticleList'
-import ApplicationList from '@/pages/list/search/ApplicationList'
-import ProjectList from '@/pages/list/search/ProjectList'
-import WorkPlace from '@/pages/dashboard/WorkPlace'
-import Login from '@/pages/login/Login'
-import BasicDetail from '@/pages/detail/BasicDetail'
-import AdvancedDetail from '@/pages/detail/AdvancedDetail'
-import TaskCard from '@/pages/components/TaskCard'
-import ColorBox from '@/pages/components/Palette'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Dashboard from '@/pages/dashboard/Analysis';
+import NotFound from '@/pages/exception/404';
+import NotPermit from '@/pages/exception/403';
+import ServerError from '@/pages/exception/500';
+import PageView from '@/layouts/PageView';
+import RouteView from '@/layouts/RouteView';
+import MenuView from '@/layouts/MenuView';
+import BasicForm from '@/pages/form/BasicForm';
+import StepForm from '@/pages/form/stepForm/StepForm';
+import AdvancedForm from '@/pages/form/advancedForm/AdvancedForm';
+import Success from '@/pages/result/Success';
+import Error from '@/pages/result/Error';
+import QueryList from '@/pages/list/QueryList';
+import StandardList from '@/pages/list/StandardList';
+import CardList from '@/pages/list/CardList';
+import SearchLayout from '@/pages/list/search/SearchLayout';
+import ArticleList from '@/pages/list/search/ArticleList';
+import ApplicationList from '@/pages/list/search/ApplicationList';
+import ProjectList from '@/pages/list/search/ProjectList';
+import WorkPlace from '@/pages/dashboard/WorkPlace';
+import Login from '@/pages/login/Login';
+import BasicDetail from '@/pages/detail/BasicDetail';
+import AdvancedDetail from '@/pages/detail/AdvancedDetail';
+import TaskCard from '@/pages/components/TaskCard';
+import ColorBox from '@/pages/components/Palette';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -233,4 +233,4 @@ export default new Router({
       ]
     }
   ]
-})
+});

@@ -11,7 +11,7 @@
 export default {
   name: 'StyleItem',
   props: ['selected', 'img']
-}
+};
 </script>
 
 <style lang="less" scoped>

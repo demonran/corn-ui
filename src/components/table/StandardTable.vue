@@ -35,34 +35,34 @@ export default {
     return {
       needTotalList: [],
       selectedRowKeys: []
-    }
+    };
   },
   methods: {
     updateSelect (selectedRowKeys, selectedRows) {
-      this.selectedRowKeys = selectedRowKeys
-      let list = this.needTotalList
+      this.selectedRowKeys = selectedRowKeys;
+      let list = this.needTotalList;
       this.needTotalList = list.map(item => {
         return {
           ...item,
           total: selectedRows.reduce((sum, val) => {
-            return sum + val[item.dataIndex]
+            return sum + val[item.dataIndex];
           }, 0)
-        }
-      })
-      this.$emit('change', selectedRowKeys, selectedRows)
+        };
+      });
+      this.$emit('change', selectedRowKeys, selectedRows);
     },
     initTotalList (columns) {
-      const totalList = []
+      const totalList = [];
       columns.forEach(column => {
         if (column.needTotal) {
-          totalList.push({...column, total: 0})
+          totalList.push({...column, total: 0});
         }
-      })
-      return totalList
+      });
+      return totalList;
     }
   },
   created () {
-    this.needTotalList = this.initTotalList(this.columns)
+    this.needTotalList = this.initTotalList(this.columns);
   },
   watch: {
     'selectedRows': function (selectedRows) {
@@ -70,13 +70,13 @@ export default {
         return {
           ...item,
           total: selectedRows.reduce((sum, val) => {
-            return sum + val[item.dataIndex]
+            return sum + val[item.dataIndex];
           }, 0)
-        }
-      })
+        };
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>
