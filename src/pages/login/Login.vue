@@ -55,7 +55,7 @@ export default {
 
   mounted () {
     this.resetVerify()
-    this.form.setFieldsValue({name:'limengmeng',password:'123456'})
+    this.form.setFieldsValue({name: 'limengmeng', password: '123456'})
   },
   computed: {
     systemName () {
