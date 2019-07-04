@@ -1,42 +1,92 @@
 <template>
   <div>
-    <a-form style="max-width: 500px; margin: 40px auto 0;">
+    <a-form :form="form" style="max-width: 500px; margin: 40px auto 0;">
       <a-form-item
-        label="付款账户"
+        label="课程标题"
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-select value="1" placeholder="ant-design@alipay.com">
-          <a-select-option value="1">ant-design@alipay.com</a-select-option>
+        <a-input v-decorator="['courseTitle',{rules: [{ required: true, message: '请输入课程标题'}]}]"
+            placeholder="请输入课程标题" />
+      </a-form-item>
+
+      <a-form-item
+        label="副标题"
+        :labelCol="{span: 5}"
+        :wrapperCol="{span: 19}"
+      >
+        <a-input v-decorator="['courseSubTitle',{rules: [{ required: true, message: '请输入副标题'}]}]"
+            placeholder="请输入副标题" />
+      </a-form-item>
+
+      <a-form-item
+        label="课程分类"
+        :labelCol="{span: 5}"
+        :wrapperCol="{span: 19}"
+      >
+        <a-select v-decorator="['courseCategory',{rules: [{ required: true, message: '请选择课程分类'}]}]"
+           placeholder="选择课程分类">
+          <a-select-option value="1">少儿</a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item
-        label="收款账户"
+        label="课时单价"
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-input-group :compact="true" style="display: inline-block; vertical-align: middle">
-          <a-select defaultValue="alipay" style="width: 100px">
-            <a-select-option value="alipay">支付宝</a-select-option>
-            <a-select-option value="wexinpay">微信</a-select-option>
-          </a-select>
-          <a-input :style="{width: 'calc(100% - 100px)'}" value="test@example.com"/>
-        </a-input-group>
+        <a-input v-decorator="['price',{rules: [{ required: false, message: '请输入课时单价'}]}]"
+            prefix="￥" placeholder="请输入课时单价" type="number" />
       </a-form-item>
       <a-form-item
-        label="收款人姓名"
+        label="共计课时"
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-input value="Alex" />
+        <a-input v-decorator="['lession',{rules: [{ required: true, message: '课时共计多少节'}]}]"
+          placeholder="课时共计多少节" type="number"/>
+
+      </a-form-item>
+     <a-form-item
+        label="课程总费用"
+        :labelCol="{span: 5}"
+        :wrapperCol="{span: 19}"
+      >
+         <a-input v-decorator="['totalAmount',{rules: [{ required: true, message: '请输入课程费用'}]}]"
+          placeholder="请输入课程费用" type="number"/>
       </a-form-item>
       <a-form-item
-        label="转账金额"
+        label="设置分享佣金"
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-input prefix="￥" value="5000" />
+        <brokerage v-decorator="['brokerage',{
+            initialValue: { isSet: 1, money: 0 },
+            rules: [{ validator: checkBrokerage }],
+          }]">
+
+        </brokerage>
+
       </a-form-item>
+
+      <a-form-item
+        label="限制人数"
+        :labelCol="{span: 5}"
+        :wrapperCol="{span: 19}"
+      >
+        <a-input v-decorator="['limitStudents',{rules: [{ required: true, message: '输入限制人数'}]}]"
+          placeholder="输入限制人数" />
+      </a-form-item>
+      <a-form-item
+        label="主讲教师"
+        :labelCol="{span: 5}"
+        :wrapperCol="{span: 19}"
+      >
+        <a-select v-decorator="['teacher',{rules: [{ required: true, message: '选择主讲教师'}]}]"
+           placeholder="选择主讲教师">
+          <a-select-option value="1">少儿</a-select-option>
+        </a-select>
+      </a-form-item>
+
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button type="primary" @click="nextStep">下一步</a-button>
       </a-form-item>
@@ -45,11 +95,32 @@
 </template>
 
 <script>
+import brokerage from './brokerage';
+
 export default {
   name: 'Step1',
+  components: {brokerage},
+
+  data () {
+    return {
+      form: this.$form.createForm(this)
+    };
+  },
   methods: {
     nextStep () {
-      this.$emit('nextStep');
+      this.form.validateFields((error, values) => {
+        if (error) return;
+
+        this.$emit('nextStep');
+      });
+    },
+    checkBrokerage (rule, value, callback) {
+      console.log('checkBrokeragecheckBrokeragecheckBrokeragecheckBrokerage');
+      if (value.isSet === 0 || (value.isSet === 1 && value.money > 0)) {
+        callback();
+        return;
+      }
+      callback('佣金需要大于0!');
     }
   }
 };

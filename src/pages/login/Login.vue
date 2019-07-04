@@ -77,7 +77,8 @@ export default {
         this.$message.error(error);
       }
       this.$message.success('登陆成功！');
-      this.$router.push('/course/offline');
+      let from = this.$route.query.from;
+      this.$router.push(from || '/course/offline');
     },
     validateForm () {
       return new Promise((resolve, reject) => {

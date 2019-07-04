@@ -49,7 +49,7 @@
            <a-button type="primary" ghost>重置</a-button>
        </div>
 
-       <a-table :columns="columns" :dataSource="data" :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}">
+       <a-table :columns="columns" :pagination="pagination" :dataSource="data" :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}">
            <span slot="id" slot-scope="text,record,index">
                {{index+100}}
            </span>
@@ -82,6 +82,18 @@ export default {
   components: {PageLayout, PageHeader},
   data () {
     return {
+      pagination: {
+        pageSize: 10,
+        total: 50,
+        current: 1,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        showTotal (total) { return `共${total}项`; },
+        onShowSizeChange () {
+          console.log('onShowSizeChange');
+        }
+      },
+
       filterStatus: '0',
       columns: [
         {

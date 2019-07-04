@@ -38,8 +38,10 @@ export default {
   mounted () {
     this.getBreadcrumb();
   },
-  updated () {
-    this.getBreadcrumb();
+  watch: {
+    $route () {
+      this.getBreadcrumb();
+    }
   },
   methods: {
     getBreadcrumb () {
