@@ -20,6 +20,7 @@ Vue.use(Viser);
 Vue.use(Antd);
 // Vue.prototype.$form = Form
 
+window.Bus = new Vue();
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
