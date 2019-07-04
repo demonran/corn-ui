@@ -6,7 +6,7 @@ let opt = {
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 };
 if (process && process.env.NODE_ENV === 'production') {
-  opt.baseURL = 'http://64.202.187.159:8081';
+  // opt.baseURL = 'http://64.202.187.159:8081';
 } else {
   opt.baseURL = '';
 }
