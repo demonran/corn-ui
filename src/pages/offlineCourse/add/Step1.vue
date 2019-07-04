@@ -34,7 +34,7 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-input v-decorator="['price',{rules: [{ required: true, message: '请选择课程分类'}]}]"
+        <a-input v-decorator="['price',{rules: [{ required: false, message: '请输入课时单价'}]}]"
             prefix="￥" placeholder="请输入课时单价" type="number" />
       </a-form-item>
       <a-form-item
@@ -43,7 +43,7 @@
         :wrapperCol="{span: 19}"
       >
         <a-input v-decorator="['lession',{rules: [{ required: true, message: '课时共计多少节'}]}]"
-          placeholder="课时共计多少节" />
+          placeholder="课时共计多少节" type="number"/>
 
       </a-form-item>
      <a-form-item
@@ -51,21 +51,21 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <span>3000元</span>
+         <a-input v-decorator="['totalAmount',{rules: [{ required: true, message: '请输入课程费用'}]}]"
+          placeholder="请输入课程费用" type="number"/>
       </a-form-item>
       <a-form-item
         label="设置分享佣金"
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-radio-group v-decorator="['isShareBrokerage',{rules: [{ required: true, message: '设置分享佣金'}]}]"
-            name="radioGroup" :defaultValue="1">
-          <a-radio :value="0">否</a-radio>
-          <a-radio :value="1">是</a-radio>
-        </a-radio-group>
-        <a-input v-decorator="['shareBrokerageAmount',{rules: [{ required: true, message: '请输入分享佣金金额'}]}]"
-            placeholder="请输入分享佣金金额" />
-        <p>分享给好友报名成功后可提现</p>
+        <brokerage v-decorator="['brokerage',{
+            initialValue: { isSet: 1, money: 0 },
+            rules: [{ validator: checkBrokerage }],
+          }]">
+
+        </brokerage>
+
       </a-form-item>
 
       <a-form-item
@@ -95,8 +95,12 @@
 </template>
 
 <script>
+import brokerage from './brokerage';
+
 export default {
   name: 'Step1',
+  components: {brokerage},
+
   data () {
     return {
       form: this.$form.createForm(this)
@@ -104,9 +108,19 @@ export default {
   },
   methods: {
     nextStep () {
-      // this.form.validateFields((err, values) => {});
+      this.form.validateFields((error, values) => {
+        if (error) return;
 
-      // this.$emit('nextStep');
+        this.$emit('nextStep');
+      });
+    },
+    checkBrokerage (rule, value, callback) {
+      console.log('checkBrokeragecheckBrokeragecheckBrokeragecheckBrokerage');
+      if (value.isSet === 0 || (value.isSet === 1 && value.money > 0)) {
+        callback();
+        return;
+      }
+      callback('佣金需要大于0!');
     }
   }
 };

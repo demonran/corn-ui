@@ -7,9 +7,9 @@
       <a-step title="完成" />
     </a-steps>
     <div class="content">
-      <step1 v-if="current === 0" @nextStep="nextStep"></step1>
-      <step2 v-if="current === 1" @nextStep="nextStep" @prevStep="prevStep"></step2>
-      <step3 v-if="current === 2" @prevStep="prevStep" @finish="finish"></step3>
+      <step1 v-show="current === 0" @nextStep="nextStep"></step1>
+      <step2 v-show="current === 1" @nextStep="nextStep" @prevStep="prevStep"></step2>
+      <step3 v-show="current === 2" @prevStep="prevStep" @finish="finish"></step3>
     </div>
   </a-card>
 </template>
