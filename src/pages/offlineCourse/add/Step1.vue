@@ -111,6 +111,7 @@ export default {
       this.form.validateFields((error, values) => {
         if (error) return;
 
+        console.log(values);
         this.$emit('nextStep');
       });
     },

@@ -1,42 +1,22 @@
 <template>
   <div>
-    <a-form style="max-width: 500px; margin: 40px auto 0;">
-      <a-alert
-        :closable="true"
-        message="确认转账后，资金将直接打入对方账户，无法退回。"
-        style="margin-bottom: 24px;"
-      />
+    <a-form style="max-width: 750px; margin: 40px auto 0;">
+
       <a-form-item
         label="付款账户"
-        :labelCol="{span: 5}"
-        :wrapperCol="{span: 19}"
+        :labelCol="{span: 2}"
+        :wrapperCol="{span: 22}"
         class="stepFormText"
       >
         ant-design@alipay.com
       </a-form-item>
       <a-form-item
-        label="收款账户"
-        :labelCol="{span: 5}"
-        :wrapperCol="{span: 19}"
+        label="图文介绍"
+        :labelCol="{span: 2}"
+        :wrapperCol="{span: 22}"
         class="stepFormText"
       >
-        test@example.com
-      </a-form-item>
-      <a-form-item
-        label="收款人姓名"
-        :labelCol="{span: 5}"
-        :wrapperCol="{span: 19}"
-        class="stepFormText"
-      >
-        Alex
-      </a-form-item>
-      <a-form-item
-        label="转账金额"
-        :labelCol="{span: 5}"
-        :wrapperCol="{span: 19}"
-        class="stepFormText"
-      >
-        ￥ 5,000.00
+        <tinymce />
       </a-form-item>
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button :loading="loading" type="primary" @click="nextStep">提交</a-button>
@@ -47,8 +27,11 @@
 </template>
 
 <script>
+import tinymce from '@/components/tinymce';
+
 export default {
   name: 'Step2',
+  components: {tinymce},
   data () {
     return {
       loading: false

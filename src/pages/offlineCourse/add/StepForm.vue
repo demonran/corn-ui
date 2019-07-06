@@ -9,7 +9,9 @@
     <div class="content">
       <step1 v-show="current === 0" @nextStep="nextStep"></step1>
       <step2 v-show="current === 1" @nextStep="nextStep" @prevStep="prevStep"></step2>
-      <step3 v-show="current === 2" @prevStep="prevStep" @finish="finish"></step3>
+      <step3 v-show="current === 2" @prevStep="prevStep" @finish="prevStep"></step3>
+      <step4 v-show="current === 3" @prevStep="prevStep" @finish="finish"></step4>
+
     </div>
   </a-card>
 </template>
@@ -18,14 +20,15 @@
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
+import Step4 from './Step4';
 
 export default {
   name: 'StepForm',
-  components: {Step1, Step2, Step3},
+  components: {Step1, Step2, Step3, Step4},
   data () {
     return {
       desc: '将一个冗长或用户不熟悉的表单任务分成多个步骤，指导用户完成。',
-      current: 0
+      current: 1
     };
   },
   methods: {
