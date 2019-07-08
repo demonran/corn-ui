@@ -4,7 +4,7 @@
       <result title="添加成功" :is-success="true" />
       <a-form-item :wrapperCol="{span: 16, offset: 8}">
         <a-button type="primary" @click="doOnceAgin">继续添加</a-button>
-        <a-button style="margin-left: 8px">返回列表</a-button>
+        <a-button style="margin-left: 8px" @click="backList">返回列表</a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -18,6 +18,9 @@ export default {
   methods: {
     doOnceAgin () {
       this.$emit('finish');
+    },
+    backList () {
+      this.$router.push('/course/offline');
     }
   }
 };
