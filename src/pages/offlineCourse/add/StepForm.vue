@@ -9,7 +9,7 @@
     <div class="content">
       <step1 v-show="current === 0" @nextStep="nextStep"></step1>
       <step2 v-show="current === 1" @nextStep="nextStep" @prevStep="prevStep"></step2>
-      <step3 v-show="current === 2" @prevStep="prevStep" @finish="prevStep"></step3>
+      <step3 v-show="current === 2" @prevStep="prevStep" @nextStep="nextStep"></step3>
       <step4 v-show="current === 3" @prevStep="prevStep" @finish="finish"></step4>
 
     </div>
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     nextStep () {
-      if (this.current < 2) {
+      if (this.current < 3) {
         this.current += 1;
       }
     },

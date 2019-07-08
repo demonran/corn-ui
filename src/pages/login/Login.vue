@@ -67,14 +67,17 @@ export default {
     },
     async onSubmit (e) {
       e.preventDefault();
+
       let values = await this.validateForm();
-      if (!values) return;
+      if (!values || this.logging) return;
       this.logging = true;
+
       let error = await this.login(values);
       this.logging = false;
       if (error) {
         this.resetVerify();
         this.$message.error(error);
+        return;
       }
       this.$message.success('登陆成功！');
       let from = this.$route.query.from;

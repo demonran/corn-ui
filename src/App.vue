@@ -17,7 +17,7 @@ export default {
   name: 'App',
   data () {
     return {
-      showLoading: true,
+      showLoading: false,
       local: zh
     };
   },
@@ -51,6 +51,18 @@ export default {
     margin-bottom: 0 !important;
   }
 
+  .g-loading{
+     background-color: rgba(0, 0, 0, 0.4);
+     position: fixed;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     width: 100vw;
+     height: 100vh;
+     left: 0;
+     top: 0;
+     z-index: 2000;
+  }
   .scroll {
     &::-webkit-scrollbar{
         width: 6px;     /*高宽分别对应横竖滚动条的尺寸*/

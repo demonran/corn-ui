@@ -1,3 +1,12 @@
+<style lang="less" scoped>
+.add-cate-panel{
+  display: flex;
+  align-items: center;
+}
+.add-category-btn{
+  margin-left: 4px;
+}
+</style>
 <template>
   <div>
     <a-form :form="form" style="max-width: 500px; margin: 40px auto 0;">
@@ -24,10 +33,20 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-select v-decorator="['courseCategory',{rules: [{ required: true, message: '请选择课程分类'}]}]"
+        <a-select showSearch v-decorator="['courseCategory',{rules: [{ required: true, message: '请选择课程分类'}]}]"
            placeholder="选择课程分类">
           <a-select-option value="1">少儿</a-select-option>
         </a-select>
+        <a-popover trigger="click">
+          <template slot="content">
+            <div class="add-cate-panel">
+               <a-input placeholder="请输入分类名称" size="small" v-model="creatingCateName"/>
+               <a-button ghost size="small" class="add-category-btn" type="primary" @click="addCategory">确定</a-button>
+            </div>
+          </template>
+          <a-button ghost size="small" type="primary">添加分类</a-button>
+        </a-popover>
+
       </a-form-item>
       <a-form-item
         label="课时单价"
@@ -81,7 +100,7 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-select v-decorator="['teacher',{rules: [{ required: true, message: '选择主讲教师'}]}]"
+        <a-select showSearch v-decorator="['teacher',{rules: [{ required: true, message: '选择主讲教师'}]}]"
            placeholder="选择主讲教师">
           <a-select-option value="1">少儿</a-select-option>
         </a-select>
@@ -96,14 +115,17 @@
 
 <script>
 import brokerage from './brokerage';
+import mix from '../../mix';
 
 export default {
+  mixins: [mix],
   name: 'Step1',
   components: {brokerage},
 
   data () {
     return {
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
+      creatingCateName: ''
     };
   },
   methods: {
@@ -122,11 +144,18 @@ export default {
         return;
       }
       callback('佣金需要大于0!');
+    },
+    async addCategory () {
+      if (!this.creatingCateName) {
+        this.toast('分类不能为空!', true);
+        return;
+      }
+      this.showLoading();
+
+      setTimeout(() => {
+        this.hideLoading();
+      }, 1000);
     }
   }
 };
 </script>
-
-<style scoped>
-
-</style>

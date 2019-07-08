@@ -99,7 +99,7 @@ export default {
   }
   .fixedheader{
     position: fixed;
-    width: ~'calc(100% - 256px)';
+    width: ~'calc(100% - 180px)';
     right: 0;
     top: 0;
     z-index: 1;
