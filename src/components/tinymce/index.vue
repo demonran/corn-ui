@@ -140,7 +140,9 @@ export default {
           _this.hasInit = true;
           editor.on('NodeChange Change KeyUp SetContent', () => {
             this.hasChange = true;
-            this.$emit('input', editor.getContent());
+            let content = editor.getContent();
+            this.$emit('input', content);
+            this.$emit('change', content);
           });
         },
         setup (editor) {

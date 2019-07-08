@@ -58,18 +58,11 @@ export default {
       this.$emit('finish');
     },
     nextStep () {
-      let _this = this;
       this.form.validateFields((error, values) => {
         if (error) return;
-
-        console.log(values);
-
-        this.$emit('nextStep');
+        this.values = values;
+        this.$emit('submit');
       });
-
-      setTimeout(function () {
-        _this.$emit('nextStep');
-      }, 1500);
     },
     prevStep () {
       this.$emit('prevStep');

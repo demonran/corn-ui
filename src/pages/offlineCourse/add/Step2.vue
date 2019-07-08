@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     nextStep () {
-      let _this = this;
       this.form.validateFields((error, values) => {
         if (error) return;
 

@@ -7,9 +7,9 @@
       <a-step title="完成" />
     </a-steps>
     <div class="content">
-      <step1 v-show="current === 0" @nextStep="nextStep"></step1>
-      <step2 v-show="current === 1" @nextStep="nextStep" @prevStep="prevStep"></step2>
-      <step3 v-show="current === 2" @prevStep="prevStep" @nextStep="nextStep"></step3>
+      <step1 ref="step1" v-show="current === 0" @nextStep="nextStep"></step1>
+      <step2 ref="step2" v-show="current === 1" @nextStep="nextStep" @prevStep="prevStep"></step2>
+      <step3 ref="step3" v-show="current === 2" @prevStep="prevStep" @submit="OnSubmit"></step3>
       <step4 v-show="current === 3" @prevStep="prevStep" @finish="finish"></step4>
 
     </div>
@@ -21,9 +21,11 @@ import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
 import Step4 from './Step4';
+import mix from '../../mix';
 
 export default {
   name: 'StepForm',
+  mixins: [mix],
   components: {Step1, Step2, Step3, Step4},
   data () {
     return {
@@ -44,6 +46,15 @@ export default {
     },
     finish () {
       this.current = 0;
+    },
+    OnSubmit () {
+      this.showLoading();
+
+      console.log(this.$refs.step1.values, this.$refs.step2.values, this.$refs.step3.values);
+      setTimeout(() => {
+        this.hideLoading();
+        this.current += 1;
+      }, 1000);
     }
   }
 };

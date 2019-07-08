@@ -133,7 +133,7 @@ export default {
       this.form.validateFields((error, values) => {
         if (error) return;
 
-        console.log(values);
+        this.values = values;
         this.$emit('nextStep');
       });
     },
@@ -145,6 +145,11 @@ export default {
       }
       callback('佣金需要大于0!');
     },
+
+    getValues () {
+      return this.form.getFieldsValue();
+    },
+
     async addCategory () {
       if (!this.creatingCateName) {
         this.toast('分类不能为空!', true);
