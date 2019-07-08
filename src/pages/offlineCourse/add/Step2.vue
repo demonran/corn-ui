@@ -1,22 +1,22 @@
 <template>
   <div>
-    <a-form style="max-width: 750px; margin: 40px auto 0;">
+    <a-form :form="form" style="max-width: 750px; margin: 40px auto 0;">
 
-      <a-form-item
+      <!-- <a-form-item
         label="付款账户"
         :labelCol="{span: 2}"
         :wrapperCol="{span: 22}"
         class="stepFormText"
       >
         ant-design@alipay.com
-      </a-form-item>
+      </a-form-item> -->
       <a-form-item
         label="图文介绍"
         :labelCol="{span: 2}"
         :wrapperCol="{span: 22}"
         class="stepFormText"
       >
-        <tinymce />
+        <tinymce  v-decorator="['content',{rules: [{ required: true, message: '输入课程详情'}]}]" />
       </a-form-item>
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button :loading="loading" type="primary" @click="nextStep">下一步</a-button>
@@ -34,13 +34,18 @@ export default {
   components: {tinymce},
   data () {
     return {
-      loading: false
+      form: this.$form.createForm(this)
     };
   },
   methods: {
     nextStep () {
       let _this = this;
-      _this.$emit('nextStep');
+      this.form.validateFields((error, values) => {
+        if (error) return;
+
+        this.values = values;
+        this.$emit('nextStep');
+      });
     },
     prevStep () {
       this.$emit('prevStep');
