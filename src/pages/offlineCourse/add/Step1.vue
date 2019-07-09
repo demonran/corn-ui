@@ -138,6 +138,9 @@ export default {
         this.values.isShareBrokerage = values.brokerage.isSet == 1;
         this.values.shareBrokerageAmount = values.brokerage.money;
         delete this.values.brokerage;
+        delete this.values.teacher;
+        delete this.values.courseCategory;
+
         this.$emit('nextStep');
       });
     },
