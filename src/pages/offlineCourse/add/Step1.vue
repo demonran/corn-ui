@@ -134,6 +134,10 @@ export default {
         if (error) return;
 
         this.values = values;
+        this.values.courseName = values.courseTitle;
+        this.values.isShareBrokerage = values.brokerage.isSet == 1;
+        this.values.shareBrokerageAmount = values.brokerage.money;
+        delete this.values.brokerage;
         this.$emit('nextStep');
       });
     },

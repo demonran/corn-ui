@@ -81,9 +81,15 @@ export default {
   },
   watch: {
     value (val) {
-      if (!this.hasChange && this.hasInit) {
-        this.$nextTick(() =>
-          window.tinymce.get(this.tinymceId).setContent(val || ''));
+      if (!this.hasInit) {
+        return;
+      }
+
+      if (val != this.preContent) {
+        this.$nextTick(() => {
+          window.tinymce.get(this.tinymceId).setContent(val || '');
+          this.preContent = val;
+        });
       }
     }
   },
@@ -141,6 +147,8 @@ export default {
           editor.on('NodeChange Change KeyUp SetContent', () => {
             this.hasChange = true;
             let content = editor.getContent();
+            this.preContent = content;
+
             this.$emit('input', content);
             this.$emit('change', content);
           });

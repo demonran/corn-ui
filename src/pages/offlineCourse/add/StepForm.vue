@@ -22,7 +22,7 @@ import Step2 from './Step2';
 import Step3 from './Step3';
 import Step4 from './Step4';
 import mix from '../../mix';
-
+import {mapActions} from 'vuex';
 export default {
   name: 'StepForm',
   mixins: [mix],
@@ -34,6 +34,8 @@ export default {
     };
   },
   methods: {
+    ...mapActions('offline', ['postCreateCourse']),
+
     nextStep () {
       if (this.current < 3) {
         this.current += 1;
@@ -47,14 +49,23 @@ export default {
     finish () {
       this.current = 0;
     },
-    OnSubmit () {
+    async OnSubmit () {
       this.showLoading();
 
-      console.log(this.$refs.step1.values, this.$refs.step2.values, this.$refs.step3.values);
-      setTimeout(() => {
-        this.hideLoading();
-        this.current += 1;
-      }, 1000);
+      let data = {...this.$refs.step1.values,
+        ...this.$refs.step2.values,
+        ...this.$refs.step3.values
+      };
+
+      console.log(data);
+      let error = await this.postCreateCourse(data);
+      this.hideLoading();
+
+      if (error) {
+        this.toast(error, true);
+        return;
+      }
+      this.current += 1;
     }
   }
 };

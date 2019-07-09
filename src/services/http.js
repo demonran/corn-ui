@@ -16,7 +16,7 @@ const http = axios.create(opt);
 export default {
   async get (...params) {
     let ret = await http.get(...params);
-    if (ret.status === 200) {
+    if (ret.status >= 200 && ret.status <= 300) {
       let data = ret.data;
       return {errorNo: data.statusCode ? data.statusCode : 200, result: data.data, errorDesc: data.errorMessage ? data.errorMessage : 'success'};
     }
@@ -24,7 +24,7 @@ export default {
   },
   async post (...params) {
     let ret = await http.post(...params);
-    if (ret.status === 200) {
+    if (ret.status >= 200 && ret.status <= 300) {
       let data = ret.data;
       return {errorNo: data.statusCode ? data.statusCode : 200, result: data.data, errorDesc: data.errorMessage ? data.errorMessage : 'success'};
     }
