@@ -77,6 +77,7 @@
 <script>
 import PageHeader from '../../components/page/PageHeader';
 import PageLayout from '../../layouts/PageLayout';
+import OfflineCurse from '@/services/offlineCurse';
 export default {
   name: 'PageView',
   components: {PageLayout, PageHeader},
@@ -166,32 +167,24 @@ export default {
           scopedSlots: { customRender: 'action' }
         }
       ],
-      data: [
-        {
-          courseTitle: '2019美术提高班',
-          courseCategory: '少儿类',
-          price: 20000,
-          beginDate: '2019.09.11 - 2020.09.09',
-          startClassTime: '09:00 - 12:00',
-          teacher: '王犁犁',
-          limitStudents: 1000,
-          totalAmount: 100,
-          lesson: 30,
-          courseId: '停招'
-        }
-      ],
+      data: [],
       selectedRowKeys: [] // Check here to configure the default column
     };
   },
   computed: {
   },
   mounted () {
-
+    this.list();
   },
   updated () {
 
   },
   methods: {
+    list () {
+      OfflineCurse.list().then(res => {
+        this.data = res.result;
+      });
+    },
     addCourse () {
       this.$router.push('/course/addOffline');
     },
