@@ -11,4 +11,4 @@ before_install:
 addons:
   ssh_known_hosts: 47.106.127.210
 after_success:
-- scp -r dist/* zolomanage@$IP:/home/zolomanage/html
+- scp -r dist/* root@$IP:/var/www/yumimiao
