@@ -63,7 +63,7 @@ export default {
     ...mapActions('account', ['login']),
 
     async resetVerify () {
-      this.verifyImg = '/api/kaptcha?t=' + Date.now();
+      this.verifyImg = '/api-yumimiao/kaptcha?t=' + Date.now();
     },
     async onSubmit (e) {
       e.preventDefault();
