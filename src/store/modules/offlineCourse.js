@@ -13,7 +13,6 @@ export default {
   },
   actions: {
     async postCreateCourse ({dispatch, commit}, data) {
-
       let ret = await createCourse(data);
       if (ret.errorNo === 200) {
         commit('createdCoursePage', ret.result);
@@ -21,8 +20,8 @@ export default {
       }
       return ret.errorDesc;
     },
-    async getOfflineCourseList({dispatch, commit}, data) {
-      
+    async getOfflineCourseList ({dispatch, commit}, data) {
+
     }
   }
 };

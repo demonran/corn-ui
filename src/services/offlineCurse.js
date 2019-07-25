@@ -2,7 +2,7 @@ import http from './http';
 import qs from 'qs';
 
 export async function createCourse (data) {
-  return http.post('/api-yumimiao/course/create', qs.stringify(data), {
+  return http.post('/course/create', qs.stringify(data), {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -11,6 +11,6 @@ export async function createCourse (data) {
 
 export default {
   list () {
-    return http.get('/api-yumimiao/course/getAll');
+    return http.get('/course/getAll');
   }
 };

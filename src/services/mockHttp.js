@@ -8,7 +8,7 @@ let opt = {
 if (process && process.env.NODE_ENV === 'production') {
   opt.baseURL = 'api-yumimiao';
 } else {
-  opt.baseURL = 'api-yumimiao';
+  opt.baseURL = 'mock';
 }
 
 const http = axios.create(opt);

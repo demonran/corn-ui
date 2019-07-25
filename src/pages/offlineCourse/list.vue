@@ -192,8 +192,8 @@ export default {
       console.log('selectedRowKeys changed: ', selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
-    resetList(){
-      
+    resetList () {
+
     }
   }
 };
