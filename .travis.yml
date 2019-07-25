@@ -9,6 +9,6 @@ before_install:
   -in id_rsa.enc -out ~/.ssh/id_rsa -d
 - chmod 600 ~/.ssh/id_rsa
 addons:
-  ssh_known_hosts: 64.202.187.159
+  ssh_known_hosts: 47.106.127.210
 after_success:
 - scp -r dist/* zolomanage@$IP:/home/zolomanage/html
