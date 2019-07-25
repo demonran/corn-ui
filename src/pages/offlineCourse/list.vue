@@ -46,7 +46,7 @@
            <a-input placeholder="课程名称" class="input"/>
 
            <a-button type="primary" class="search-btn">查询</a-button>
-           <a-button type="primary" ghost>重置</a-button>
+           <a-button type="primary" ghost @click="resetList">重置</a-button>
        </div>
 
        <a-table :columns="columns" :pagination="pagination" :dataSource="data" :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}">
@@ -191,6 +191,9 @@ export default {
     onSelectChange (selectedRowKeys) {
       console.log('selectedRowKeys changed: ', selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
+    },
+    resetList(){
+      
     }
   }
 };
