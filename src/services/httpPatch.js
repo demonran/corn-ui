@@ -13,7 +13,19 @@ export default function Patch(http, methods)
       
             if (ret.status >= 200 && ret.status <= 300) {
               let data = ret.data;
+              
+              if( data.statusCode == 401 )
+              {
+                window.Bus.$emit('Login401');
+                return;
+              }
+              
               return {errorNo: data.statusCode ? data.statusCode : 200, result: data.data, errorDesc: data.errorMessage ? data.errorMessage : 'success'};
+            }
+            if( ret.status == 401 )
+            {
+                window.Bus.$emit('Login401');
+                return;
             }
             return {errorNo: ret.status, errorDesc: ret.statusText};
           } catch (error) {
@@ -23,10 +35,14 @@ export default function Patch(http, methods)
             if (response) {
               status = response.status;
               desc = JSON.stringify(response.data);
+            }          
+            if( status == 401 ) {
+                window.Bus.$emit('Login401');
+                return;
             }
             return {errorNo: status, errorDesc: desc};
           }
     }
-    
+
     return request;
 }

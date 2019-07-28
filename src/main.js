@@ -16,8 +16,8 @@ import services from './services/index';
 Vue.prototype.$srv = services;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
-Vue.use(Viser);
-Vue.use(Antd);
+Vue.use( Viser );
+Vue.use( Antd );
 // Vue.prototype.$form = Form
 
 window.Bus = new Vue();

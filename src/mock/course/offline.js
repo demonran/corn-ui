@@ -30,7 +30,7 @@ const CourseList = Mock.mock({
 }).list;
 
 // 查询列表
-Mock.mock(RegExp('mock/offline/course/search.*'), 'get', (options) => {
+Mock.mock(RegExp('mock/course/offline/search.*'), 'get', (options) => {
   console.log(options);
 
   let ret = {
@@ -47,7 +47,7 @@ Mock.mock(RegExp('mock/offline/course/search.*'), 'get', (options) => {
 });
 
 // 删除课程
-Mock.mock(RegExp('mock/offline/course.*'), 'delete', (options) => {
+Mock.mock(RegExp('mock/course/offline/course.*'), 'delete', (options) => {
   let urls = options.url.split('/');
   let id = urls[ urls.length - 1 ];
 
@@ -66,7 +66,7 @@ Mock.mock(RegExp('mock/offline/course.*'), 'delete', (options) => {
 
 // 添加课程
 let guid = 100000;
-Mock.mock('mock/course/create', 'post', (options) => {
+Mock.mock('mock/course/offline/create', 'post', (options) => {
   let body = JSON.parse(options.body);
   body.courseId = guid++;
 
