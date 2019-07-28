@@ -213,8 +213,8 @@ export default {
         this.toast(res.errorDesc, true);
         return;
       }
-      this.pagination.total = res.result.data.total;
-      this.data = res.result.data.content;
+      this.pagination.total = res.result.total;
+      this.data = res.result.content;
     },
 
     addCourse () {
