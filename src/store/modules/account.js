@@ -40,6 +40,9 @@ export default {
       let ret = await postLogin({userName: name, password, verifyCode});
       if (ret.errorNo === 200) {
         commit('setuser', ret.result);
+
+        localStorage.setItem('dbid', ret.result.dbid);
+
         return;
       }
       return ret.errorDesc;

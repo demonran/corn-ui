@@ -4,11 +4,7 @@ import mock from './mockHttp';
 import qs from 'qs';
 
 export async function createCourse (data) {
-  return mock.post('/course/create', data, {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+  return http.post('/course/create', data);
 }
 
 export default {

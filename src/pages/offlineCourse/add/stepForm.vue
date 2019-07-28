@@ -60,6 +60,7 @@ export default {
       console.log(data);
       let error = await this.postCreateCourse(data);
       this.hideLoading();
+      console.log(error);
 
       if (error) {
         this.toast(error, true);
