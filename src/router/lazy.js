@@ -74,7 +74,7 @@ export default new Router({
           children: [
             {
               path: '/signUp/online',
-              name: '线下报名',
+              name: '线上报名',
               component: () => import('@/pages/signUp/online'),
               icon: 'none'
             },
