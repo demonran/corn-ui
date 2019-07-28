@@ -50,10 +50,6 @@
        </div>
 
        <a-table :columns="columns" rowKey="courseId" :pagination="pagination" :dataSource="data" :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}">
-<<<<<<< HEAD
-
-=======
->>>>>>> 33df72468e6b7acb17d28112abe523f5bc408ee8
             <span slot="courseId" slot-scope="text,record,index">
              {{index+1}}
            </span>
@@ -100,12 +96,8 @@ export default {
         current: 1,
         showSizeChanger: true,
         showQuickJumper: true,
-<<<<<<< HEAD
         showTotal (total) { return `共${total}项`; }
 
-=======
-        showTotal (total) { return `共${total}项`; },
->>>>>>> 33df72468e6b7acb17d28112abe523f5bc408ee8
       },
 
       filterStatus: 1,
@@ -190,7 +182,6 @@ export default {
   },
   computed: {
   },
-<<<<<<< HEAD
   created () {
     this.pagination.onShowSizeChange = (index, pageSize) => {
       this.list({pageNum: index, pageSize});
@@ -198,16 +189,6 @@ export default {
     this.pagination.onChange = (index, pageSize) => {
       this.list({pageNum: index, pageSize});
     };
-=======
-  created()
-  {
-    this.pagination.onShowSizeChange =  (index,pageSize) => {
-          this.list({pageNum:index, pageSize});
-    }
-    this.pagination.onChange = (index, pageSize)=>{
-      this.list({pageNum:index, pageSize});
-    }
->>>>>>> 33df72468e6b7acb17d28112abe523f5bc408ee8
   },
   mounted () {
     this.list();
@@ -253,11 +234,7 @@ export default {
     async  deleteRow (row) {
       this.showLoading();
 
-<<<<<<< HEAD
       let ret = await OfflineCurse.delete(row.courseId);
-=======
-      let ret = await OfflineCurse.delete( row.courseId );
->>>>>>> 33df72468e6b7acb17d28112abe523f5bc408ee8
 
       this.hideLoading();
 
