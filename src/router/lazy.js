@@ -52,6 +52,7 @@ export default new Router({
             {
               path: '/course/offline',
               name: '线下课程',
+              title: '12323',
               component: () => import('@/pages/offlineCourse/list'),
               icon: 'none'
             },
@@ -60,6 +61,27 @@ export default new Router({
               name: '添加线下课程',
               invisible: true,
               component: () => import('@/pages/offlineCourse/add'),
+              icon: 'none'
+            }
+          ]
+        },
+        // 报名模块
+        {
+          path: '/signUp',
+          name: '报名',
+          component: RouteView,
+          icon: 'table',
+          children: [
+            {
+              path: '/signUp/online',
+              name: '线下报名',
+              component: () => import('@/pages/signUp/online'),
+              icon: 'none'
+            },
+            {
+              path: '/signUp/offline',
+              name: '线下报名',
+              component: () => import('@/pages/signUp/offline'),
               icon: 'none'
             }
           ]
