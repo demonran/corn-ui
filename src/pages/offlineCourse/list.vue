@@ -92,8 +92,8 @@ export default {
   data () {
     return {
       pagination: {
-        pageSize: 10,
-        total: 50,
+        pageSize: 0,
+        total: 0,
         current: 1,
         showSizeChanger: true,
         showQuickJumper: true,
@@ -199,6 +199,7 @@ export default {
 
   },
   methods: {
+<<<<<<< HEAD
     async list (query) {
       if( !query ) query = {pageNum:this.pagination.current, pageSize:this.pagination.pageSize};
       if( !query.pageSize ) query.pageSize = this.pagination.pageSize;
@@ -217,6 +218,15 @@ export default {
       }
       this.pagination.total = res.result.pagination.total;
       this.data = res.result.list;
+=======
+    list () {
+      OfflineCurse.list().then(res => {
+        this.data = res.result.content;
+        this.pagination.pageSize = res.result.pageSize;
+        this.pagination.current = res.result.current;
+        this.pagination.total = res.result.total;
+      });
+>>>>>>> 显示分页
     },
 
     addCourse () {
