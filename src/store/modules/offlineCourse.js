@@ -1,5 +1,5 @@
 
-import {createCourse} from '../../services/offlineCurse';
+import Offline from '../../services/offlineCurse';
 
 export default {
   namespaced: true,
@@ -13,7 +13,7 @@ export default {
   },
   actions: {
     async postCreateCourse ({dispatch, commit}, data) {
-      let ret = await createCourse(data);
+      let ret = await Offline.create(data);
       if (ret.errorNo === 200) {
         commit('createdCoursePage', ret.result);
         return;
