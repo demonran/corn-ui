@@ -50,7 +50,7 @@
        </div>
 
        <a-table :columns="columns" rowKey="courseId" :pagination="pagination" :dataSource="data" :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}">
-          
+
             <span slot="courseId" slot-scope="text,record,index">
              {{index+1}}
            </span>
@@ -97,19 +97,19 @@ export default {
         current: 1,
         showSizeChanger: true,
         showQuickJumper: true,
-        showTotal (total) { return `共${total}项`; },
-       
+        showTotal (total) { return `共${total}项`; }
+
       },
 
       filterStatus: 1,
-      filterKeyword:"",
+      filterKeyword: '',
 
       columns: [
         {
           title: '序号',
           dataIndex: 'courseId',
           width: '60px',
-          key:'courseId',
+          key: 'courseId',
           scopedSlots: { customRender: 'courseId' }
         },
         {
@@ -183,14 +183,13 @@ export default {
   },
   computed: {
   },
-  created()
-  {
-    this.pagination.onShowSizeChange =  (index,pageSize) => {      
-          this.list({pageNum:index, pageSize});
-    }
-    this.pagination.onChange = (index, pageSize)=>{
-      this.list({pageNum:index, pageSize});
-    }
+  created () {
+    this.pagination.onShowSizeChange = (index, pageSize) => {
+      this.list({pageNum: index, pageSize});
+    };
+    this.pagination.onChange = (index, pageSize) => {
+      this.list({pageNum: index, pageSize});
+    };
   },
   mounted () {
     this.list();
@@ -200,11 +199,11 @@ export default {
   },
   methods: {
     async list (query) {
-      if( !query ) query = {pageNum:this.pagination.current, pageSize:this.pagination.pageSize};
-      if( !query.pageSize ) query.pageSize = this.pagination.pageSize;
+      if (!query) query = {pageNum: this.pagination.current, pageSize: this.pagination.pageSize};
+      if (!query.pageSize) query.pageSize = this.pagination.pageSize;
 
-     query.status = this.filterStatus;
-      if( this.filterKeyword ) query.keywords=this.filterKeyword;
+      query.status = this.filterStatus;
+      if (this.filterKeyword) query.keywords = this.filterKeyword;
 
       this.showLoading();
       let res = await OfflineCurse.list(query);
@@ -227,22 +226,20 @@ export default {
       this.selectedRowKeys = selectedRowKeys;
     },
     resetList () {
-        this.filterKeyword = "";
-        this.list({pageNum:1});
+      this.filterKeyword = '';
+      this.list({pageNum: 1});
     },
-    search()
-    {
-       this.list({pageNum:1});
+    search () {
+      this.list({pageNum: 1});
     },
-    async  deleteRow(row)
-    {
+    async  deleteRow (row) {
       this.showLoading();
- 
-      let ret = await OfflineCurse.delete( row.courseId );
+
+      let ret = await OfflineCurse.delete(row.courseId);
 
       this.hideLoading();
 
-      console.log( ret );
+      console.log(ret);
     }
   }
 };

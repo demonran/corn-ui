@@ -6,7 +6,7 @@ const CourseList = Mock.mock({
     {
       'dbid': '00000',
       'courseId|+1': 11452681,
-      'status':'@COURSESTATE',
+      'status': '@COURSESTATE',
       'courseCode': 'xxkc001',
       'courseName': '少儿绘画入门班',
       'courseTitle': '少儿绘画入门班',
@@ -29,11 +29,9 @@ const CourseList = Mock.mock({
   ]
 }).list;
 
-//查询列表
+// 查询列表
 Mock.mock(RegExp('mock/offline/course/search.*'), 'get', (options) => {
-
-  console.log( options );
-
+  console.log(options);
 
   let ret = {
     data: {
@@ -50,21 +48,34 @@ Mock.mock(RegExp('mock/offline/course/search.*'), 'get', (options) => {
   return ret;
 });
 
-//删除课程
-Mock.mock(RegExp('mock/offline/course.*'), 'delete',(options)=>{
-   let urls = options.url.split('/');
-   let id = urls[urls.length -1 ];
-   
-   let n = CourseList.length;
-   while( n-- ) {
-      if( CourseList[n].courseId == id)
-      {
-          CourseList.splice( n , 1);
-          break;
-      }
-   }
-   return {
-      errorMessage: '',
-      statusCode: 200
-   };
+// 删除课程
+Mock.mock(RegExp('mock/offline/course.*'), 'delete', (options) => {
+  let urls = options.url.split('/');
+  let id = urls[ urls.length - 1 ];
+
+  let n = CourseList.length;
+  while (n--) {
+    if (CourseList[n].courseId == id) {
+      CourseList.splice(n, 1);
+      break;
+    }
+  }
+  return {
+    errorMessage: '',
+    statusCode: 200
+  };
+});
+
+// 添加课程
+let guid = 100000;
+Mock.mock('mock/course/create', 'post', (options) => {
+  let body = JSON.parse(options.body);
+  body.courseId = guid++;
+
+  CourseList.push(body);
+  return {
+    data: body,
+    errorMessage: '',
+    statusCode: 200
+  };
 });

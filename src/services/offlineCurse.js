@@ -1,10 +1,10 @@
-import http from './http';
+// import http from './http';
 import mock from './mockHttp';
 
 import qs from 'qs';
 
 export async function createCourse (data) {
-  return http.post('/course/create', qs.stringify(data), {
+  return mock.post('/course/create', data, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -13,11 +13,10 @@ export async function createCourse (data) {
 
 export default {
   list (query) {
-    let params = qs.stringify( query );
-    return mock.get('/offline/course/search?'+params);
+    let params = qs.stringify(query);
+    return mock.get('/offline/course/search?' + params);
   },
-  delete(id)
-  {
-     return mock.delete('/offline/course/' + id);
+  delete (id) {
+    return mock.delete('/offline/course/' + id);
   }
 };

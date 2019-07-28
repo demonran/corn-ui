@@ -71,5 +71,5 @@ export default {
       }
       return {errorNo: status, errorDesc: desc};
     }
-  },
+  }
 };
