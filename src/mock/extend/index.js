@@ -4,6 +4,10 @@ import {logos, sayings, positions, avatars, admins} from '../common';
 const Random = Mock.Random;
 
 Random.extend({
+  coursestate () {
+    return this.pick([0, 1]);
+  },
+
   admin () {
     return this.pick(admins);
   },

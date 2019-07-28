@@ -38,20 +38,23 @@
        <div slot="extra" class="search-pannel">
 
             <a-radio-group v-model="filterStatus">
-                <a-radio-button value="1">在招</a-radio-button>
-                <a-radio-button value="0">停招</a-radio-button>
+                <a-radio-button :value="1">在招</a-radio-button>
+                <a-radio-button :value="0">停招</a-radio-button>
             </a-radio-group>
 
            <div class="label name">名称</div>
-           <a-input placeholder="课程名称" class="input"/>
+           <a-input placeholder="课程名称" class="input" v-model="filterKeyword"/>
 
-           <a-button type="primary" class="search-btn">查询</a-button>
+           <a-button type="primary" class="search-btn" @click="search">查询</a-button>
            <a-button type="primary" ghost @click="resetList">重置</a-button>
        </div>
 
        <a-table :columns="columns" rowKey="courseId" :pagination="pagination" :dataSource="data" :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}">
-           <span slot="id" slot-scope="text,record,index">
-               {{index+100}}
+            <span slot="courseId" slot-scope="text,record,index">
+             {{index+1}}
+           </span>
+           <span slot="status" slot-scope="text,record,index">
+             {{text == 1?"在招":'停招'}}
            </span>
            <span slot="action" slot-scope="record">
             <a href="javascript:;">详情</a>
@@ -60,7 +63,7 @@
               <a-menu slot="overlay">
                 <a-menu-item><a>推荐首页</a></a-menu-item>
                 <a-menu-item><a>编辑</a></a-menu-item>
-                <a-menu-item><a>删除</a></a-menu-item>
+                <a-menu-item  @click="deleteRow(record)" ><a>删除</a></a-menu-item>
               </a-menu>
               <a>更多<a-icon type="down"/></a>
             </a-dropdown>
@@ -89,23 +92,24 @@ export default {
     return {
       pagination: {
         pageSize: 10,
-        total: 50,
+        total: 0,
         current: 1,
         showSizeChanger: true,
         showQuickJumper: true,
-        showTotal (total) { return `共${total}项`; },
-        onShowSizeChange () {
-          console.log('onShowSizeChange');
-        }
+        showTotal (total) { return `共${total}项`; }
+
       },
 
-      filterStatus: '0',
+      filterStatus: 1,
+      filterKeyword: '',
+
       columns: [
         {
           title: '序号',
-          key: 'id',
+          dataIndex: 'courseId',
           width: '60px',
-          scopedSlots: { customRender: 'id' }
+          key: 'courseId',
+          scopedSlots: { customRender: 'courseId' }
         },
         {
           title: '课程名称',
@@ -161,8 +165,9 @@ export default {
         {
           title: '状态',
           width: '80px',
-          dataIndex: 'courseId',
-          key: 'courseId'
+          dataIndex: 'status',
+          key: 'status',
+          scopedSlots: { customRender: 'status' }
         },
         {
           title: '操作',
@@ -177,6 +182,14 @@ export default {
   },
   computed: {
   },
+  created () {
+    this.pagination.onShowSizeChange = (index, pageSize) => {
+      this.list({pageNum: index, pageSize});
+    };
+    this.pagination.onChange = (index, pageSize) => {
+      this.list({pageNum: index, pageSize});
+    };
+  },
   mounted () {
     this.list();
   },
@@ -184,16 +197,24 @@ export default {
 
   },
   methods: {
-    async list () {
+    async list (query) {
+      if (!query) query = {pageNum: this.pagination.current, pageSize: this.pagination.pageSize};
+      if (!query.pageSize) query.pageSize = this.pagination.pageSize;
+
+      query.status = this.filterStatus;
+      if (this.filterKeyword) query.keywords = this.filterKeyword;
+
       this.showLoading();
-      let res = await OfflineCurse.list();
+      let res = await OfflineCurse.list(query);
+
       console.log(res);
       this.hideLoading();
       if (res.errorNo != 200) {
         this.toast(res.errorDesc, true);
         return;
       }
-      this.data = res.result.list;
+      this.pagination.total = res.result.total;
+      this.data = res.result.content;
     },
 
     addCourse () {
@@ -204,7 +225,20 @@ export default {
       this.selectedRowKeys = selectedRowKeys;
     },
     resetList () {
+      this.filterKeyword = '';
+      this.list({pageNum: 1});
+    },
+    search () {
+      this.list({pageNum: 1});
+    },
+    async  deleteRow (row) {
+      this.showLoading();
 
+      let ret = await OfflineCurse.delete(row.courseId);
+
+      this.hideLoading();
+
+      console.log(ret);
     }
   }
 };
