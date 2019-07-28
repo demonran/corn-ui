@@ -1,4 +1,6 @@
 import http from './http';
+import mock from './mockHttp';
+
 import qs from 'qs';
 
 export async function createCourse (data) {
@@ -11,6 +13,6 @@ export async function createCourse (data) {
 
 export default {
   list () {
-    return http.get('/course/getAll');
+    return mock.get('/offline/course/getAll');
   }
 };
