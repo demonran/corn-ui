@@ -49,7 +49,7 @@
            <a-button type="primary" ghost @click="resetList">重置</a-button>
        </div>
 
-       <a-table :columns="columns" :pagination="pagination" :dataSource="data" :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}">
+       <a-table :columns="columns" rowKey="courseId" :pagination="pagination" :dataSource="data" :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}">
            <span slot="id" slot-scope="text,record,index">
                {{index+100}}
            </span>
@@ -78,8 +78,12 @@
 import PageHeader from '../../components/page/PageHeader';
 import PageLayout from '../../layouts/PageLayout';
 import OfflineCurse from '@/services/offlineCurse';
+import comm from '../mix';
+
 export default {
   name: 'PageView',
+  mixins: [comm],
+
   components: {PageLayout, PageHeader},
   data () {
     return {
@@ -180,11 +184,18 @@ export default {
 
   },
   methods: {
-    list () {
-      OfflineCurse.list().then(res => {
-        this.data = res.result;
-      });
+    async list () {
+      this.showLoading();
+      let res = await OfflineCurse.list();
+      console.log(res);
+      this.hideLoading();
+      if (res.errorNo != 200) {
+        this.toast(res.errorDesc, true);
+        return;
+      }
+      this.data = res.result.list;
     },
+
     addCourse () {
       this.$router.push('/course/addOffline');
     },
