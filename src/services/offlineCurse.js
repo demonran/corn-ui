@@ -14,7 +14,7 @@ export async function createCourse (data) {
 export default {
   list (query) {
     let params = qs.stringify( query );
-    return mock.get('/offline/course/search?'+params);
+    return mock.get('/course/offline/search?'+params);
   },
   delete(id)
   {
