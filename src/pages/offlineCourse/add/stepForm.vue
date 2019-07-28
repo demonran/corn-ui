@@ -58,8 +58,6 @@ export default {
       };
 
       console.log(data);
-      data.status = 1;
-      
       let error = await this.postCreateCourse(data);
       this.hideLoading();
 
