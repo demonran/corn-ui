@@ -113,8 +113,8 @@ export default {
         },
         {
           title: '课程名称',
-          dataIndex: 'courseTitle',
-          key: 'courseTitle'
+          dataIndex: 'courseName',
+          key: 'courseName'
         },
         {
           title: '类型',
@@ -149,12 +149,6 @@ export default {
           width: '90px',
           dataIndex: 'limitStudents',
           key: 'limitStudents'
-        },
-        {
-          title: '已有学员',
-          width: '90px',
-          dataIndex: 'totalAmount',
-          key: 'totalAmount'
         },
         {
           title: '总课时',

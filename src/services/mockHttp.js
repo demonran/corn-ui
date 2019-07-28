@@ -1,4 +1,5 @@
 import axios from 'axios';
+import patch from './httpPatch';
 
 let opt = {
   // baseURL: 'https://www.infish.cn/xwjErpApi', //https://www.infish.cn/xwjErpApi
@@ -6,66 +7,11 @@ let opt = {
   baseURL: 'mock'
 };
 
-
 const http = axios.create(opt);
 
 export default {
-  async get (...params) {
-    try {
-      let ret = await http.get(...params);
-      if (ret.status >= 200 && ret.status <= 300) {
-        let data = ret.data;
-        return {errorNo: data.statusCode ? data.statusCode : 200, result: data.data, errorDesc: data.errorMessage ? data.errorMessage : 'success'};
-      }
-      return {errorNo: ret.status, errorDesc: ret.statusText};
-    } catch (error) {
-      let status = 400;
-      let desc = error.message;
-      let response = error.response;
-      if (response) {
-        status = response.status;
-        desc = JSON.stringify(response.data);
-      }
-      return {errorNo: status, errorDesc: desc};
-    }
-  },
-  async post (...params) {
-    try {
-      let ret = await http.post(...params);
-      if (ret.status >= 200 && ret.status <= 300) {
-        let data = ret.data;
-        return {errorNo: data.statusCode ? data.statusCode : 200, result: data.data, errorDesc: data.errorMessage ? data.errorMessage : 'success'};
-      }
-      return {errorNo: ret.status, errorDesc: ret.statusText};
-    } catch (error) {
-      let status = 400;
-      let desc = error.message;
-      let response = error.response;
-      if (response) {
-        status = response.status;
-        desc = JSON.stringify(response.data);
-      }
-      return {errorNo: status, errorDesc: desc};
-    }
-  },
-
-  async delete (...params) {
-    try {
-      let ret = await http.delete(...params);
-      if (ret.status >= 200 && ret.status <= 300) {
-        let data = ret.data;
-        return {errorNo: data.statusCode ? data.statusCode : 200, result: data.data, errorDesc: data.errorMessage ? data.errorMessage : 'success'};
-      }
-      return {errorNo: ret.status, errorDesc: ret.statusText};
-    } catch (error) {
-      let status = 400;
-      let desc = error.message;
-      let response = error.response;
-      if (response) {
-        status = response.status;
-        desc = JSON.stringify(response.data);
-      }
-      return {errorNo: status, errorDesc: desc};
-    }
-  }
+  get:patch (http, 'get'),
+  post:patch(http, 'post'),
+  delete:patch(http, 'delete'),
+  put:patch(http, 'put')
 };

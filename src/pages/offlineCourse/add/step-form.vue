@@ -6,6 +6,7 @@
       <a-step title="上课时间" />
       <a-step title="完成" />
     </a-steps>
+    
     <div class="content">
       <step1 ref="step1" v-show="current === 0" @nextStep="nextStep"></step1>
       <step2 ref="step2" v-show="current === 1" @nextStep="nextStep" @prevStep="prevStep"></step2>
@@ -60,7 +61,7 @@ export default {
 
       console.log(data);
       data.status = 1;
-      let error = await OfflineCurse.create(data);
+      let error = await this.postCreateCourse(data);
       this.hideLoading();
 
       if (error) {

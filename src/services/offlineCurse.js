@@ -10,7 +10,7 @@ export default {
     return http.get('/course/offline/search?' + params);
   },
   delete(id) {
-    return mock.delete('/course/offline/' + id);
+    return http.delete('/course/offline/' + id);
   },
 
   create(data) {
