@@ -1,4 +1,4 @@
-// import http from './http';
+import http from './http';
 import mock from './mockHttp';
 
 import qs from 'qs';
