@@ -6,7 +6,7 @@ const CourseList = Mock.mock({
     {
       'dbid': '00000',
       'courseId|+1': 11452681,
-
+      'status':'@COURSESTATE',
       'courseCode': 'xxkc001',
       'courseName': '少儿绘画入门班',
       'courseTitle': '少儿绘画入门班',
@@ -29,12 +29,17 @@ const CourseList = Mock.mock({
   ]
 }).list;
 
-Mock.mock(RegExp('mock/offline/course/getAll.*'), 'get', () => {
+//查询列表
+Mock.mock(RegExp('mock/offline/course/search.*'), 'get', (options) => {
+
+  console.log( options );
+
+
   let ret = {
     data: {
       list: CourseList,
       pagination: {
-        total: 50,
+        total: 30,
         pageSize: 10,
         pageNum: 1
       }
@@ -43,4 +48,23 @@ Mock.mock(RegExp('mock/offline/course/getAll.*'), 'get', () => {
     statusCode: 200
   };
   return ret;
+});
+
+//删除课程
+Mock.mock(RegExp('mock/offline/course.*'), 'delete',(options)=>{
+   let urls = options.url.split('/');
+   let id = urls[urls.length -1 ];
+   
+   let n = CourseList.length;
+   while( n-- ) {
+      if( CourseList[n].courseId == id)
+      {
+          CourseList.splice( n , 1);
+          break;
+      }
+   }
+   return {
+      errorMessage: '',
+      statusCode: 200
+   };
 });

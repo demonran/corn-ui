@@ -12,7 +12,12 @@ export async function createCourse (data) {
 }
 
 export default {
-  list () {
-    return mock.get('/offline/course/getAll');
+  list (query) {
+    let params = qs.stringify( query );
+    return mock.get('/offline/course/search?'+params);
+  },
+  delete(id)
+  {
+     return mock.delete('/offline/course/' + id);
   }
 };
