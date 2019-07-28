@@ -6,7 +6,7 @@ let opt = {
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 };
 if (process && process.env.NODE_ENV === 'production') {
-  opt.baseURL = 'api-yumimiao';
+  opt.baseURL = '/api-yumimiao';
 } else {
   opt.baseURL = 'mock';
 }
