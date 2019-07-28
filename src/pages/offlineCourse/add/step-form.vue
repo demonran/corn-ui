@@ -23,6 +23,7 @@ import Step3 from './step3';
 import Step4 from './step4';
 import mix from '../../mix';
 import {mapActions} from 'vuex';
+import OfflineCurse from '@/services/offlineCurse';
 export default {
   name: 'StepForm',
   mixins: [mix],
@@ -58,7 +59,8 @@ export default {
       };
 
       console.log(data);
-      let error = await this.postCreateCourse(data);
+      data.status = 1;
+      let error = await OfflineCurse.create(data);
       this.hideLoading();
 
       if (error) {

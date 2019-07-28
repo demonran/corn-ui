@@ -31,7 +31,7 @@
 <script>
 import PageHeader from '../../components/page/PageHeader';
 import PageLayout from '../../layouts/PageLayout';
-import Add from './add/stepForm';
+import Add from './add/step-form';
 
 export default {
   name: 'PageView',
