@@ -3,7 +3,7 @@ import mock from './mockHttp';
 
 import qs from 'qs';
 
-export async function createCourse (data) {
+export async function createCourse(data) {
   return mock.post('/course/create', data, {
     headers: {
       'Content-Type': 'application/json'
@@ -12,11 +12,14 @@ export async function createCourse (data) {
 }
 
 export default {
-  list (query) {
+  list(query) {
     let params = qs.stringify(query);
-    return mock.get('/offline/course/search?' + params);
+    return http.get('/course/offline/search?' + params);
   },
-  delete (id) {
+  delete(id) {
     return mock.delete('/offline/course/' + id);
+  },
+  create(data) {
+    return http.post('/course/offline/create', data);
   }
 };
