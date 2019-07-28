@@ -50,7 +50,11 @@
        </div>
 
        <a-table :columns="columns" rowKey="courseId" :pagination="pagination" :dataSource="data" :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}">
+<<<<<<< HEAD
           
+=======
+
+>>>>>>> 显示分页
             <span slot="courseId" slot-scope="text,record,index">
              {{index+1}}
            </span>
@@ -92,13 +96,17 @@ export default {
   data () {
     return {
       pagination: {
-        pageSize: 0,
+        pageSize: 10,
         total: 0,
         current: 1,
         showSizeChanger: true,
         showQuickJumper: true,
         showTotal (total) { return `共${total}项`; },
+<<<<<<< HEAD
        
+=======
+
+>>>>>>> 显示分页
       },
 
       filterStatus: 1,
@@ -185,7 +193,11 @@ export default {
   },
   created()
   {
+<<<<<<< HEAD
     this.pagination.onShowSizeChange =  (index,pageSize) => {      
+=======
+    this.pagination.onShowSizeChange =  (index,pageSize) => {
+>>>>>>> 显示分页
           this.list({pageNum:index, pageSize});
     }
     this.pagination.onChange = (index, pageSize)=>{
@@ -200,6 +212,9 @@ export default {
   },
   methods: {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 显示分页
     async list (query) {
       if( !query ) query = {pageNum:this.pagination.current, pageSize:this.pagination.pageSize};
       if( !query.pageSize ) query.pageSize = this.pagination.pageSize;
@@ -217,6 +232,7 @@ export default {
         return;
       }
       this.pagination.total = res.result.pagination.total;
+<<<<<<< HEAD
       this.data = res.result.list;
 =======
     list () {
@@ -226,6 +242,9 @@ export default {
         this.pagination.current = res.result.current;
         this.pagination.total = res.result.total;
       });
+>>>>>>> 显示分页
+=======
+      this.data = res.result.pagination.content;
 >>>>>>> 显示分页
     },
 
@@ -247,7 +266,11 @@ export default {
     async  deleteRow(row)
     {
       this.showLoading();
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 显示分页
       let ret = await OfflineCurse.delete( row.courseId );
 
       this.hideLoading();
