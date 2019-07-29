@@ -57,18 +57,18 @@
              {{text == 1?"在招":'停招'}}
            </span>
            <span slot="action" slot-scope="record">
-            <a href="javascript:;">详情</a>
+            <a href="javascript:;" @click="updateRow(record)" >编辑</a>
             <a-divider type="vertical" />
-            <a-dropdown>
+            <a href="javascript:;" @click="deleteRow(record)" >删除</a>
+            <!-- <a-dropdown>
               <a-menu slot="overlay">
                 <a-menu-item><a>推荐首页</a></a-menu-item>
                 <a-menu-item><a>编辑</a></a-menu-item>
                 <a-menu-item  @click="deleteRow(record)" ><a>删除</a></a-menu-item>
               </a-menu>
               <a>更多<a-icon type="down"/></a>
-            </a-dropdown>
+            </a-dropdown> -->
             </span>
-
        </a-table>
        <div class="footer">
 
@@ -233,6 +233,10 @@ export default {
       this.hideLoading();
 
       console.log(ret);
+    },
+    async updateRow( row )
+    {
+        this.$router.push({name:'编辑线下课程', params:{courseId:row.courseId}});
     }
   }
 };
