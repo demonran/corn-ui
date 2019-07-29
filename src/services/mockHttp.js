@@ -10,8 +10,8 @@ let opt = {
 const http = axios.create(opt);
 
 export default {
-  get:patch (http, 'get'),
-  post:patch(http, 'post'),
-  delete:patch(http, 'delete'),
-  put:patch(http, 'put')
+  get: patch(http, 'get'),
+  post: patch(http, 'post'),
+  delete: patch(http, 'delete'),
+  put: patch(http, 'put')
 };

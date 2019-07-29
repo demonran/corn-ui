@@ -5,6 +5,9 @@ import App from './App';
 import router from './router/lazy';
 import 'ant-design-vue/dist/antd.css';
 import Antd from 'ant-design-vue';
+import './components/ui';
+import './components/tableCell';
+
 // import { Form } from 'ant-design-vue'
 import Viser from 'viser-vue';
 import axios from 'axios';
@@ -16,8 +19,8 @@ import services from './services/index';
 Vue.prototype.$srv = services;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
-Vue.use( Viser );
-Vue.use( Antd );
+Vue.use(Viser);
+Vue.use(Antd);
 // Vue.prototype.$form = Form
 
 window.Bus = new Vue();
