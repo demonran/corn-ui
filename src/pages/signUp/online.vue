@@ -89,71 +89,71 @@
 </template>
 
 <script>
-import PageLayout from "../../layouts/PageLayout";
+import PageLayout from '../../layouts/PageLayout';
 
 const columns = [
   {
-    title: "序号",
-    dataIndex: "no",
-    key: "id"
+    title: '序号',
+    dataIndex: 'no',
+    key: 'id'
   },
   {
-    title: "姓名",
-    dataIndex: "name",
-    scopedSlots: { customRender: "name" },
-    key: "name"
+    title: '姓名',
+    dataIndex: 'name',
+    scopedSlots: { customRender: 'name' },
+    key: 'name'
   },
   {
-    title: "家长信息",
-    dataIndex: "info",
-    scopedSlots: { customRender: "info" },
-    key: "info"
+    title: '家长信息',
+    dataIndex: 'info',
+    scopedSlots: { customRender: 'info' },
+    key: 'info'
   },
   {
-    title: "课程名称",
-    dataIndex: "courseName",
-    scopedSlots: { customRender: "courseName" },
-    key: "courseName"
+    title: '课程名称',
+    dataIndex: 'courseName',
+    scopedSlots: { customRender: 'courseName' },
+    key: 'courseName'
   },
   {
-    title: "课时",
-    dataIndex: "courseTime"
+    title: '课时',
+    dataIndex: 'courseTime'
   },
   {
-    title: "学费",
-    dataIndex: "courseFee",
-    scopedSlots: { customRender: "courseFee" },
-    key: "courseFee"
+    title: '学费',
+    dataIndex: 'courseFee',
+    scopedSlots: { customRender: 'courseFee' },
+    key: 'courseFee'
   },
   {
-    title: "支付方式",
-    dataIndex: "payType"
+    title: '支付方式',
+    dataIndex: 'payType'
   },
   {
-    title: "推荐人（微信号）",
-    dataIndex: "wechat"
+    title: '推荐人（微信号）',
+    dataIndex: 'wechat'
   },
   {
-    title: "报名时间",
-    dataIndex: "reportTime",
-    scopedSlots: { customRender: "reportTime" },
-    key: "reportTime"
+    title: '报名时间',
+    dataIndex: 'reportTime',
+    scopedSlots: { customRender: 'reportTime' },
+    key: 'reportTime'
   },
   {
-    title: "备注",
-    dataIndex: "remark"
+    title: '备注',
+    dataIndex: 'remark'
   },
   {
-    title: "状态",
-    dataIndex: "status",
-    scopedSlots: { customRender: "status" },
-    key: "status"
+    title: '状态',
+    dataIndex: 'status',
+    scopedSlots: { customRender: 'status' },
+    key: 'status'
   },
   {
-    title: "操作",
-    dataIndex: "action",
-    scopedSlots: { customRender: "action" },
-    key: "action"
+    title: '操作',
+    dataIndex: 'action',
+    scopedSlots: { customRender: 'action' },
+    key: 'action'
   }
 ];
 
@@ -163,23 +163,23 @@ for (let i = 0; i < 25; i++) {
   dataSource.push({
     key: i,
     no: i + 1,
-    name: "name:" + i,
-    info: "info:" + i,
-    courseName: "courseName:" + i,
-    courseTime: "courseTime:" + i,
-    courseFee: "courseFee:" + i,
-    payType: "payType:" + i,
-    wechat: "wechat:" + i,
-    reportTime: "reportTime:" + i,
-    remark: "remark:" + i,
-    status: "status:" + i
+    name: 'name:' + i,
+    info: 'info:' + i,
+    courseName: 'courseName:' + i,
+    courseTime: 'courseTime:' + i,
+    courseFee: 'courseFee:' + i,
+    payType: 'payType:' + i,
+    wechat: 'wechat:' + i,
+    reportTime: 'reportTime:' + i,
+    remark: 'remark:' + i,
+    status: 'status:' + i
   });
 }
 
 export default {
-  name: "online",
+  name: 'online',
   components: { PageLayout },
-  data() {
+  data () {
     return {
       onlinePagination: {
         pageSize: 20,
@@ -187,12 +187,12 @@ export default {
         current: 1,
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ["10", "20", "30", "40"],
-        showTotal(total) {
+        pageSizeOptions: ['10', '20', '30', '40'],
+        showTotal (total) {
           return `共${total}项`;
         },
-        onShowSizeChange() {
-          console.log("showSizeChange");
+        onShowSizeChange () {
+          console.log('showSizeChange');
         }
       },
       advanced: true,
@@ -205,20 +205,20 @@ export default {
   },
   methods: {
     // 导出数据
-    exportData() {},
-    resetClick() {
+    exportData () {},
+    resetClick () {
       this.form.resetFields();
     },
     // 点击提交按钮
-    submitClick(e) {
+    submitClick (e) {
       // e.preventDefault();
       this.form.validateFields((err, values) => {
-        console.log("coming...", err);
-        console.log("coming...", values);
+        console.log('coming...', err);
+        console.log('coming...', values);
         // request
       });
     },
-    validateForm() {
+    validateForm () {
       return new Promise((resolve, reject) => {
         this.form.validateFields((err, values) => {
           if (err) {
@@ -230,7 +230,7 @@ export default {
       });
     },
     // 选中项改变
-    onSelectChange(selectedRowKeys, selectedRows) {
+    onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys;
       this.selectedRows = selectedRows;
     }

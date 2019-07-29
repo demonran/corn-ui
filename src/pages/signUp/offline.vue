@@ -111,84 +111,84 @@
 </template>
 
 <script>
-import PageLayout from "../../layouts/PageLayout";
-import { offlineList } from "@/services/signup";
-import comm from "../mix";
+import PageLayout from '../../layouts/PageLayout';
+import { offlineList } from '@/services/signup';
+import comm from '../mix';
 
 const columns = [
   {
-    title: "序号",
-    dataIndex: "id",
-    scopedSlots: { customRender: "id" },
-    key: "id",
+    title: '序号',
+    dataIndex: 'id',
+    scopedSlots: { customRender: 'id' },
+    key: 'id',
     width: 70
   },
   {
-    title: "姓名",
-    dataIndex: "studentName",
-    scopedSlots: { customRender: "studentName" },
-    key: "studentName",
+    title: '姓名',
+    dataIndex: 'studentName',
+    scopedSlots: { customRender: 'studentName' },
+    key: 'studentName',
     width: 120
   },
   {
-    title: "家长信息",
-    dataIndex: "info",
-    scopedSlots: { customRender: "info" },
-    key: "info",
+    title: '家长信息',
+    dataIndex: 'info',
+    scopedSlots: { customRender: 'info' },
+    key: 'info',
     width: 120
   },
   {
-    title: "课程名称",
-    dataIndex: "courseName",
-    scopedSlots: { customRender: "courseName" },
-    key: "courseName",
+    title: '课程名称',
+    dataIndex: 'courseName',
+    scopedSlots: { customRender: 'courseName' },
+    key: 'courseName',
     width: 250
   },
   {
-    title: "课时",
-    dataIndex: "lesson",
-    key: "lesson",
+    title: '课时',
+    dataIndex: 'lesson',
+    key: 'lesson',
     width: 100
   },
   {
-    title: "学费",
-    dataIndex: "price",
-    scopedSlots: { customRender: "price" },
-    key: "price",
+    title: '学费',
+    dataIndex: 'price',
+    scopedSlots: { customRender: 'price' },
+    key: 'price',
     width: 120
   },
   {
-    title: "支付方式",
-    dataIndex: "payType",
-    key: "payType",
+    title: '支付方式',
+    dataIndex: 'payType',
+    key: 'payType',
     width: 120
   },
   {
-    title: "报名时间",
-    dataIndex: "beginDate",
-    scopedSlots: { customRender: "beginDate" },
-    key: "beginDate",
+    title: '报名时间',
+    dataIndex: 'beginDate',
+    scopedSlots: { customRender: 'beginDate' },
+    key: 'beginDate',
     width: 220
   },
   {
-    title: "备注",
-    key: "remark",
-    dataIndex: "remark"
+    title: '备注',
+    key: 'remark',
+    dataIndex: 'remark'
   },
   {
-    title: "操作",
-    dataIndex: "action",
-    scopedSlots: { customRender: "action" },
-    key: "action",
+    title: '操作',
+    dataIndex: 'action',
+    scopedSlots: { customRender: 'action' },
+    key: 'action',
     width: 200
   }
 ];
 
 export default {
-  name: "offline",
+  name: 'offline',
   mixins: [comm],
   components: { PageLayout },
-  data() {
+  data () {
     return {
       columns: columns,
       page: {
@@ -199,8 +199,8 @@ export default {
       selectedRowKeys: [],
       selectedRows: [],
       form: this.$form.createForm(this),
-      beginDate: "",
-      endDate: "",
+      beginDate: '',
+      endDate: '',
 
       offlinePagination: {
         pageSize: 20,
@@ -208,35 +208,35 @@ export default {
         current: 1,
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ["10", "20", "30", "40"],
-        showTotal(total) {
+        pageSizeOptions: ['10', '20', '30', '40'],
+        showTotal (total) {
           return `共${total}项`;
         },
-        onChange(current, count) {
+        onChange (current, count) {
           // 页码改变的回调，参数是改变后的页码及每页条数
-          console.log("change", current + ":" + count);
+          console.log('change', current + ':' + count);
         },
-        onShowSizeChange(current, count) {
+        onShowSizeChange (current, count) {
           // pageSize 变化的回调
-          console.log("showSizeChange", current + ":" + count);
+          console.log('showSizeChange', current + ':' + count);
         }
       },
       dialogVisible: false,
-      dialogTitle: "新增", // 编辑
+      dialogTitle: '新增', // 编辑
       diaForm: this.$form.createForm(this)
     };
   },
-  mounted() {
+  mounted () {
     this.fetchData();
   },
   methods: {
     // 请求列表数据
-    async fetchData(filter) {
+    async fetchData (filter) {
       this.showLoading();
       var param = null;
       if (filter) {
         param = Object.assign(filter);
-        delete param["time"];
+        delete param['time'];
         param.beginDate = this.beginDate;
         param.endDate = this.endDate;
       }
@@ -255,48 +255,48 @@ export default {
           : this.dataSource.concat(res.result.list);
     },
     // dialog 确认
-    handleOk(e) {
+    handleOk (e) {
       e.preventDefault();
       this.diaForm.validateFields((err, values) => {
-        console.log("coming..handleOk.", values);
+        console.log('coming..handleOk.', values);
       });
     },
     // dialog 取消
-    handleCancel() {
+    handleCancel () {
       this.dialogVisible = false;
     },
     // 导出数据
-    exportData() {},
+    exportData () {},
     // 重置
-    resetClick() {
+    resetClick () {
       this.form.resetFields();
     },
     // 日期改变
-    onDateChange(date, dateString) {
+    onDateChange (date, dateString) {
       if (dateString) {
         this.beginDate = dateString[0];
         this.endDate = dateString[1];
       }
     },
     // 点击添加
-    addClick() {
+    addClick () {
       this.dialogVisible = true;
     },
     // 点击提交按钮
-    submitClick(e) {
+    submitClick (e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
-        console.log("coming...", values);
+        console.log('coming...', values);
         this.fetchData(values);
       });
     },
     // 选中项改变
-    onSelectChange(selectedRowKeys, selectedRows) {
+    onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys;
       this.selectedRows = selectedRows;
     },
 
-    diaSubmit() {}
+    diaSubmit () {}
   }
 };
 </script>

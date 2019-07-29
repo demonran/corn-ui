@@ -35,10 +35,10 @@ Mock.mock(RegExp('mock/course/offline/search.*'), 'get', (options) => {
 
   let ret = {
     data: {
-        content: CourseList,
-        total: 30,
-        pageSize: 10,
-        pageNum: 1
+      content: CourseList,
+      total: 30,
+      pageSize: 10,
+      pageNum: 1
     },
     errorMessage: '',
     statusCode: 200

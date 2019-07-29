@@ -6,7 +6,7 @@
       <a-step title="上课时间" />
       <a-step title="完成" />
     </a-steps>
-    
+
     <div class="content">
       <step1 ref="step1" v-show="current === 0" @nextStep="nextStep"></step1>
       <step2 ref="step2" v-show="current === 1" @nextStep="nextStep" @prevStep="prevStep"></step2>
@@ -24,7 +24,7 @@ import Step3 from './step3';
 import Step4 from './step4';
 import mix from '../../mix';
 import {mapActions} from 'vuex';
-import OfflineCurse from '@/services/offlineCurse';
+
 export default {
   name: 'StepForm',
   mixins: [mix],
