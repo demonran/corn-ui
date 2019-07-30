@@ -70,10 +70,14 @@ let ret = {
       return ret.errorDesc;
     },
     async postAddRow ({dispatch, commit, state}, {name, data}) {
-      let services = dbTables.configs[name].services;
+      
+      let {services, debug} = dbTables.configs[name];
+
       let addUrl = services.add;
 
-      let ret = await http.post(addUrl, qs.stringify(data));
+      let httpObj = debug ? mock : http;
+
+      let ret = await httpObj.post(addUrl, data);
 
       console.log('postAddRow', ret);
 
@@ -85,10 +89,13 @@ let ret = {
       return ret.errorDesc;
     },
     async postUpdateRow ({dispatch, commit, state}, {name, data}) {
-      let services = dbTables.configs[name].services;
+      let {services, debug} = dbTables.configs[name];
+
       let updateUrl = services.update;
 
-      let ret = await http.post(updateUrl, qs.stringify(data));
+      let httpObj = debug ? mock : http;
+
+      let ret = await httpObj.put(updateUrl, data);
       if (ret.errorNo === 200) {
         ret = await dispatch('queryTableList', {name});
         return ret;

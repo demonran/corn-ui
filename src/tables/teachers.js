@@ -9,45 +9,80 @@ export default {
 
   cols: [
     {
-      name: {avatar: '图片'},
-      required: true,
+      name: {avatar: '教师头像'},
       listTable: {
         cell: {
           name: 'imageCell',
           avatar: true
         }
       },
-      addable: true
+      addable: {
+        required: true,
+        ui:"imageui"
+      }
     },
     {
-      name: {name: '名称'},
+      name: {name: '教师名称'},
       required: true,
       listTable: true,
-      addable: true
+      addable: {
+        required: true,
+        ui:"textui"
+      }
     },
     {
       name: {teachCategory: '教学课程'},
-      addable: true,
-      listTable: true
+      listTable: true,
+      addable: {
+        required: true,
+        ui:{
+          selectui:{
+            dataS:{
+              remote:{
+                url:"/category/search?pageNum=1&pageSize=10",
+                filter(row){
+                 return {value:row.categoryId,label:row.name};
+                },
+                debug:true,
+              }
+            }
+          }
+        }
+      }
     },
 
-    {
-      name: {school: '毕业院校'},
-      listTable: true,
-      addable: true,
-      required: true
-    },
+   
     {
       name: {tel: '联系电话'},
       listTable: true,
-      addable: true,
-      required: true
+      addable: {
+        required: true,
+        ui:'textui'
+      },
     },
     {
       name: {address: '家庭住址'},
       listTable: true,
-      addable: true,
-      required: true
+      addable: {
+        required: true,
+        ui:'textui'
+      },
+    },
+      {
+        name: {school: '毕业院校'},
+        listTable: true,
+        addable: {
+          ui:'textui'
+        },
+       
+      },
+    {
+      name: {desc: '详细介绍'},
+      // listTable: true,
+      addable: {
+        // required: true,
+        ui:'richtextui'
+      },
     }
   ],
   services: {

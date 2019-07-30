@@ -25,7 +25,7 @@
       </a-form-item> -->
 
     <a-form-item :wrapperCol="{span: 10, offset: 7}">
-        <a-button type="primary" @click="add">commit</a-button>
+        <a-button type="primary" @click="add">保存</a-button>
     </a-form-item>
     </a-form>
   </a-card>
@@ -113,10 +113,10 @@ export default {
             this.hideLoading();
 
             if (!error) {
-              window.Bus.$emit('ToastSucc', 'added!');
+              this.toast("添加成功！");
               return;
             }
-            window.Bus.$emit('ToastError', error);
+            this.toast(error, true);
           });
           return;
         }
@@ -132,10 +132,10 @@ export default {
             this.hideLoading();
 
             if (!error) {
-              window.Bus.$emit('ToastSucc', 'updated!');
+              this.toast("更新成功！");
               return;
             }
-            window.Bus.$emit('ToastError', error);
+            this.toast(error, true);
           });
         }
       });

@@ -21,7 +21,7 @@ export default {
       let cols = this.cols;
       cols.forEach(item => {
         if (item.addable) {
-          ret.push({...item});
+          ret.push({...item, ...item.addable});
         }
       });
 
