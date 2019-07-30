@@ -66,3 +66,22 @@ Mock.mock('mock/teacher/create', 'post', (options) => {
     statusCode: 200
   };
 });
+
+// 修改
+Mock.mock('mock/teacher/update', 'put', (options) => {
+  let body = JSON.parse(options.body);
+
+  let n = TeacherList.length;
+  while (n--) {
+    if (TeacherList[n].teacherId == body.teacherId) {
+      TeacherList[n] = body;
+      break;
+    }
+  }
+
+  return {
+    data: body,
+    errorMessage: '',
+    statusCode: 200
+  };
+});

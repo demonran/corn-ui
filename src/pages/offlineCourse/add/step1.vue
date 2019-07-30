@@ -33,11 +33,15 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-select showSearch v-decorator="['courseCategory',{rules: [{ required: true, message: '请选择课程分类'}]}]"
+
+         <component :is="'selectui'" :config="categoryConfig" v-decorator="['courseCategory',{rules: [{required:true, validator: checkColsItem }]}]"
+         ></component>
+
+        <!-- <a-select showSearch v-decorator="['courseCategory',{rules: [{ required: true, message: '请选择课程分类'}]}]"
            placeholder="选择课程分类">
           <a-select-option value="1">少儿</a-select-option>
-        </a-select>
-        <a-popover trigger="click">
+        </a-select> -->
+        <!-- <a-popover trigger="click">
           <template slot="content">
             <div class="add-cate-panel">
                <a-input placeholder="请输入分类名称" size="small" v-model="creatingCateName"/>
@@ -45,7 +49,7 @@
             </div>
           </template>
           <a-button ghost size="small" type="primary">添加分类</a-button>
-        </a-popover>
+        </a-popover> -->
 
       </a-form-item>
       <a-form-item
@@ -100,10 +104,14 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-select showSearch v-decorator="['teacher',{rules: [{ required: true, message: '选择主讲教师'}]}]"
+        <!-- <a-select showSearch v-decorator="['teacher',{rules: [{ required: true, message: '选择主讲教师'}]}]"
            placeholder="选择主讲教师">
           <a-select-option value="1">少儿</a-select-option>
-        </a-select>
+        </a-select> -->
+        
+         <component :is="'selectui'" :config="teacherConfig" v-decorator="['teacher',{rules: [{required:true, validator: checkColsItem }]}]"
+         ></component>
+
       </a-form-item>
 
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
@@ -125,10 +133,41 @@ export default {
   data () {
     return {
       form: this.$form.createForm(this),
-      creatingCateName: ''
+      creatingCateName: '',
+      categoryConfig:{
+            dataS:{
+              remote:{
+                url:"/category/search?pageNum=1&pageSize=10",
+                filter(row){
+                 return {value:row.categoryId,label:row.name};
+                },
+                debug:true,
+              }
+            }
+      },
+      
+      teacherConfig: {
+            dataS:{
+              remote:{
+                url:"/teacher/search?pageNum=1&pageSize=20",
+                filter(row){
+                 return {value:row.teacherId,label:row.name + '|' + row.tel};
+                },
+                debug:true,
+              }
+            }
+      },
     };
   },
   methods: {
+      checkColsItem (rule, value, callback) {
+      if (!rule.required || (value !== undefined && value !== null && value !== '')) {
+        callback();
+        return;
+      }
+      callback(`${rule.field} is required!`);
+    },
+
     nextStep () {
       this.form.validateFields((error, values) => {
         if (error) return;
@@ -137,10 +176,6 @@ export default {
         this.values.courseName = values.courseTitle;
         this.values.isShareBrokerage = values.brokerage.isSet == 1;
         this.values.shareBrokerageAmount = values.brokerage.money;
-        delete this.values.brokerage;
-        delete this.values.teacher;
-        delete this.values.courseCategory;
-
         this.$emit('nextStep');
       });
     },

@@ -15,10 +15,13 @@ async function Upload(files, {getFileName, dir})
     let result = [];
     for(let i=0;i<n;i++) {
         let file = files[i];
+        console.log('uploading', file.name);
         let ret =  await  client.put(dir + getFileName(file), file);
+        
         if(ret.res.status == 200)
         {
-            result.push( ret.res.url );
+            result.push( ret.url );
+
             continue;
         }
         console.error(`文件${file.name}上传失败`);
@@ -40,7 +43,7 @@ async function uploadAvatar(file)
     if( !dbid ) {
 
         window.Bus.$emit('Login401');
-        
+
         return {
             errorNo:401,
             errorDesc:"用户未登录！",
@@ -48,9 +51,11 @@ async function uploadAvatar(file)
         }
     }
 
+
     //根据dbid获取上传图片的token
-    let ret = await Upload(file,{dir: dbid +'/images/avatar/', getFileName:(name)=>{Date.now() + getFileExt(name)}});
+    let ret = await Upload([file],{dir: dbid +'/images/avatar/', getFileName:(file)=> Date.now() + getFileExt(file.name)});
     let ok = ret.length == 1;
+
     return {
         errorNo:ok?200:400,
         errorDesc:ok?"图片上传成功！":"图片上传失败！",
@@ -58,6 +63,9 @@ async function uploadAvatar(file)
     }
 }
 
+export default {
+    uploadAvatar
+}
 
 
 

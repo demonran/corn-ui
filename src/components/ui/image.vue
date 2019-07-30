@@ -1,6 +1,8 @@
 <style lang="less" scoped>
 .upload-img-preview{
     width: 120px;
+    height: 120px;
+    object-fit: cover;
 }
 
 </style>
@@ -22,7 +24,8 @@
   </a-upload>
 </template>
 <script>
-import {mapActions} from 'vuex';
+import Oss from '../../services/oss';
+
 export default {
   data () {
     return {
@@ -32,17 +35,18 @@ export default {
   props: ['config','value'],
 
   methods: {
-    ...mapActions('comm', ['postImages']),
-
-    beforeUpload (file, fileList) {
-      this.loading = true;
-      this.postImages(fileList).then((ret) => {
-        this.loading = false;
-        if (ret.length < 1) return;
-        
-        this.$emit('change', ret[0]);
-      });
-      return false;
+     beforeUpload (file, fileList) {
+        this.loading = true;
+        Oss.uploadAvatar(file).then(ret=>{
+            this.loading = false;
+            if( ret.errorNo == 200) {
+              console.log( ret );
+              this.$emit('change', ret.result);
+              return false;
+            }
+            this.toast(ret.errorDesc);
+        })
+        return false;
     }
   }
 };

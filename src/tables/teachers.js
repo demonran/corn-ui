@@ -107,6 +107,7 @@ export default {
     add: {
       name: '添加老师',
       path: '/setting/addteacher',
+      invisible:true,
       config: {
         title: '添加老师'
       }

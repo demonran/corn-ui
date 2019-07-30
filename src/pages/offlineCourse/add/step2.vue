@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import tinymce from '@/components/tinymce';
+import tinymce from '@/components/tinymce/tinymce.vue';
 
 export default {
   name: 'Step2',

@@ -39,6 +39,7 @@ export default {
     add: {
       name: '添加课程分类',
       path: '/setting/addcategory',
+      invisible:true,
       config: {
         title: '添加课程分类'
       }
