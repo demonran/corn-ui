@@ -33,7 +33,7 @@
         <a-button v-show="showUpdate" size="small" type="primary"  icon="reload" @click="updateData">刷新</a-button>
     </slot>
 
-    <a-card :bordered="false">
+    <a-card :bordered="true">
         <!-- <div slot="title">
             <span>Sort By</span>
             <a-select defaultValue="username" style="width: 180px" @change="handleSortChange" size="small">
@@ -52,7 +52,7 @@
             <a-button size="small" type="primary"  @click="reset">reset</a-button>
         </div>
 
-        <a-table :columns="tableConfig.cols" v-if="table && table.length>0" :rowKey="db.id" :dataSource="dataPage?dataPage.list:[]" :pagination="pagination" size="small" @change="tableChange">
+        <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}" :columns="tableConfig.cols" v-if="table && table.length>0" :rowKey="db.id" :dataSource="dataPage?dataPage.list:[]" :pagination="pagination" @change="tableChange">
             <template :slot="item.name" slot-scope="text,record, index" v-for="item in tableConfig.slots" >
                 <component :is="item.cell.name" v-if="item.name != '_actions'" :key="item.name" :config="{text:item.value?item.value(text,record,index):text, record, index, cell:item.cell}" ></component>
                 <div v-else :key="item.name">
@@ -117,7 +117,8 @@ export default {
         }
       },
       data: [],
-      orderBy: ''
+      orderBy: '',
+      selectedRowKeys:[]
     };
   },
   computed: {
@@ -254,7 +255,12 @@ export default {
       }
 
       this.toast('删除成功!');
-    }
+    },
+
+     onSelectChange (selectedRowKeys) {
+      console.log('selectedRowKeys changed: ', selectedRowKeys);
+      this.selectedRowKeys = selectedRowKeys;
+    },
   }
 };
 </script>
