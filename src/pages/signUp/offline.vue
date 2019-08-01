@@ -81,11 +81,11 @@
         <div class="colum_normal">{{text}}2019.09.11 12:22
         </div>
         </template >-->
-        <template slot="action" slot-scope="text">
+        <template slot="action" slot-scope="text,record,index">
           <div class="action_class">
-            <div class="build">编辑</div>
+            <div class="build" @click="edtClick(record)">编辑</div>
             <div class="build">建档</div>
-            <div class="delete">删除</div>
+            <div class="delete" @click="delClick(index)">删除</div>
           </div>
         </template>
       </a-table>
@@ -96,14 +96,108 @@
       centered
       @ok="handleOk"
       @cancel="handleCancel"
+      okText="提交"
       width="600px"
     >
       <a-form :form="diaForm" @submit="diaSubmit">
+        <div class="title">报名信息</div>
         <a-form-item label="学生姓名" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
-          <a-input placeholder="请输入学生姓名" v-decorator="['name']" class="dia_item" />
+          <a-input
+            placeholder="请输入学生姓名"
+            v-decorator="['studentName', {rules: [{ required: true, message: '请输入学生姓名' }]}]"
+            class="dia_item"
+            maxlength="8"
+          />
         </a-form-item>
-        <a-form-item label="时间" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
-          <a-date-picker v-decorator="['date']" format="YYYY-MM-DD" class="dia_item" />
+        <a-form-item label="报名班级" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+          <a-select
+            class="dia_item"
+            placeholder="选择报名班级"
+            :allowClear="true"
+            v-decorator="['schoolClass', {rules: [{ required: true, message: '选择报名班级' }]}]"
+          >
+            <a-select-option :value="1">类型1</a-select-option>
+            <a-select-option :value="2">类型2</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item label="报名时间" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+          <a-date-picker
+            placeholder="请选择报名时间"
+            v-decorator="['registrationTime', {rules: [{ required: true, message: '请选择报名时间' }]}]"
+            format="YYYY-MM-DD"
+            class="dia_item"
+          />
+        </a-form-item>
+        <a-form-item label="报名课程" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+          <a-select
+            class="dia_item"
+            placeholder="选择报名课程"
+            :allowClear="true"
+            v-decorator="['registrationCourse', {rules: [{ required: true, message: '选择报名课程' }]}]"
+          >
+            <a-select-option :value="1">类型1</a-select-option>
+            <a-select-option :value="2">类型2</a-select-option>
+          </a-select>
+          <label class="price">200元/课时</label>
+        </a-form-item>
+        <a-form-item label="报名课时" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+          <a-input
+            placeholder="请输入报名课时"
+            v-decorator="['registrationQuantity', {rules: [{ required: true, message: '请输入报名课时' }]}]"
+            class="dia_item"
+            maxlength="10"
+          />
+        </a-form-item>
+        <a-form-item label="应交学费" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+          <a-input
+            placeholder="请输入应交学费"
+            v-decorator="['totalAmount', {rules: [{ required: true, message: '请输入应交学费' }]}]"
+            class="dia_item"
+            maxlength="10"
+          />
+        </a-form-item>
+        <a-form-item label="支付方式" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+          <a-radio-group
+            name="radioGroup"
+            v-decorator="['payType', {rules: [{ required: true, message: '请选择支付方式' }]}]"
+          >
+            <a-radio :value="1">现金支付</a-radio>
+            <a-radio :value="2">微信支付</a-radio>
+            <a-radio :value="3">刷卡缴费</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item label="备注" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+          <a-textarea
+            :autosize="{ minRows: 4, maxRows: 4 }"
+            v-decorator="['comment', {rules: [{ required: true, message: '请填写备注' }]}]"
+            class="dia_item"
+            maxlength="50"
+          />
+        </a-form-item>
+        <div class="title">家长信息</div>
+        <a-form-item label="家长姓名" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+          <a-input
+            placeholder="请输入家长姓名"
+            v-decorator="['guardianName', {rules: [{ required: true, message: '请输入家长姓名' }]}]"
+            class="dia_item"
+            maxlength="8"
+          />
+        </a-form-item>
+        <a-form-item label="家长电话" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+          <a-input
+            placeholder="请输入家长电话"
+            v-decorator="['guardianPhoneNumber', {rules: [{ required: true, message: '请输入家长电话' }]}]"
+            class="dia_item"
+            maxlength="11"
+          />
+        </a-form-item>
+        <a-form-item label="家庭住址" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
+          <a-input
+            placeholder="请输入家庭住址"
+            v-decorator="['familyAddress', {rules: [{ required: true, message: '请输入家庭住址' }]}]"
+            class="dia_item"
+            maxlength="50"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -111,84 +205,84 @@
 </template>
 
 <script>
-import PageLayout from '../../layouts/PageLayout';
-import { offlineList } from '@/services/signup';
-import comm from '../mix';
+import PageLayout from "../../layouts/PageLayout";
+import { offlineList, addOffline, delOffline } from "@/services/signup";
+import comm from "../mix";
 
 const columns = [
   {
-    title: '序号',
-    dataIndex: 'id',
-    scopedSlots: { customRender: 'id' },
-    key: 'id',
+    title: "序号",
+    dataIndex: "id",
+    scopedSlots: { customRender: "id" },
+    key: "id",
     width: 70
   },
   {
-    title: '姓名',
-    dataIndex: 'studentName',
-    scopedSlots: { customRender: 'studentName' },
-    key: 'studentName',
+    title: "姓名",
+    dataIndex: "studentName",
+    scopedSlots: { customRender: "studentName" },
+    key: "studentName",
     width: 120
   },
   {
-    title: '家长信息',
-    dataIndex: 'info',
-    scopedSlots: { customRender: 'info' },
-    key: 'info',
+    title: "家长信息",
+    dataIndex: "info",
+    scopedSlots: { customRender: "info" },
+    key: "info",
     width: 120
   },
   {
-    title: '课程名称',
-    dataIndex: 'courseName',
-    scopedSlots: { customRender: 'courseName' },
-    key: 'courseName',
+    title: "课程名称",
+    dataIndex: "courseName",
+    scopedSlots: { customRender: "courseName" },
+    key: "courseName",
     width: 250
   },
   {
-    title: '课时',
-    dataIndex: 'lesson',
-    key: 'lesson',
+    title: "课时",
+    dataIndex: "lesson",
+    key: "lesson",
     width: 100
   },
   {
-    title: '学费',
-    dataIndex: 'price',
-    scopedSlots: { customRender: 'price' },
-    key: 'price',
+    title: "学费",
+    dataIndex: "price",
+    scopedSlots: { customRender: "price" },
+    key: "price",
     width: 120
   },
   {
-    title: '支付方式',
-    dataIndex: 'payType',
-    key: 'payType',
+    title: "支付方式",
+    dataIndex: "payType",
+    key: "payType",
     width: 120
   },
   {
-    title: '报名时间',
-    dataIndex: 'beginDate',
-    scopedSlots: { customRender: 'beginDate' },
-    key: 'beginDate',
+    title: "报名时间",
+    dataIndex: "beginDate",
+    scopedSlots: { customRender: "beginDate" },
+    key: "beginDate",
     width: 220
   },
   {
-    title: '备注',
-    key: 'remark',
-    dataIndex: 'remark'
+    title: "备注",
+    key: "remark",
+    dataIndex: "remark"
   },
   {
-    title: '操作',
-    dataIndex: 'action',
-    scopedSlots: { customRender: 'action' },
-    key: 'action',
+    title: "操作",
+    dataIndex: "action",
+    scopedSlots: { customRender: "action" },
+    key: "action",
     width: 200
   }
 ];
 
 export default {
-  name: 'offline',
+  name: "offline",
   mixins: [comm],
   components: { PageLayout },
-  data () {
+  data() {
     return {
       columns: columns,
       page: {
@@ -199,8 +293,8 @@ export default {
       selectedRowKeys: [],
       selectedRows: [],
       form: this.$form.createForm(this),
-      beginDate: '',
-      endDate: '',
+      beginDate: "",
+      endDate: "",
 
       offlinePagination: {
         pageSize: 20,
@@ -208,35 +302,36 @@ export default {
         current: 1,
         showQuickJumper: true,
         showSizeChanger: true,
-        pageSizeOptions: ['10', '20', '30', '40'],
-        showTotal (total) {
+        pageSizeOptions: ["10", "20", "30", "40"],
+        showTotal(total) {
           return `共${total}项`;
         },
-        onChange (current, count) {
+        onChange(current, count) {
           // 页码改变的回调，参数是改变后的页码及每页条数
-          console.log('change', current + ':' + count);
+          console.log("change", current + ":" + count);
         },
-        onShowSizeChange (current, count) {
+        onShowSizeChange(current, count) {
           // pageSize 变化的回调
-          console.log('showSizeChange', current + ':' + count);
+          console.log("showSizeChange", current + ":" + count);
         }
       },
       dialogVisible: false,
-      dialogTitle: '新增', // 编辑
-      diaForm: this.$form.createForm(this)
+      dialogTitle: "新增", // 编辑
+      diaForm: this.$form.createForm(this),
+      edtId: ''
     };
   },
-  mounted () {
-    this.fetchData();
+  mounted() {
+    // this.fetchData();
   },
   methods: {
     // 请求列表数据
-    async fetchData (filter) {
+    async fetchData(filter) {
       this.showLoading();
       var param = null;
       if (filter) {
         param = Object.assign(filter);
-        delete param['time'];
+        delete param["time"];
         param.beginDate = this.beginDate;
         param.endDate = this.endDate;
       }
@@ -254,49 +349,124 @@ export default {
           ? res.result.list
           : this.dataSource.concat(res.result.list);
     },
+    // 点击编辑
+    edtClick(data) {
+      this.edtId = data.id;
+      this.getOfflineById(this.edtId)
+    },
+    // 获取一条信息内容
+    async getOfflineById (id) {
+      this.showLoading();
+      let res = await getOfflineItem({ id });
+      console.log(res);
+      this.hideLoading();
+      if (res.errorNo != 200) {
+        this.toast(res.errorDesc, true);
+        return;
+      }
+      this.toast("获取单条报名信息 成功了");
+      const data = res.result;
+      this.form.setFieldsValue({
+        studentName: data.studentName,
+        schoolClass: data.schoolClass,
+        registrationTime: data.registrationTime,
+        registrationCourse: data.registrationCourse,
+        registrationQuantity: data.registrationQuantity,
+        totalAmount: data.totalAmount,
+        payType: data.payType,
+        comment: data.comment,
+        guardianName: data.guardianName,
+        guardianPhoneNumber: data.guardianPhoneNumber,
+        familyAddress: data.familyAddress
+      });
+      this.dialogVisible = true;
+    },
+    // 删除点击
+    async delClick(id) {
+      this.showLoading();
+      let res = await delOffline({ id });
+      console.log(res);
+      this.hideLoading();
+      if (res.errorNo != 200) {
+        this.toast(res.errorDesc, true);
+        return;
+      }
+      this.toast("删除成功了");
+    },
     // dialog 确认
-    handleOk (e) {
+    handleOk(e) {
       e.preventDefault();
       this.diaForm.validateFields((err, values) => {
-        console.log('coming..handleOk.', values);
+        console.log("coming..handleOk.", values);
+        if (err) {
+          if (this.edtId) {
+            this.updateRequest(values)
+          } else {
+            this.addRequest(values);
+          }
+        }
       });
     },
+    // 更新请求
+    async updateRequest (params) {
+      this.showLoading();
+      let res = await updateOffline(this.edtId, Object.assign(params));
+      console.log(res);
+      this.hideLoading();
+      if (res.errorNo != 200) {
+        this.toast(res.errorDesc, true);
+        return;
+      }
+      this.toast("更新成功了");
+    },
+    // 新增请求
+    async addRequest(params) {
+      this.showLoading();
+      let res = await addOffline(Object.assign(params));
+      console.log(res);
+      this.hideLoading();
+      if (res.errorNo != 200) {
+        this.toast(res.errorDesc, true);
+        return;
+      }
+      this.toast("新增成功了");
+    },
     // dialog 取消
-    handleCancel () {
+    handleCancel() {
       this.dialogVisible = false;
     },
     // 导出数据
-    exportData () {},
+    exportData() {},
     // 重置
-    resetClick () {
+    resetClick() {
       this.form.resetFields();
     },
     // 日期改变
-    onDateChange (date, dateString) {
+    onDateChange(date, dateString) {
       if (dateString) {
         this.beginDate = dateString[0];
         this.endDate = dateString[1];
       }
     },
     // 点击添加
-    addClick () {
+    addClick() {
       this.dialogVisible = true;
     },
     // 点击提交按钮
-    submitClick (e) {
+    submitClick(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
-        console.log('coming...', values);
+        console.log("coming...", values);
         this.fetchData(values);
       });
     },
     // 选中项改变
-    onSelectChange (selectedRowKeys, selectedRows) {
+    onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys;
       this.selectedRows = selectedRows;
     },
 
-    diaSubmit () {}
+    diaSubmit() {}
   }
 };
 </script>
@@ -403,7 +573,23 @@ export default {
     margin-left: 10px;
   }
 }
+.title {
+  font-size: 16px;
+  font-family: "PingFang SC";
+  font-weight: 600;
+  line-height: 60px;
+  color: rgba(20, 20, 20, 1);
+  opacity: 1;
+}
 .dia_item {
   width: 450px;
+}
+.price {
+  font-size: 12px;
+  font-family: "PingFang SC";
+  font-weight: 400;
+  line-height: 22px;
+  color: rgba(255, 147, 0, 0.85);
+  opacity: 1;
 }
 </style>

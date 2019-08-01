@@ -109,7 +109,6 @@ export default {
       ret[name2] = obj[keys[0]];
       return ret;
     }
-
   }
 };
 </script>
