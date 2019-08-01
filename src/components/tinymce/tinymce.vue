@@ -16,9 +16,7 @@ import 'tinymce/plugins/preview';
 import 'tinymce/plugins/fullscreen';
 
 export default {
-  props: {
-    value: String
-  },
+  props:['config', 'value'],
 
   data () {
     return {
@@ -46,7 +44,7 @@ export default {
     this.tinymceInit = {
       skin_url: './static/tinymce/skins/ui/oxide',
       language: 'en',
-      height: document.body.offsetHeight - 300,
+      height: this.config && this.config.height?this.config.height:400,
       branding: false, // 去水印
       // elementpath: false,  //禁用编辑器底部的状态栏
       statusbar: false, // 隐藏编辑器底部的状态栏

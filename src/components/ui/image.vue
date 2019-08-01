@@ -1,46 +1,53 @@
 <style lang="less" scoped>
-.ui-image {
-    display: flex;
-    align-items: center;
+.upload-img-preview{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
 }
+
 </style>
 
 <template>
-    <div class="ui-image">
-        <span v-if="config.label">{{config.label}}</span>
-        <!-- <div v-model="text" @change="handleChange" :placeholder="'please input '+ config.name"> </a-input> -->
-    </div>
+    <a-upload
+        name="avatar"
+        listType="picture-card"
+        class="avatar-uploader"
+        :showUploadList="false"
+        :beforeUpload="beforeUpload"
+        accept=".png,.jpg"
+    >
+        <img v-if="value" :src="value" alt="avatar" class="upload-img-preview"/>
+        <div v-else>
+            <a-icon :type="loading ? 'loading' : 'plus'" />
+            <div class="ant-upload-text">上传</div>
+        </div>
+  </a-upload>
 </template>
-
 <script>
+import Oss from '../../services/oss';
+
 export default {
-  props: {
-    config: Object,
-    value: String
-  },
   data () {
     return {
-      text: ''
+      loading: false
     };
   },
-  created () {
-    this.text = this.value;
-  },
-  watch: {
-    value () {
-      if (this.text != this.value) {
-        this.text = this.value;
-      }
-    }
-  },
+  props: ['config','value'],
+
   methods: {
-    handleChange () {
-      if (this.value != this.text) {
-        this.$emit('change', this.text);
-      }
+     beforeUpload (file, fileList) {
+        this.loading = true;
+        Oss.uploadAvatar(file).then(ret=>{
+            this.loading = false;
+            if( ret.errorNo == 200) {
+              console.log( ret );
+              this.$emit('change', ret.result);
+              return false;
+            }
+            this.toast(ret.errorDesc);
+        })
+        return false;
     }
-  },
-  computed: {
   }
 };
 </script>

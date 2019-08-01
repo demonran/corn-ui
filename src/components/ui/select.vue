@@ -8,7 +8,7 @@
 <template>
     <div class="ui-select">
         <span v-if="config.label">{{config.label}}</span>
-        <a-select :loading="loading" v-model="selected" :style="{width:config.width}" @change="handleSortChange">
+        <a-select :showSearch="true" :loading="loading" v-model="selected" :style="{width:config.width}" @change="handleSortChange">
             <a-select-option v-for="(option) in selectOptions"
                 :key="option.value" :value="option.value">
                 {{

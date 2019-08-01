@@ -37,6 +37,7 @@ function CreateRouters (cfg) {
     route.children.push({name: page.name,
       path: page.path,
       icon: 'none',
+      invisible:page.invisible,
       component: () => import('@/pages/table/add'),
       props: {
         config: page.config,
