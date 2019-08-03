@@ -86,9 +86,11 @@ export default {
     },
     searchDefs ()
     {
+        if( !this.config.search ) return [];
+
         let items = [];
         let searchs = this.config.search.list;
-
+        
         let n = searchs.length;
         for(let i=0; i<n; i++)
         {

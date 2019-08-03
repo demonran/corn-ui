@@ -57,7 +57,7 @@
              {{text == 1?"在招":'停招'}}
            </span>
            <span slot="action" slot-scope="record">
-            <a href="javascript:;" @click="updateRow(record)" >编辑</a>
+            <a @click="updateRow(record)" >编辑</a>
             <a-divider type="vertical" />
             <a href="javascript:;" @click="deleteRow(record)" >删除</a>
             <!-- <a-dropdown>
@@ -236,6 +236,7 @@ export default {
     },
     async updateRow( row )
     {
+        alert(1);
         this.$router.push({name:'编辑线下课程', params:{courseId:row.courseId}});
     }
   }

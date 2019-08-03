@@ -73,7 +73,6 @@ export default {
 
         ret.push(cfg);
       }
-      console.log(ret);
       return ret;
     }
   },
@@ -81,6 +80,7 @@ export default {
     this.$nextTick(() => {
       if (this.type === 'update') {
         let data = {...this.data};
+        console.log( data );
         this.form.setFieldsValue(data);
       }
     });
@@ -89,6 +89,7 @@ export default {
     data () {
       if (this.type === 'update') {
         let data = {...this.data};
+        console.log('changing', data);
         this.form.setFieldsValue(data);
       }
     }

@@ -31,6 +31,12 @@ export default {
       return ret;
     }
   },
+  mounted(){
+    if( this.$route.params.row )
+    {
+       this.rowData = this.$route.params.row;
+    }
+  },
   watch: {
     $route () {
       if (this.$route.fullPath === this.path) {

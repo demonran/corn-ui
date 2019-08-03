@@ -74,6 +74,20 @@ export default {
         },
        
       },
+      {
+        name: {status: '状态'},
+        listTable: true,
+        addable: {
+          // required: true,
+          ui:{
+            selectui:{
+            dataS:{
+              array:[{label:'在职',value:1},{label:'离职',value:0}]
+            }
+          }
+        }
+        },
+      },
     {
       name: {desc: '详细介绍'},
       // listTable: true,
@@ -81,7 +95,8 @@ export default {
         // required: true,
         ui:'richtextui'
       },
-    }
+    },
+    
   ],
   services: {
     list: '/teacher/search',

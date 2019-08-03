@@ -1,10 +1,12 @@
 import RouteView from '@/layouts/RouteView';
 import teacher from './teachers';
 import category from './category';
+import classmgr from './class';
+import student from './student';
 
 export default {
-  routes: ParseConfigs([teacher,category]),
-  configs: { teacher, category}
+  routes: ParseConfigs([teacher,category,classmgr,student]),
+  configs: { teacher, category,classmgr,student}
 };
 
 function ParseConfigs (cfgs) {

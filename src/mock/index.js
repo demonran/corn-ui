@@ -2,6 +2,7 @@ import Mock from 'mockjs';
 import '@/mock/course/offline';
 import '@/mock/erp/teachers';
 import '@/mock/erp/category';
+import '@/mock/erp/class';
 
 // 设置全局延时
 Mock.setup({

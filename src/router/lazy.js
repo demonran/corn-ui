@@ -62,6 +62,13 @@ const routes = [
             invisible: true,
             component: () => import('@/pages/offlineCourse/add'),
             icon: 'none'
+          },
+          {
+            path: '/course/updateOffline',
+            name: '编辑线下课程',
+            invisible: true,
+            component: () => import('@/pages/offlineCourse/update'),
+            icon: 'none'
           }
         ]
       },
@@ -91,6 +98,7 @@ const routes = [
         name: '表单页',
         component: PageView,
         icon: 'form',
+        invisible:true,
         children: [
           {
             path: '/form/basic',
@@ -117,6 +125,7 @@ const routes = [
         name: '列表页',
         component: PageView,
         icon: 'table',
+        invisible:true,
         children: [
           {
             path: '/list/query',
@@ -169,6 +178,7 @@ const routes = [
         name: '详情页',
         icon: 'profile',
         component: RouteView,
+        invisible:true,
         children: [
           {
             path: '/detail/basic',
@@ -189,6 +199,7 @@ const routes = [
         name: '结果页',
         icon: 'check-circle-o',
         component: PageView,
+        invisible:true,
         children: [
           {
             path: '/result/success',
@@ -209,6 +220,7 @@ const routes = [
         name: '异常页',
         icon: 'warning',
         component: RouteView,
+        invisible:true,
         children: [
           {
             path: '/exception/404',
@@ -235,6 +247,7 @@ const routes = [
         redirect: '/components/taskcard',
         name: '小组件',
         icon: 'appstore-o',
+        invisible:true,
         component: PageView,
         children: [
           {
