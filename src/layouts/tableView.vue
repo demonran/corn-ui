@@ -44,12 +44,7 @@
             </a-select>
         </div> -->
         <div slot="extra" class="extra-op" v-if="search && search.length>0">
-            <div v-for="(item,index) in search" :key="index">
-                <component v-bind:is="item.type" :config="item"></component>
-            </div>
-
-            <a-button size="small" type="primary"  @click="clickSearch">search</a-button>
-            <a-button size="small" type="primary"  @click="reset">reset</a-button>
+           <Search v-show="search.length > 0 " :config="search" @search="clickSearch" @reset="reset"/>
         </div>
 
         <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}" :columns="tableConfig.cols" v-if="table && table.length>0" :rowKey="db.id" :dataSource="dataPage?dataPage.list:[]" :pagination="pagination" @change="tableChange">
@@ -77,11 +72,12 @@ import HeadInfo from '../components/tool/HeadInfo';
 import Radar from '../components/chart/Radar';
 import { mapState, mapActions } from 'vuex';
 import mix from '../pages/mix';
+import Search from '../views/search';
 
 export default {
   name: 'StoreList',
   mixins: [mix],
-  components: {Radar, HeadInfo, PageLayout, PageHeader},
+  components: {Radar, HeadInfo, PageLayout, PageHeader,Search},
   props: {
     title: String,
     showAdd: Boolean,
@@ -217,19 +213,15 @@ export default {
       this.dataPage = page;
     },
 
-    clickSearch () {
-      let query = {pageNum: 1};
-      if (this.filterCategory !== '') query.categoryIds = this.filterCategory;
-      if (this.filterKeyword !== '') query.keywords = this.filterKeyword;
-      if (this.orderBy) query.orderBy = this.orderBy;
+    clickSearch (vals) {
 
+      let query = {pageNum: 1, ...vals};
+      // if (this.orderBy) query.orderBy = this.orderBy;
       this.updateData(query);
     },
+    
     reset () {
       let query = {pageNum: 1};
-      this.filterCategory = '';
-      this.filterKeyword = '';
-
       this.updateData(query);
     },
 

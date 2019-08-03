@@ -2,6 +2,10 @@
 .ui-text {
     display: flex;
     align-items: center;
+    span{
+      flex-shrink: 0;
+      margin: 0 4px;
+    }
 }
 </style>
 
@@ -37,6 +41,7 @@ export default {
     handleChange () {
       if (this.value != this.text) {
         this.$emit('change', this.text);
+        this.$emit('input', this.text);
       }
     }
   },

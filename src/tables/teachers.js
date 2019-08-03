@@ -50,8 +50,6 @@ export default {
         }
       }
     },
-
-   
     {
       name: {tel: '联系电话'},
       listTable: true,
@@ -101,7 +99,27 @@ export default {
         tableActionDel: true,
         tableActionDetail: true,
         title: '教师名单',
-        tableCols: [0, 1, 2]
+        search: {
+          list:[
+            // {
+            //   name:{name:'名称'},
+            //   ui:{
+            //     name:'selectui',
+            //     dataS:{
+            //       array:[{value:-1,label:'robot adding'},{value:0,label:'user adding'},{value:1,label:'online'}]
+            //     }
+            //   }
+            // },
+            {
+              name:{name:'名称'},
+              ui:'textui'
+            },
+            {
+              name:{keywords:'关键词'},
+              ui:'textui'
+            },
+          ]
+        }
       }
     },
     add: {

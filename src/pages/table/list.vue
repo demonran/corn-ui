@@ -27,6 +27,7 @@
         <tablePage :db="{name:dbname,id:dbid} " :title="config.title" :key="dbname"
             :showAdd="config.addBtn" :showUpdate="config.updateBtn" :table="tableColsDef"
             :actionDel="config.tableActionDel" :actionDetail="config.tableActionDetail" @pageChange="pageChange"
+            :search="searchDefs"
         >
         </tablePage>
     </div>
@@ -82,6 +83,27 @@ export default {
         }
       });
       return ret;
+    },
+    searchDefs ()
+    {
+        let items = [];
+        let searchs = this.config.search.list;
+
+        let n = searchs.length;
+        for(let i=0; i<n; i++)
+        {
+            let cfg = searchs[i];
+            console.log( cfg );
+            let itemCfg = this.getObjVal(cfg.name,'name','label');
+            let ui = {name:''};
+            if( typeof cfg.ui == 'string') {
+              ui.name = cfg.ui;
+            } else {
+              ui = cfg.ui;
+            }
+            items.push({...itemCfg, ui, value:null});
+        } 
+        return items;
     }
   },
   mounted () {
