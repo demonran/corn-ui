@@ -1,6 +1,6 @@
 <template>
   <div style="margin: -24px -24px 0px">
-    <page-header :breadcrumb="breadcrumb" :title="title" :logo="logo" :avatar="avatar">
+    <!-- <page-header :breadcrumb="breadcrumb" :title="title" :logo="logo" :avatar="avatar">
       <slot name="action"  slot="action"></slot>
       <slot slot="content" name="headerContent"></slot>
       <div slot="content" v-if="!this.$slots.headerContent && desc">
@@ -12,7 +12,7 @@
         </div>
       </div>
       <slot slot="extra" name="extra"></slot>
-    </page-header>
+    </page-header> -->
     <div ref="page" :class="['page-content', layout]" >
       <slot ></slot>
     </div>
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     getBreadcrumb () {
-      this.breadcrumb = this.$route.matched;
+      //this.breadcrumb = this.$route.matched;
     }
   }
 };

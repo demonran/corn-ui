@@ -3,7 +3,7 @@ import Const from './const';
 export default {
     path: '/students',
     name: '学生管理',
-    dbname: 'students',
+    dbname: 'student',
     dbidField: 'id',
     debug: true,
     
@@ -11,79 +11,69 @@ export default {
   cols: [
     {
       name: {name: '学生姓名'},
-      required: true,
       listTable: {},
-      ui:"textui",
-      addable: {   
+      addable: {  
+        required:true, 
+        ui:"textui",
       }
     },
     {
-        name: {count: '电话'},
+        name: {sex: '性别'},
         listTable: {
         //   cell: {
         //     name: 'imageCell',
         //     avatar: true
         //   }
         },
+        addable: {  
+          required:true, 
+          ui:"textui",
+        }
     },
     {
-        name: {teacher: '老师名称'},
+        name: {age: '年龄'},
         listTable: {
         //   cell: {
         //     name: 'imageCell',
         //     avatar: true
         //   }
         },
-        addable: {
-          required: true,
-          ui:{
-            selectui:{
-              dataS:{
-                
-              }
-            }
-          }
-        }
+        
       },
       {
-        name: {teacher: '老师电话'},
-        listTable: true
+        name: {birthday: '出生日期'},
+        addable: {
+          required: true,
+          ui:'textui'
+        }
       },
 
       {
-        name: {startDate:'开课时间'},
-        listTable: {
-        //   cell: {
-        //     name: 'imageCell',
-        //     avatar: true
-        //   }
-        },
-        addable:'dateui'
-      },
-      {
-        name: {endDate:'结束时间'},
-        listTable: {
-        //   cell: {
-        //     name: 'imageCell',
-        //     avatar: true
-        //   }
+        name: {parent:'家长电话'},
+        listTable:true,
+        addable: {
+          required: true,
+          ui:'textui'
         }
       },
       {
-        name: {classTime:'上课时间'},
-        listTable: {
-        //   cell: {
-        //     name: 'imageCell',
-        //     avatar: true
-        //   }
+        name:{address:'居住地址'},
+        listTable:true,
+        addable: {
+          required: true,
+          ui:'textui'
         }
+      },
+      {
+        name:{createTime:'创建时间'},
+        listTable:true,
       }
   ],
   services: {
-    list: '/category/search',
-    add: '/category/create',
-    update: '/category/update',
-    delete: '/category/delete'
+    list: '/student/search',
+    add: '/student/create',
+    update: '/student/update',
+    delete: '/student/delete'
   },
   route: {
     list: {
@@ -99,18 +89,18 @@ export default {
     },
 
     add: {
-      name: '添加课程分类',
-      path: '/setting/addcategory',
+      name: '添加学员',
+      path: '/students/add',
       invisible:true,
       config: {
-        title: '添加课程分类'
+        title: '添加学员'
       }
     },
     update: {
-      name: '更新课程分类',
-      path: '/setting/updatecategory',
+      name: '更新学员',
+      path: '/students/update',
       config: {
-        title: '更新课程分类'
+        title: '更新学员'
       }
     }
   }

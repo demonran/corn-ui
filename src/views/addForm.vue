@@ -1,6 +1,19 @@
+<style lang="less" scoped>
+.group-name{
+  font-weight: bold;
+}
+</style>
+
 <template>
     <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
     <a-form :form="form">
+
+      <a-form-item
+        label="报名信息"
+        :labelCol="{span: 7}"
+        :wrapperCol="{span: 10}"
+        class="group-name"
+      ></a-form-item>
 
       <a-form-item
         :label="item.label"

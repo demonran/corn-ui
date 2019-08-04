@@ -26,12 +26,12 @@
 </style>
 
 <template>
-  <page-layout :title="title">
+  <page-layout>
 
-    <slot name="action"  slot="action">
+    <!-- <slot name="action"  slot="action">
         <a-button v-show="showAdd" size="small" type="primary"  icon="plus" @click="addRow">添加</a-button>
         <a-button v-show="showUpdate" size="small" type="primary"  icon="reload" @click="updateData">刷新</a-button>
-    </slot>
+    </slot> -->
 
     <a-card :bordered="true">
         <!-- <div slot="title">
