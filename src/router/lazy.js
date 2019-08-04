@@ -269,27 +269,85 @@ const routes = [
 ];
 
 let n = Tables.routes.length;
-
-let root = routes[1].children;
 for (let i = 0; i < n; i++) {
-  let routeDef = Tables.routes[i];
-  if (!routeDef.parent) {
-    root.push(routeDef.route);
+  let pos = Tables.routes[i].pos;
+  let currRoute = Tables.routes[i].route;
+
+  if (!pos.parent) { //没有父级放在根路
+    let inserted = false;
+    if( pos.pre ) {
+       let len = routes.length;
+       for(let k=0; k<len; k++) {
+          if(routes[k].name == pos.pre) {
+             routes.splice(k+1, 0, currRoute);
+             inserted = true;
+             break;
+          }
+       }
+    }
+    if( pos.post && !inserted)
+    {
+      let len = routes.length;
+       for(let k=0; k<len; k++) {
+          if(routes[k].name == pos.post) {
+             routes.splice(k, 0, currRoute);
+             inserted = true;
+             break;
+          }
+       }
+    }
+    if( !inserted )
+    {
+       routes.push( currRoute );
+    }
     continue;
   }
+  
+  //有parent
+  function findNode(nodes, name)
+  {
+     let n = nodes.length;
+     for( let i=0; i<n; i++)
+     {
+        let item = nodes[i];
+        if(item.name == name ) {
+            return item;
+        }
+        if( item.children )
+        {
+          let ret = findNode(item.children, name);
+          if( ret ) return ret;
+        }
+     }
+  }
+
+  let parentNode = findNode(routes, pos.parent);
+  if( !parentNode ) {
+    console.error('not find ' + pos.parent, pos);
+    continue;
+  }
+  let root = parentNode.children;
   let len = root.length;
+  let inserted = false;
+
   for (let k = 0; k < len; k++) {
     let item = root[k];
-    if (item.name == routeDef.parent) {
 
-      let childs = routeDef.route.children;
-      let childsLen = childs.length;
-      for(let z=0; z<childsLen; z++)
-      {
-        item.children.push(childs[z]);
-      }
+    if (pos.pre && item.name == pos.pre) {
+      root.splice(k+1, 0, currRoute);
+      inserted = true;
       break;
     }
+
+    if( pos.post && item.name == pos.post )
+    {
+       root.splice(k, 0, currRoute);
+       inserted = true;
+       break;
+    }
+  }
+  if(!inserted ) {
+    root.push( currRoute ); 
   }
 }
 export default new Router({routes});

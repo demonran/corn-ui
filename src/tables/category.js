@@ -23,10 +23,11 @@ export default {
     update: '/category/update',
     delete: '/category/delete'
   },
-  route: {
-    list: {
+  routes:[
+    {
       name: '课程分类',
       path: '/setting/categories',
+      component:'list',
       config: {
         addBtn: true,
         updateBtn: true,
@@ -35,21 +36,22 @@ export default {
         title: '课程分类管理',
       }
     },
-
-    add: {
+    {
       name: '添加课程分类',
       path: '/setting/addcategory',
+      component:'add',
       invisible:true,
       config: {
         title: '添加课程分类'
       }
     },
-    update: {
+    {
       name: '更新课程分类',
+      component:'update',
       path: '/setting/updatecategory',
       config: {
         title: '更新课程分类'
       }
     }
-  }
+  ]
 };

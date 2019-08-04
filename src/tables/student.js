@@ -1,14 +1,11 @@
 import Const from './const';
 
 export default {
-    path: '/students',
-    name: '学生管理',
     dbname: 'student',
     dbidField: 'id',
     debug: true,
     
-
-  cols: [
+    cols: [
     {
       name: {name: '学生姓名'},
       listTable: {},
@@ -75,33 +72,36 @@ export default {
     update: '/student/update',
     delete: '/student/delete'
   },
-  route: {
-    list: {
-      name: '学员信息',
+  routes: [
+    {
+      name: '学员',
       path: '/students/list',
+      component:'list',
+      parent:'Home',
+      pre:'',
+      post:'',
       config: {
         addBtn: true,
-        updateBtn: true,
         tableActionDel: true,
         tableActionDetail: true,
-        title: '学员信息',
       }
     },
-
-    add: {
+    {
       name: '添加学员',
       path: '/students/add',
       invisible:true,
+      parent:'Home',
       config: {
         title: '添加学员'
       }
     },
-    update: {
+    {
+      parent:'Home',
       name: '更新学员',
       path: '/students/update',
       config: {
         title: '更新学员'
       }
     }
-  }
+  ]
 };

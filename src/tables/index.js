@@ -4,67 +4,60 @@ import category from './category';
 import classmgr from './class';
 import student from './student';
 
+
+const Comps = {
+  list:() => import('@/pages/table/list'),
+  add:() => import('@/pages/table/add'),
+  update:() => import('@/pages/table/update')
+};
+
 export default {
   routes: ParseConfigs([teacher,category,classmgr,student]),
   configs: { teacher, category,classmgr,student}
 };
 
 function ParseConfigs (cfgs) {
-  let routes = cfgs.map(item => CreateRouters(item));
-  return routes;
+  let result = [];
+  cfgs.forEach(cfg => {
+     let routes = CreateRouters(cfg);
+     routes.forEach(item=>{
+       result.push(item);
+     });
+  });
+  return result;
 }
 
 function CreateRouters (cfg) {
-  let route = {
-    path: cfg.path,
-    name: cfg.name,
-    component: RouteView,
-    icon: 'table',
-    children: [
-    ]
-  };
+  let result = [];
+  let routes = cfg.routes;
+  let n = routes.length;
+  for( let i=0 ;i<n; i++)
+  {
+    let page = routes[i];
 
-  if (cfg.route.list) {
-    let page = cfg.route.list;
-    route.children.push({name: page.name,
-      path: page.path,
-      icon: 'none',
-      component: () => import('@/pages/table/list'),
-      props: {
-        config: page.config, route: cfg.route, dbname: cfg.dbname, dbid: cfg.dbidField, cols: cfg.cols
-      }});
-  }
-  if (cfg.route.add) {
-    let page = cfg.route.add;
-    route.children.push({name: page.name,
-      path: page.path,
-      icon: 'none',
-      invisible:page.invisible,
-      component: () => import('@/pages/table/add'),
-      props: {
-        config: page.config,
-        route: cfg.route,
-        dbname: cfg.dbname,
-        dbid: cfg.dbidField,
-        cols: cfg.cols
-      }});
-  }
-  if (cfg.route.update) {
-    let page = cfg.route.update;
-    route.children.push({name: page.name,
-      invisible: true,
-      path: page.path,
-      icon: 'none',
-      component: () => import('@/pages/table/update'),
-      props: {
-        config: page.config,
-        route: cfg.route,
-        path: page.path,
-        dbname: cfg.dbname,
-        dbid: cfg.dbidField,
-        cols: cfg.cols
-      }});
+    result.push(
+      {
+        pos: {
+          parent:page.parent, 
+          pre:page.pre, 
+          post:page.post
+        },
+        route: {
+          name: page.name,
+          path: page.path,
+          invisible: page.invisible,
+          icon: page.icon?page.icon:'none',
+          component: typeof page.component == 'string'? Comps[page.component] : page.component,
+          props: {
+            config: page.config, 
+            dbname: cfg.dbname, 
+            dbid: cfg.dbidField, 
+            cols: cfg.cols
+          }
+        }
+      });
   }
 
-  return {parent: cfg.parent, route};
+  console.log( result );
+  return result;
 }

@@ -104,10 +104,11 @@ export default {
     update: '/teacher/update',
     delete: '/teacher/delete'
   },
-  route: {
-    list: {
+  routes: [
+    {
       name: '教师管理',
       path: '/setting/teachers',
+      component:'list',
       config: {
         addBtn: true,
         updateBtn: true,
@@ -137,20 +138,22 @@ export default {
         }
       }
     },
-    add: {
+    {
       name: '添加老师',
       path: '/setting/addteacher',
+      component:'add',
       invisible:true,
       config: {
         title: '添加老师'
       }
     },
-    update: {
+    {
       name: '更新老师信息',
       path: '/setting/updateteacher',
+      component:'update',
       config: {
         title: '更新老师信息'
       }
     }
-  }
+  ]
 };

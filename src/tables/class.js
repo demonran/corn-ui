@@ -83,10 +83,11 @@ export default {
     update: '/class/update',
     delete: '/class/delete'
   },
-  route: {
-    list: {
+  routes: [
+    {
       name: '班级管理',
       path: '/class/list',
+      component:'list',
       config: {
         addBtn: true,
         tableActionDel: true,
@@ -103,20 +104,22 @@ export default {
       }
     },
 
-    add: {
+    {
       name: '添加班级',
       path: '/class/add',
+      component:'add',
       invisible:true,
       config: {
         title: '添加班级'
       }
     },
-    update: {
+    {
       name: '更新班级信息',
       path: '/class/update',
+      component:'update',
       config: {
         title: '更新班级信息'
       }
     }
-  }
+  ]
 };
