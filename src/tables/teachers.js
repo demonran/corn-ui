@@ -1,8 +1,7 @@
 import Const from './const';
+import RouteView from '@/layouts/RouteView';
 
 export default {
-  path: '/setting',
-  name: '设置',
   dbname: 'teacher',
   dbidField: 'teacherId',
   debug: true,
@@ -106,9 +105,17 @@ export default {
   },
   routes: [
     {
+      path: '/setting',
+      parent:'Home',
+      name: '设置',
+      component:RouteView,
+      children:[],
+    },
+    {
       name: '教师管理',
       path: '/setting/teachers',
       component:'list',
+      parent:'设置',
       config: {
         addBtn: true,
         updateBtn: true,
@@ -150,6 +157,8 @@ export default {
     {
       name: '更新老师信息',
       path: '/setting/updateteacher',
+      parent:'设置',
+      invisible:true,
       component:'update',
       config: {
         title: '更新老师信息'

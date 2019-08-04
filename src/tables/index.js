@@ -44,6 +44,7 @@ function CreateRouters (cfg) {
         },
         route: {
           name: page.name,
+          children:page.children?page.children:null,
           path: page.path,
           invisible: page.invisible,
           icon: page.icon?page.icon:'none',
@@ -51,13 +52,12 @@ function CreateRouters (cfg) {
           props: {
             config: page.config, 
             dbname: cfg.dbname, 
+            route: cfg.routes,
             dbid: cfg.dbidField, 
             cols: cfg.cols
           }
         }
       });
   }
-
-  console.log( result );
   return result;
 }

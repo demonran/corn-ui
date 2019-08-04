@@ -157,8 +157,6 @@ export default {
           } });
       }
 
-      console.log(slots);
-
       return {cols, slots};
     }
   },

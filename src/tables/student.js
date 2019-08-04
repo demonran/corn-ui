@@ -78,8 +78,7 @@ export default {
       path: '/students/list',
       component:'list',
       parent:'Home',
-      pre:'',
-      post:'',
+      post:'设置',
       config: {
         addBtn: true,
         tableActionDel: true,
@@ -98,6 +97,8 @@ export default {
     {
       parent:'Home',
       name: '更新学员',
+      invisible:true,
+      component:'update',
       path: '/students/update',
       config: {
         title: '更新学员'

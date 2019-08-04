@@ -24,9 +24,11 @@
 
 <template>
     <div>
-        <tablePage :db="{name:dbname,id:dbid} " :title="config.title" :key="dbname"
-            :showAdd="config.addBtn" :showUpdate="config.updateBtn" :table="tableColsDef"
-            :actionDel="config.tableActionDel" :actionDetail="config.tableActionDetail" @pageChange="pageChange"
+        <tablePage :db="{name:dbname,id:dbid} " :key="dbname"
+            :table="tableColsDef"
+            :actionDel="config?config.tableActionDel:false" 
+            :actionDetail="config?config.tableActionDetail:false"
+             @pageChange="pageChange"
             :search="searchDefs"
         >
         </tablePage>
@@ -42,7 +44,6 @@ import dataTables from '../../tables';
 import mix from '../mix';
 
 export default {
-  name: 'StoreList',
   mixins: [mix],
   components: {tablePage},
   props: ['config', 'route', 'dbname', 'dbid', 'cols'],
@@ -73,6 +74,8 @@ export default {
     tableColsDef () {
       // let tableCols = this.config.tableCols;
       let cols = this.cols;
+      if( !cols ) return [];
+
       let ret = [];
       cols.forEach(item => {
         if (item.listTable) {
@@ -86,7 +89,7 @@ export default {
     },
     searchDefs ()
     {
-        if( !this.config.search ) return [];
+        if(!this.config || !this.config.search ) return [];
 
         let items = [];
         let searchs = this.config.search.list;
@@ -111,7 +114,7 @@ export default {
   mounted () {
     // await this.queryCategoryList();
     // this.updateDeals();
-    console.log('----?>', this.config, this.route);
+    console.log('---22-?>', this.config, this.cols, this.route);
   },
   methods: {
     pageChange (name, params) {

@@ -28,6 +28,7 @@ export default {
       name: '课程分类',
       path: '/setting/categories',
       component:'list',
+      parent:'设置',
       config: {
         addBtn: true,
         updateBtn: true,

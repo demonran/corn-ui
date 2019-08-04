@@ -88,6 +88,8 @@ export default {
       name: '班级管理',
       path: '/class/list',
       component:'list',
+      parent:'Home',
+      pre:'报名',
       config: {
         addBtn: true,
         tableActionDel: true,
