@@ -1,4 +1,5 @@
 import Const from './const';
+import RouteView from '@/layouts/RouteView';
 
 export default {
     path: '/class',
@@ -85,11 +86,23 @@ export default {
   },
   routes: [
     {
-      name: '班级管理',
-      path: '/class/list',
-      component:'list',
+      name: '教务',
+      path: '/erp',
+      component:RouteView,
       parent:'Home',
-      pre:'报名',
+      post:'设置',
+      children:[],
+      config: {
+        // addBtn: true,
+        tableActionDel: true,
+        tableActionDetail: true,
+      }
+    },
+    {
+      name: '班级管理',
+      path: '/erp/class/list',
+      component:'list',
+      parent:'教务',
       config: {
         addBtn: true,
         tableActionDel: true,
@@ -108,8 +121,9 @@ export default {
 
     {
       name: '添加班级',
-      path: '/class/add',
+      path: '/erp/class/add',
       component:'add',
+      parent:'教务',
       invisible:true,
       config: {
         title: '添加班级'
@@ -117,7 +131,9 @@ export default {
     },
     {
       name: '更新班级信息',
-      path: '/class/update',
+      parent:'教务',
+      invisible:true,
+      path: '/erp/class/update',
       component:'update',
       config: {
         title: '更新班级信息'

@@ -1,4 +1,5 @@
 import Const from './const';
+import RouteView from '@/layouts/RouteView';
 
 export default {
     dbname: 'student',
@@ -73,12 +74,24 @@ export default {
     delete: '/student/delete'
   },
   routes: [
+    // {
+    //   name: '学员管理',
+    //   path: '/students',
+    //   component:RouteView,
+    //   parent:'Home',
+    //   post:'设置',
+    //   children:[],
+    //   config: {
+    //     // addBtn: true,
+    //     tableActionDel: true,
+    //     tableActionDetail: true,
+    //   }
+    // },
     {
-      name: '学员',
-      path: '/studentslist',
+      name: '学员列表',
+      path: '/students/list',
       component:'list',
-      parent:'Home',
-      post:'设置',
+      parent:'教务',
       config: {
         // addBtn: true,
         tableActionDel: true,
@@ -87,7 +100,8 @@ export default {
     },
     {
       name: '添加学员',
-      path: '/studentsadd',
+      path: '/students/add',
+      parent:'学员管理',
       invisible:true,
       parent:'Home',
       config: {
@@ -97,9 +111,10 @@ export default {
     {
       parent:'Home',
       name: '更新学员',
+      parent:'学员管理',
       invisible:true,
       component:'update',
-      path: '/studentsupdate',
+      path: '/students/update',
       config: {
         title: '更新学员'
       }
