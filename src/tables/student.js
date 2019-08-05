@@ -75,19 +75,19 @@ export default {
   routes: [
     {
       name: '学员',
-      path: '/students/list',
+      path: '/studentslist',
       component:'list',
       parent:'Home',
       post:'设置',
       config: {
-        addBtn: true,
+        // addBtn: true,
         tableActionDel: true,
         tableActionDetail: true,
       }
     },
     {
       name: '添加学员',
-      path: '/students/add',
+      path: '/studentsadd',
       invisible:true,
       parent:'Home',
       config: {
@@ -99,7 +99,7 @@ export default {
       name: '更新学员',
       invisible:true,
       component:'update',
-      path: '/students/update',
+      path: '/studentsupdate',
       config: {
         title: '更新学员'
       }

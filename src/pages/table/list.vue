@@ -38,7 +38,6 @@
 
 <script>
 import tablePage from '../../layouts/tableView';
-import dataTables from '../../tables';
 
 // import { mapState, mapActions } from 'vuex';
 import mix from '../mix';
@@ -50,25 +49,12 @@ export default {
 
   data () {
     return {
-      emailTable: dataTables.configs.email,
-      searchOptions: [{
-        type: 'selectui',
-        name: {
-          type: 'Template Type'
-        },
-        width: '180px',
-        initVal: -1,
-        dataS: {
-          array: [
-            {label: 'All', value: -1},
-            {label: 'User Register Confirm', value: 0}]
-        }
-      }
-      ]
     };
   },
-  filters: {
-
+  watch: {
+    config(){
+      console.log('config-->',this.config );
+    }
   },
   computed: {
     tableColsDef () {

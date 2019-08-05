@@ -3,13 +3,9 @@ import teacher from './teachers';
 import category from './category';
 import classmgr from './class';
 import student from './student';
-
-
-const Comps = {
-  list:() => import('@/pages/table/list'),
-  add:() => import('@/pages/table/add'),
-  update:() => import('@/pages/table/update')
-};
+import ListComp from '@/pages/table/list';
+import AddComp from '@/pages/table/add';
+import UpdateComp from '@/pages/table/update';
 
 export default {
   routes: ParseConfigs([teacher,category,classmgr,student]),
@@ -31,6 +27,12 @@ function CreateRouters (cfg) {
   let result = [];
   let routes = cfg.routes;
   let n = routes.length;
+  const Comps = {
+    list:ListComp,
+    add:AddComp,
+    update:UpdateComp
+  };
+
   for( let i=0 ;i<n; i++)
   {
     let page = routes[i];

@@ -160,8 +160,9 @@ export default {
       return {cols, slots};
     }
   },
-  async mounted () {
+  mounted () {
     // await this.queryCategoryList();
+    // console.log('mounted', this.db );
     this.updateData();
   },
   methods: {
