@@ -126,6 +126,7 @@
             v-decorator="['registrationTime', {rules: [{ required: true, message: '请选择报名时间' }]}]"
             format="YYYY-MM-DD"
             class="dia_item"
+            @change="onSignTimeChange"
           />
         </a-form-item>
         <a-form-item label="报名课程" :label-col="{ span: 3 }" :wrapper-col="{ span: 20 }">
@@ -318,7 +319,8 @@ export default {
       dialogVisible: false,
       dialogTitle: "新增", // 编辑
       diaForm: this.$form.createForm(this),
-      edtId: ''
+      edtId: '',
+      signDate: ''
     };
   },
   mounted() {
@@ -346,8 +348,9 @@ export default {
       }
       this.dataSource =
         this.page.currentPage === 1
-          ? res.result.list
-          : this.dataSource.concat(res.result.list);
+          ? res.result
+          : this.dataSource.concat(res.result);
+      console.log('datasource:', this.dataSource)
     },
     // 点击编辑
     edtClick(data) {
@@ -398,7 +401,8 @@ export default {
       e.preventDefault();
       this.diaForm.validateFields((err, values) => {
         console.log("coming..handleOk.", values);
-        if (err) {
+        console.log('haha:', err)
+        if (!err) {
           if (this.edtId) {
             this.updateRequest(values)
           } else {
@@ -409,6 +413,7 @@ export default {
     },
     // 更新请求
     async updateRequest (params) {
+      console.log('begain update')
       this.showLoading();
       let res = await updateOffline(this.edtId, Object.assign(params));
       console.log(res);
@@ -421,7 +426,9 @@ export default {
     },
     // 新增请求
     async addRequest(params) {
+      console.log('begain add')
       this.showLoading();
+      params.registrationTime = this.signDate
       let res = await addOffline(Object.assign(params));
       console.log(res);
       this.hideLoading();
@@ -429,7 +436,9 @@ export default {
         this.toast(res.errorDesc, true);
         return;
       }
-      this.toast("新增成功了");
+      this.toast("新增成功");
+      this.handleCancel();
+      this.fetchData();
     },
     // dialog 取消
     handleCancel() {
@@ -440,6 +449,12 @@ export default {
     // 重置
     resetClick() {
       this.form.resetFields();
+    },
+    // 报名时间选择
+    onSignTimeChange(date, dateString) {
+      if (dateString) {
+        this.signDate = dateString[0];
+      }
     },
     // 日期改变
     onDateChange(date, dateString) {
