@@ -104,10 +104,13 @@ export default {
       component:'list',
       parent:'教务',
       config: {
-        addBtn: true,
         tableActionDel: true,
         tableActionDetail: true,
         title: '班级管理',
+        actions:{
+          list:['添加',
+          ]
+        },
         search:{
           list:[
             {

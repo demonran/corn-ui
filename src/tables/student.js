@@ -96,22 +96,25 @@ export default {
         // addBtn: true,
         tableActionDel: true,
         tableActionDetail: true,
+        actions:{
+          list:['添加',
+          ]
+        },
       }
     },
     {
       name: '添加学员',
       path: '/students/add',
-      parent:'学员管理',
+      parent:'教务',
       invisible:true,
-      parent:'Home',
+      component:'add',
       config: {
         title: '添加学员'
       }
     },
     {
-      parent:'Home',
       name: '更新学员',
-      parent:'学员管理',
+      parent:'教务',
       invisible:true,
       component:'update',
       path: '/students/update',

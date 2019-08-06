@@ -34,15 +34,9 @@
     </slot> -->
 
     <a-card :bordered="true">
-        <!-- <div slot="title">
-            <span>Sort By</span>
-            <a-select defaultValue="username" style="width: 180px" @change="handleSortChange" size="small">
-                <a-select-option value="username">User Name</a-select-option>
-                <a-select-option value="datejoined">Data Joined</a-select-option>
-                <a-select-option value="lifttimecashback">Lifetime Cashback</a-select-option>
-                <a-select-option value="pendingbalance">Pending Balance</a-select-option>
-            </a-select>
-        </div> -->
+        <div slot="title">
+           <TableActions :config="actions" @clickAction="onClickAction"/>
+        </div>
         <div slot="extra" class="extra-op" v-if="search && search.length>0">
            <Search v-show="search.length > 0 " :config="search" @search="clickSearch" @reset="reset"/>
         </div>
@@ -73,11 +67,13 @@ import Radar from '../components/chart/Radar';
 import { mapState, mapActions } from 'vuex';
 import mix from '../pages/mix';
 import Search from '../views/search';
+import TableActions from '../views/actions';
+
 
 export default {
   name: 'StoreList',
   mixins: [mix],
-  components: {Radar, HeadInfo, PageLayout, PageHeader,Search},
+  components: {Radar, HeadInfo, PageLayout, PageHeader,Search,TableActions},
   props: {
     title: String,
     showAdd: Boolean,
@@ -88,7 +84,8 @@ export default {
     db: Object,
     actionDel: Boolean,
     actionDetail: Boolean,
-    route: Object
+    route: Object,
+    actions:Array,
   },
 
   data () {
@@ -158,7 +155,8 @@ export default {
       }
 
       return {cols, slots};
-    }
+    },
+    
   },
   mounted () {
     // await this.queryCategoryList();
@@ -252,6 +250,15 @@ export default {
       console.log('selectedRowKeys changed: ', selectedRowKeys);
       this.selectedRowKeys = selectedRowKeys;
     },
+    onClickAction(item)
+    {
+       if( item.name == '添加')
+       {
+          this.addRow();
+          return;
+       }
+       console.log(item);
+    }
   }
 };
 </script>

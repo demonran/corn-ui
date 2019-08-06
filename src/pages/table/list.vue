@@ -28,6 +28,7 @@
             :table="tableColsDef"
             :actionDel="config?config.tableActionDel:false" 
             :actionDetail="config?config.tableActionDetail:false"
+            :actions="actionsDef"
              @pageChange="pageChange"
             :search="searchDefs"
         >
@@ -95,6 +96,28 @@ export default {
             items.push({...itemCfg, ui, value:null});
         } 
         return items;
+    },
+    actionsDef()
+    {
+      if(!this.config || !this.config.actions ) return [];
+
+        let items = [];
+        let actions = this.config.actions.list;
+        
+        let n = actions.length;
+        for(let i=0; i<n; i++)
+        {
+            let cfg = actions[i];
+            let item = {name:'',click:null};
+            if( typeof cfg == 'string') {
+               item.name = cfg;
+            } else {
+              item.name = cfg.name;
+              item.click = cfg.click;
+            }
+            items.push(item);
+        }
+        return items;
     }
   },
   mounted () {
@@ -104,8 +127,17 @@ export default {
   },
   methods: {
     pageChange (name, params) {
-      let route = this.route[name];
-      console.log(route);
+      
+      let route = null;
+      let n = this.route.length;
+      while(n--)
+      {
+        if( this.route[n].component == name )
+        {
+           route = this.route[n];
+           break;
+        }
+      }
       if (!route) return;
 
       this.$router.push({name: route.name, params});
