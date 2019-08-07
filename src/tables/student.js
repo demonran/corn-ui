@@ -25,7 +25,12 @@ export default {
         },
         addable: {  
           required:true, 
-          ui:"textui",
+          ui:{
+            radioui:{
+              initVal:'男',
+              dataS:[{value:'男',label:'男'},{value:'女',label:'女'}]
+            }
+          },
         }
     },
     {
@@ -42,10 +47,16 @@ export default {
         name: {birthday: '出生日期'},
         addable: {
           required: true,
-          ui:'textui'
+          ui:'dateui'
         }
       },
-
+      {
+        name: {parentName: '家长姓名'},
+        addable: {  
+          required:true, 
+          ui:"textui",
+        }
+      },
       {
         name: {parent:'家长电话'},
         listTable:true,
@@ -109,7 +120,12 @@ export default {
       invisible:true,
       component:'add',
       config: {
-        title: '添加学员'
+        formOrder:{
+           groups:[
+              {name:'报名信息',before:'name'},
+              {name:'家长信息',before:'parentName'}
+           ]
+        }
       }
     },
     {

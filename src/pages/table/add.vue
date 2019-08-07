@@ -1,6 +1,6 @@
 <template>
-     <page-layout :title="config.title">
-        <addForm :cols="colsDef" type='add' :dbname="dbname" :dbid="dbid"></addForm>
+     <page-layout>
+        <addForm :formOrder="config.formOrder" :cols="colsDef" type='add' :dbname="dbname" :dbid="dbid"></addForm>
     </page-layout>
 
 </template>

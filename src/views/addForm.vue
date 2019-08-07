@@ -1,28 +1,32 @@
 <style lang="less" scoped>
-.group-name{
-  font-weight: bold;
+.group-form-item{
+  margin-bottom: 8px;
 }
+.group-name {
+  font-weight: bold;
+  margin-bottom: 14px;
+  font-size: 16px;
+}
+.ant-form-item{
+  margin-bottom: 14px;
+}
+
 </style>
 
 <template>
     <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
     <a-form :form="form">
-
-      <a-form-item
-        label="报名信息"
-        :labelCol="{span: 7}"
-        :wrapperCol="{span: 10}"
-        class="group-name"
-      ></a-form-item>
-
       <a-form-item
         :label="item.label"
+        :colon="!item.group"
         :labelCol="{span: 7}"
         :wrapperCol="{span: 10}"
         v-for="(item,index) in config"
         :key="index"
+        :class="[item.group?'group-form-item':'']"
       >
-        <component :is="item.uiname" :config="item.uioption"
+        <span v-if="item.group" slot="label"  class="group-name">{{item.group}}</span>
+        <component v-else :is="item.uiname" :config="item.uioption"
             v-decorator="[item.name,{rules: [{required:item.required, validator: checkColsItem }],initialValue:item.uioption.initVal}]"
          ></component>
       </a-form-item>
@@ -57,7 +61,8 @@ export default {
     type: String,
     cols: Array,
     dbname: String,
-    dbid: String
+    dbid: String,
+    formOrder:Object,
   },
   components: {imgUpload, tinymce},
 
@@ -71,11 +76,13 @@ export default {
       let cols = this.cols;
       let n = cols.length;
       let ret = [];
+
       for (let i = 0; i < n; i++) {
         let col = cols[i];
         let cfg = { ...this.getObjVal(col.name, 'name', 'label'),
           ...this.getUIObj(col.ui, 'uiname', 'uioption')
         };
+
         if (!cfg.uioption) {
           cfg.uioption = {};
         }
@@ -86,7 +93,25 @@ export default {
 
         ret.push(cfg);
       }
+
+      //插入group name
+      if( this.formOrder && this.formOrder.groups)
+      {
+         let groups = this.formOrder.groups;
+         groups.forEach(item=>{
+            let n = ret.length;
+            for(let i=0; i<n; i++) {
+               if(ret[i].name == item.before) {
+                  ret.splice(i,0, {group:item.name});
+                  break;
+               }
+            }
+         })
+      }
       return ret;
+    },
+    FormGroups(){
+
     }
   },
   mounted () {
