@@ -171,6 +171,14 @@ export default {
           list:['添加',
           ]
         },
+        search:{
+          list:[
+            {
+              name:{name:'学生姓名'},
+              ui:'textui'
+            }
+          ]
+        }
       }
     },
     {
