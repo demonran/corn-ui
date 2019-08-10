@@ -30,17 +30,18 @@ export default {
       component:'list',
       parent:'设置',
       config: {
-        addBtn: true,
-        updateBtn: true,
         tableActionDel: true,
         tableActionDetail: true,
-        title: '课程分类管理',
+        actions:{
+          list:['添加']
+        },
       }
     },
     {
       name: '添加课程分类',
       path: '/setting/addcategory',
       component:'add',
+      parent:'设置',
       invisible:true,
       config: {
         title: '添加课程分类'
@@ -49,6 +50,8 @@ export default {
     {
       name: '更新课程分类',
       component:'update',
+      parent:'设置',
+      invisible:true,
       path: '/setting/updatecategory',
       config: {
         title: '更新课程分类'

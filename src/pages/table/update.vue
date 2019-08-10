@@ -1,6 +1,6 @@
 <template>
      <page-layout :title="config.title">
-        <addForm :cols="colsDef" type='update' :data="rowData" :dbname="dbname" :dbid="dbid"></addForm>
+        <addForm :cols="colsDef" type='update' :data="rowData" :dbname="dbname" :dbid="dbid" :key="'update' + dbname"></addForm>
     </page-layout>
 
 </template>
@@ -39,6 +39,8 @@ export default {
   },
   watch: {
     $route () {
+      console.log( this.path, this.$route.fullPath);
+
       if (this.$route.fullPath === this.path) {
         console.log('update update', this.$route.params);
         this.rowData = this.$route.params.row;

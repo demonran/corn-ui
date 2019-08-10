@@ -15,8 +15,8 @@
         <div v-for="(item,index) in config" :key="index">
             <component v-bind:is="item.ui.name" :config="item" v-model="item.value" ></component>
         </div>
-        <a-button size="small" type="primary" class="btn-search"  @click="clickSearch">搜索</a-button>
-        <a-button size="small" type="primary"  @click="reset">重置</a-button>
+        <a-button type="primary" class="btn-search"  @click="clickSearch">搜索</a-button>
+        <a-button type="primary"  @click="reset">重置</a-button>
     </div>
 </template>
 <script>

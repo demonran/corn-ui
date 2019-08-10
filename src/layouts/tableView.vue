@@ -43,14 +43,7 @@
 
         <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}" :columns="tableConfig.cols" v-if="table && table.length>0" :rowKey="db.id" :dataSource="dataPage?dataPage.list:[]" :pagination="pagination" @change="tableChange">
             <template :slot="item.name" slot-scope="text,record, index" v-for="item in tableConfig.slots" >
-                <component :is="item.cell.name" v-if="item.name != '_actions'" :key="item.name" :config="{text:item.value?item.value(text,record,index):text, record, index, cell:item.cell}" ></component>
-                <div v-else :key="item.name">
-                    <a v-if="item.actions.detail" @click="showUpdatePage(record)">编辑</a>
-                    <a-divider type="vertical" />
-                    <a-popconfirm v-if="item.actions.del" title="确定删除?" @confirm="deleteRow(record)">
-                      <a>删除</a>
-                    </a-popconfirm>
-                </div>
+                <component :is="item.cell.name" v-if="item.name != '_actions'" :key="item.name" :config="{text:item.value?item.value(text,record,index):text, record, index, dbidField:db.id,dbname:db.name, cell:item.cell}" ></component>
             </template>
 
         </a-table>
@@ -82,18 +75,13 @@ export default {
     table: Array,
     services: Object,
     db: Object,
-    actionDel: Boolean,
-    actionDetail: Boolean,
     route: Object,
     actions:Array,
   },
 
   data () {
     return {
-      dataPage: null,
-
-      filterCategory: '',
-      filterKeyword: '',
+      dataPage:null,
 
       pagination: {
         pageSize: 10,
@@ -202,6 +190,8 @@ export default {
         return;
       }
       let page = await this.getTablePage(this.db.name);
+
+       console.log( page );
 
       this.pagination.pageSize = page.pageSize;
       this.pagination.total = page.total;

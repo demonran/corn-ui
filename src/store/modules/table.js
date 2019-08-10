@@ -24,7 +24,7 @@ let ret = {
   },
   actions: {
 
-    async getTablePage ({dispatch, commit, state}, name) {
+    getTablePage ({dispatch, commit, state}, name) {
       return state[name + 'Page'];
     },
 

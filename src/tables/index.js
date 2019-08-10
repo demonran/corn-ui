@@ -53,6 +53,7 @@ function CreateRouters (cfg) {
           component: typeof page.component == 'string'? Comps[page.component] : page.component,
           props: {
             config: page.config, 
+            path:page.path,
             dbname: cfg.dbname, 
             route: cfg.routes,
             dbid: cfg.dbidField, 

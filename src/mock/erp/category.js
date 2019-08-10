@@ -1,14 +1,16 @@
 import Mock from 'mockjs';
 import '@/mock/extend';
 
-const CList = Mock.mock({
-  'list|2': [
+const CList =  [
     {
-      'categoryId|+1': 11452681,
+      'categoryId': 11452681,
       'name': '音乐',
+    },
+    {
+      'categoryId': 11452682,
+      'name': '绘画',
     }
-  ]
-}).list;
+];
 
 // 查询列表
 Mock.mock(RegExp('mock/category/search.*'), 'get', (options) => {

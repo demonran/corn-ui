@@ -21,5 +21,28 @@ export default {
         }
       }
     }
+  },
+  actionsDelBtn(idname)
+  {
+    return  {
+      label: '删除',
+      confirm: {
+        name: 'tipConfirm',
+        text: '确定删除?',
+        del (text, record) {
+          return record[idname];
+        }
+      }
+    }
+  },
+  actionsEditBtn(){
+    return  {
+      label: '编辑',
+      click (text, record) {
+
+        console.log( record );
+        window.Bus.$emit('pageChange','update', {row:record});
+      }
+    };
   }
 };

@@ -1,18 +1,19 @@
 <template>
-    <a-popconfirm :title="config.title" @confirm="onConfirm">
-        <slot />
+    <a-popconfirm :title="config.confirm.text" @confirm="onConfirm">
+        <slot >
+         <a>{{
+            config.label
+          }}</a>
+        </slot>
     </a-popconfirm>
 </template>
 
 <script>
+
+import mix from './tableOpMix';
+
 export default {
-    props:['config'],
-    methods: {
-        onConfirm() {
-            let {confirm}  = this.config.confirm;
-            if(!confirm ) return;
-            confirm.call(this, this.config.text, this.config.record);
-        }
-    }
-}
+  props: ['config'],
+  mixins: [mix]
+};
 </script>

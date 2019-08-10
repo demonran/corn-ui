@@ -51,6 +51,36 @@ export default {
         }
       },
       {
+        name: {school: '就读学校'},
+        addable: {
+          ui:'textui'
+        }
+      },
+      {
+        name: {grade: '年级'},
+        addable: {
+          ui:{
+            selectui:{
+            dataS:{
+              array:[
+                {label:'幼儿园',value:'幼儿园'},
+                {label:'小学',value:'小学'},
+                {label:'初中',value:'初中'},
+                {label:'高中',value:'高中'},
+                {label:'大学',value:'大学'}]
+            }
+            }
+            }
+        }
+      },
+      {
+        name: {tel: '联系电话'},
+        addable: {
+          ui:'textui'
+        }
+      },
+
+      {
         name: {parentName: '家长姓名'},
         addable: {  
           required:true, 
@@ -58,24 +88,54 @@ export default {
         }
       },
       {
-        name: {parent:'家长电话'},
+        name: {parent:'联系电话'},
         listTable:true,
         addable: {
           required: true,
           ui:'textui'
         }
       },
+      
       {
         name:{address:'居住地址'},
         listTable:true,
         addable: {
-          required: true,
+          ui:'textui'
+        }
+      },{
+        name: {parentEmail:'家长邮箱'},
+        listTable:true,
+        addable: {
+          ui:'textui'
+        }
+      },{
+        name: {parentWechat:'家长微信'},
+        listTable:true,
+        addable: {
           ui:'textui'
         }
       },
       {
         name:{createTime:'创建时间'},
         listTable:true,
+      },
+      {
+        name:{id:'操作'},
+        listTable:{
+          cell:{
+            name:'actionCell',
+            btns: [
+              {
+                label: '详情',
+                click (text, record) {
+                  window.Bus.$emit('pageChange','update', {row:record});
+                } 
+              },
+               Const.actionsEditBtn(),
+               Const.actionsDelBtn('id')
+            ]
+          }
+        }
       }
   ],
   services: {

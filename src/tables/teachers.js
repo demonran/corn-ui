@@ -81,7 +81,7 @@ export default {
           ui:{
             selectui:{
             dataS:{
-              array:[{label:'在职',value:1},{label:'离职',value:0}]
+              array:[{label:'在职',value:'在职'},{label:'离职',value:'离职'}]
             }
           }
         }
@@ -117,11 +117,11 @@ export default {
       component:'list',
       parent:'设置',
       config: {
-        addBtn: true,
-        updateBtn: true,
         tableActionDel: true,
         tableActionDetail: true,
-        title: '教师名单',
+        actions:{
+          list:['添加']
+        },
         search: {
           list:[
             // {
@@ -149,6 +149,7 @@ export default {
       name: '添加老师',
       path: '/setting/addteacher',
       component:'add',
+      parent:'设置',
       invisible:true,
       config: {
         title: '添加老师'

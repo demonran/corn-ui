@@ -37,7 +37,7 @@ export default {
         //     name: 'imageCell',
         //     avatar: true
         //   }
-        }
+        },
       },
 
       {

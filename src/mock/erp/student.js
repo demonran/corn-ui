@@ -38,10 +38,11 @@ Mock.mock(RegExp('mock/student/search.*'), 'get', (options) => {
 Mock.mock(RegExp('mock/student/delete.*'), 'delete', (options) => {
   let urls = options.url.split('/');
   let id = urls[ urls.length - 1 ];
-
+   console.log('delete', options);
+   
   let n = StudentList.length;
   while (n--) {
-    if (StudentList[n].teacherId == id) {
+    if (StudentList[n].id == id) {
         StudentList.splice(n, 1);
       break;
     }
