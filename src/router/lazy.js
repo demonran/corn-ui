@@ -77,7 +77,7 @@ const routes = [
         path: '/signUp',
         name: '报名',
         component: RouteView,
-        icon: 'table',
+        icon: 'form',
         children: [
           {
             path: '/signUp/online',
@@ -93,12 +93,35 @@ const routes = [
           }
         ]
       },
+      // 学员
+      {
+        path: '/students',
+        name: '学员',
+        component: () => import('@/pages/students/stulist'),
+        icon: 'solution'
+      },
+      // test
+      {
+        path: '/students',
+        name: '学员隐藏的',
+        component: RouteView,
+        icon: 'solution',
+        invisible: true,
+        children: [
+          {
+            path: '/students/stulist',
+            name: '学员详情',
+            component: () => import('@/pages/students/stulist'),
+            icon: 'none'
+          }
+        ]
+      },
       {
         path: '/form',
         name: '表单页',
         component: PageView,
         icon: 'form',
-        invisible:true,
+        invisible: true,
         children: [
           {
             path: '/form/basic',
@@ -125,7 +148,7 @@ const routes = [
         name: '列表页',
         component: PageView,
         icon: 'table',
-        invisible:true,
+        invisible: true,
         children: [
           {
             path: '/list/query',
@@ -178,7 +201,7 @@ const routes = [
         name: '详情页',
         icon: 'profile',
         component: RouteView,
-        invisible:true,
+        invisible: true,
         children: [
           {
             path: '/detail/basic',
@@ -199,7 +222,7 @@ const routes = [
         name: '结果页',
         icon: 'check-circle-o',
         component: PageView,
-        invisible:true,
+        invisible: true,
         children: [
           {
             path: '/result/success',
@@ -220,7 +243,7 @@ const routes = [
         name: '异常页',
         icon: 'warning',
         component: RouteView,
-        invisible:true,
+        invisible: true,
         children: [
           {
             path: '/exception/404',
@@ -247,7 +270,7 @@ const routes = [
         redirect: '/components/taskcard',
         name: '小组件',
         icon: 'appstore-o',
-        invisible:true,
+        invisible: true,
         component: PageView,
         children: [
           {
@@ -275,54 +298,49 @@ for (let i = 0; i < n; i++) {
 
   if (!pos.parent) { //没有父级放在根路
     let inserted = false;
-    if( pos.pre ) {
-       let len = routes.length;
-       for(let k=0; k<len; k++) {
-          if(routes[k].name == pos.pre) {
-             routes.splice(k+1, 0, currRoute);
-             inserted = true;
-             break;
-          }
-       }
-    }
-    if( pos.post && !inserted)
-    {
+    if (pos.pre) {
       let len = routes.length;
-       for(let k=0; k<len; k++) {
-          if(routes[k].name == pos.post) {
-             routes.splice(k, 0, currRoute);
-             inserted = true;
-             break;
-          }
-       }
+      for (let k = 0; k < len; k++) {
+        if (routes[k].name == pos.pre) {
+          routes.splice(k + 1, 0, currRoute);
+          inserted = true;
+          break;
+        }
+      }
     }
-    if( !inserted )
-    {
-       routes.push( currRoute );
+    if (pos.post && !inserted) {
+      let len = routes.length;
+      for (let k = 0; k < len; k++) {
+        if (routes[k].name == pos.post) {
+          routes.splice(k, 0, currRoute);
+          inserted = true;
+          break;
+        }
+      }
+    }
+    if (!inserted) {
+      routes.push(currRoute);
     }
     continue;
   }
-  
+
   //有parent
-  function findNode(nodes, name)
-  {
-     let n = nodes.length;
-     for( let i=0; i<n; i++)
-     {
-        let item = nodes[i];
-        if(item.name == name ) {
-            return item;
-        }
-        if( item.children )
-        {
-          let ret = findNode(item.children, name);
-          if( ret ) return ret;
-        }
-     }
+  function findNode(nodes, name) {
+    let n = nodes.length;
+    for (let i = 0; i < n; i++) {
+      let item = nodes[i];
+      if (item.name == name) {
+        return item;
+      }
+      if (item.children) {
+        let ret = findNode(item.children, name);
+        if (ret) return ret;
+      }
+    }
   }
 
   let parentNode = findNode(routes, pos.parent);
-  if( !parentNode ) {
+  if (!parentNode) {
     console.error('not find ' + pos.parent, pos);
     continue;
   }
@@ -334,20 +352,19 @@ for (let i = 0; i < n; i++) {
     let item = root[k];
 
     if (pos.pre && item.name == pos.pre) {
-      root.splice(k+1, 0, currRoute);
+      root.splice(k + 1, 0, currRoute);
       inserted = true;
       break;
     }
 
-    if( pos.post && item.name == pos.post )
-    {
-       root.splice(k, 0, currRoute);
-       inserted = true;
-       break;
+    if (pos.post && item.name == pos.post) {
+      root.splice(k, 0, currRoute);
+      inserted = true;
+      break;
     }
   }
-  if(!inserted ) {
-    root.push( currRoute ); 
+  if (!inserted) {
+    root.push(currRoute);
   }
 }
-export default new Router({routes});
+export default new Router({ routes });
