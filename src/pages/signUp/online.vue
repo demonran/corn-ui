@@ -191,8 +191,13 @@ export default {
         showTotal (total) {
           return `共${total}项`;
         },
-        onShowSizeChange () {
-          console.log('showSizeChange');
+        onChange(current, count) {
+          // 页码改变的回调，参数是改变后的页码及每页条数
+          console.log("change", current + ":" + count);
+        },
+        onShowSizeChange(current, count) {
+          // pageSize 变化的回调
+          console.log("showSizeChange", current + ":" + count);
         }
       },
       advanced: true,
@@ -203,7 +208,35 @@ export default {
       form: this.$form.createForm(this)
     };
   },
+  mounted() {
+    // this.fetchData();
+  },
   methods: {
+    // 请求列表数据
+    async fetchData(filter) {
+      this.showLoading();
+      var param = null;
+      if (filter) {
+        param = Object.assign(filter);
+        delete param["time"];
+        param.beginDate = this.beginDate;
+        param.endDate = this.endDate;
+      }
+      let res = await offlineList(
+        Object.assign(this.page, filter ? param : {})
+      );
+      console.log(res);
+      this.hideLoading();
+      if (res.errorNo != 200) {
+        this.toast(res.errorDesc, true);
+        return;
+      }
+      this.dataSource =
+        this.page.currentPage === 1
+          ? res.result
+          : this.dataSource.concat(res.result);
+      console.log('datasource:', this.dataSource)
+    },
     // 导出数据
     exportData () {},
     resetClick () {
@@ -216,6 +249,7 @@ export default {
         console.log('coming...', err);
         console.log('coming...', values);
         // request
+        this.fetchData(values)
       });
     },
     validateForm () {
