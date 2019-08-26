@@ -319,8 +319,8 @@ export default {
       dialogVisible: false,
       dialogTitle: "新增", // 编辑
       diaForm: this.$form.createForm(this),
-      edtId: '',
-      signDate: ''
+      edtId: "",
+      signDate: ""
     };
   },
   mounted() {
@@ -328,7 +328,7 @@ export default {
   },
   methods: {
     // 请求列表数据
-    async fetchData(filter) {
+    fetchData(filter) {
       this.showLoading();
       var param = null;
       if (filter) {
@@ -337,28 +337,32 @@ export default {
         param.beginDate = this.beginDate;
         param.endDate = this.endDate;
       }
-      let res = await offlineList(
-        Object.assign(this.page, filter ? param : {})
-      );
-      console.log(res);
-      this.hideLoading();
-      if (res.errorNo != 200) {
-        this.toast(res.errorDesc, true);
-        return;
-      }
-      this.dataSource =
-        this.page.currentPage === 1
-          ? res.result
-          : this.dataSource.concat(res.result);
-      console.log('datasource:', this.dataSource)
+      offlineList(Object.assign(this.page, filter ? param : {}))
+        .then(res => {
+          console.log(res);
+          if (res.errorNo == 200) {
+            this.dataSource =
+              this.page.currentPage === 1
+                ? res.result
+                : this.dataSource.concat(res.result);
+          } else {
+            this.toast(res.errorDesc, true);
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        })
+        .finally(e => {
+          this.hideLoading();
+        });
     },
     // 点击编辑
     edtClick(data) {
       this.edtId = data.id;
-      this.getOfflineById(this.edtId)
+      this.getOfflineById(this.edtId);
     },
     // 获取一条信息内容
-    async getOfflineById (id) {
+    async getOfflineById(id) {
       this.showLoading();
       let res = await getOfflineItem({ id });
       console.log(res);
@@ -401,10 +405,10 @@ export default {
       e.preventDefault();
       this.diaForm.validateFields((err, values) => {
         console.log("coming..handleOk.", values);
-        console.log('haha:', err)
+        console.log("haha:", err);
         if (!err) {
           if (this.edtId) {
-            this.updateRequest(values)
+            this.updateRequest(values);
           } else {
             this.addRequest(values);
           }
@@ -412,8 +416,8 @@ export default {
       });
     },
     // 更新请求
-    async updateRequest (params) {
-      console.log('begain update')
+    async updateRequest(params) {
+      console.log("begain update");
       this.showLoading();
       let res = await updateOffline(this.edtId, Object.assign(params));
       console.log(res);
@@ -425,20 +429,34 @@ export default {
       this.toast("更新成功了");
     },
     // 新增请求
-    async addRequest(params) {
-      console.log('begain add')
+    addRequest(params) {
+      console.log("begain add");
       this.showLoading();
-      params.registrationTime = this.signDate
-      let res = await addOffline(Object.assign(params));
-      console.log(res);
-      this.hideLoading();
-      if (res.errorNo != 200) {
-        this.toast(res.errorDesc, true);
-        return;
-      }
-      this.toast("新增成功");
-      this.handleCancel();
-      this.fetchData();
+      params.registrationTime = this.signDate;
+      addOffline(Object.assign(params))
+        .then(res => {
+          console.log("add success:", res);
+          this.handleCancel();
+          this.fetchData();
+        })
+        .catch(e => {
+          console.log("failed:", e);
+          this.toast(res.errorDesc, true);
+        })
+        .finally(e => {
+          console.log("zuihoule");
+          this.hideLoading();
+        });
+      console.log("马上来");
+      // console.log(res);
+      // this.hideLoading();
+      // if (res.errorNo != 200) {
+      //   this.toast(res.errorDesc, true);
+      //   return;
+      // }
+      // this.toast("新增成功");
+      // this.handleCancel();
+      // this.fetchData();
     },
     // dialog 取消
     handleCancel() {
