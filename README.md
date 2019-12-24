@@ -29,7 +29,7 @@
 ## 安装
 克隆项目到本地:
 ```
-$ git clone https://github.com/iczer/vue-antd-admin.git
+$ git clone https://github.com/demonran/corn-ui.git
 ```
 安装依赖：
 ```
