@@ -12,7 +12,7 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-      <a-date-picker class="withfull" v-decorator="['beginDate',{rules: [{ required: false, message: '选择开始日期'}]}]"
+      <a-date-picker class="withfull" v-decorator="['beginDate',{rules: [{ required: true, message: '选择开始日期'}]}]"
             placeholder="选择开始日期"/>
       </a-form-item>
 
@@ -21,7 +21,7 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-      <a-date-picker class="withfull" v-decorator="['endDate',{rules: [{ required: false, message: '选择结束日期'}]}]"
+      <a-date-picker class="withfull" v-decorator="['endDate',{rules: [{ required: true, message: '选择结束日期'}]}]"
             placeholder="选择结束日期"/>
       </a-form-item>
 

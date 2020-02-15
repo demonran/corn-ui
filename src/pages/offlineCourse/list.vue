@@ -123,7 +123,7 @@ export default {
       pagination: {
         pageSize: 10,
         total: 0,
-        current: 1,
+        defaultCurrent: 1,
         showSizeChanger: true,
         showQuickJumper: true,
         showTotal (total) { return `共${total}项`; }
@@ -222,7 +222,7 @@ async list (query) {
       if (!query) query = {pageNum: this.pagination.current, pageSize: this.pagination.pageSize};
       if (!query.pageSize) query.pageSize = this.pagination.pageSize;
 
-      query.status = this.filterStatus;
+      //query.status = this.filterStatus;
       if (this.filterKeyword) query.name = this.filterKeyword;
 
       this.showLoading();
