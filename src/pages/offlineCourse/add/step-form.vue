@@ -32,11 +32,17 @@ export default {
   data () {
     return {
       desc: '将一个冗长或用户不熟悉的表单任务分成多个步骤，指导用户完成。',
-      current: 0
+      current: 0,
+form: this.$form.createForm(this)
     };
   },
+mounted(){
+
+},
   methods: {
-    ...mapActions('offline', ['postCreateCourse']),
+    ...mapActions('offline', ['postCreateCourse','postUpdateCourse']),
+    //...mapActions('table', ['postAddRow', 'postUpdateRow']),
+
 
     nextStep () {
       if (this.current < 3) {
@@ -51,17 +57,30 @@ export default {
     finish () {
       this.current = 0;
     },
+
     async OnSubmit () {
-      this.showLoading();
+      //this.showLoading();
+      let isUpdate = this.$route.params.isUpdate;//true为编辑进入，false或为空就是新增
+      let rowData = this.$route.params.data;
+      console.log("”update00000  "+JSON.stringify(rowData));
 
       let data = {...this.$refs.step1.values,
         ...this.$refs.step2.values,
         ...this.$refs.step3.values
       };
-
+      console.log('提交事件')
       console.log(data);
-      data.status = 1;
-      let error = await this.postCreateCourse(data);
+      if (isUpdate == true) {
+        let params={
+          id:rowData.courseId,
+          data:data
+        }
+        let error = await this.postUpdateCourse(params);
+      } else{
+         data.status = 1;
+        let error = await this.postCreateCourse(data);
+      }
+
       this.hideLoading();
 
       if (error) {
@@ -69,6 +88,7 @@ export default {
         return;
       }
       this.current += 1;
+
     }
   }
 };

@@ -9,14 +9,16 @@
 </style>
 <template>
   <div>
-    <a-form :form="form" style="max-width: 500px; margin: 40px auto 0;">
+
+
+    <a-form :form="form" style="max-width: 500px; margin: 40px auto 0;"  >
       <a-form-item
         label="课程标题"
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-input v-decorator="['courseTitle',{rules: [{ required: true, message: '请输入课程标题'}]}]"
-            placeholder="请输入课程标题" />
+        <a-input v-decorator="['courseName',{rules: [{ required: true, message: '请输入课程标题'}]}]"
+            placeholder="请输入课程标题"/>
       </a-form-item>
 
       <a-form-item
@@ -57,8 +59,11 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
+
+
         <a-input v-decorator="['price',{rules: [{ required: false, message: '请输入课时单价'}]}]"
             prefix="￥" placeholder="请输入课时单价" type="number" />
+
       </a-form-item>
       <a-form-item
         label="共计课时"
@@ -108,7 +113,7 @@
            placeholder="选择主讲教师">
           <a-select-option value="1">少儿</a-select-option>
         </a-select> -->
-        
+
          <component :is="'selectui'" :config="teacherConfig" v-decorator="['teacher',{rules: [{required:true, validator: checkColsItem }]}]"
          ></component>
 
@@ -134,6 +139,7 @@ export default {
     return {
       form: this.$form.createForm(this),
       creatingCateName: '',
+
       categoryConfig:{
             dataS:{
               remote:{
@@ -145,7 +151,7 @@ export default {
               }
             }
       },
-      
+
       teacherConfig: {
             dataS:{
               remote:{
@@ -157,7 +163,23 @@ export default {
               }
             }
       },
+
     };
+  },
+  mounted() {isUpdate
+
+        let rowData = this.$route.params.data
+         let isUpdate = this.$route.params.isUpdate;//true为编辑进入，false或为空就是新增
+        this.form.setFieldsValue(rowData);
+  console.log("”update  "+isUpdate);
+  console.log(this.type)
+
+   } ,
+  watch: {
+/*    $route () {
+let rowData = this.$route.params.data;
+
+    } */
   },
   methods: {
       checkColsItem (rule, value, callback) {
@@ -173,7 +195,7 @@ export default {
         if (error) return;
 
         this.values = values;
-        this.values.courseName = values.courseTitle;
+
         this.values.isShareBrokerage = values.brokerage.isSet == 1;
         this.values.shareBrokerageAmount = values.brokerage.money;
         this.$emit('nextStep');
@@ -189,7 +211,7 @@ export default {
     },
 
     getValues () {
-      return this.form.getFieldsValue();
+      //return this.form.getFieldsValue();
     },
 
     async addCategory () {

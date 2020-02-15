@@ -37,6 +37,13 @@ export default {
       form: this.$form.createForm(this)
     };
   },
+  mounted() {
+
+        let rowData = this.$route.params.data;
+        this.form.setFieldsValue(rowData);
+  console.log(rowData)
+
+   } ,
   methods: {
     nextStep () {
       this.form.validateFields((error, values) => {

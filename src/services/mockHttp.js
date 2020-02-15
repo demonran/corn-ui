@@ -13,5 +13,6 @@ export default {
   get: patch(http, 'get'),
   post: patch(http, 'post'),
   delete: patch(http, 'delete'),
-  put: patch(http, 'put')
+  put: patch(http, 'put'),
+  patch: patch(http, 'patch')
 };

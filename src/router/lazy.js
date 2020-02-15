@@ -24,6 +24,12 @@ const routes = [
     invisible: true,
     children: [
       {
+        path: '/situation',
+        name: '概况',
+        component: () => import('@/pages/situation/situation'),
+        icon: 'solution'
+      },
+      /* {
         path: '/dashboard',
         name: 'DashBoard',
         component: RouteView,
@@ -42,7 +48,7 @@ const routes = [
             icon: 'none'
           }
         ]
-      },
+      }, */
       {
         path: '/course',
         name: '课程',
@@ -52,7 +58,6 @@ const routes = [
           {
             path: '/course/offline',
             name: '线下课程',
-            title: '12323',
             component: () => import('@/pages/offlineCourse/list'),
             icon: 'none'
           },
@@ -72,26 +77,13 @@ const routes = [
           }
         ]
       },
+
       // 报名模块
       {
         path: '/signUp',
         name: '报名',
-        component: RouteView,
-        icon: 'form',
-        children: [
-          {
-            path: '/signUp/online',
-            name: '线上报名',
-            component: () => import('@/pages/signUp/online'),
-            icon: 'none'
-          },
-          {
-            path: '/signUp/offline',
-            name: '线下报名',
-            component: () => import('@/pages/signUp/offline'),
-            icon: 'none'
-          }
-        ]
+        component: () => import('@/pages/signUp/signUp'),
+        icon: 'form'
       },
       // 学员
       {
