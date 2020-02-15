@@ -26,7 +26,7 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <a-input v-decorator="['courseSubTitle',{rules: [{ required: true, message: '请输入副标题'}]}]"
+        <a-input v-decorator="['courseSubTitle',{rules: [{ required: false, message: '请输入副标题'}]}]"
             placeholder="请输入副标题" />
       </a-form-item>
 
@@ -36,13 +36,13 @@
         :wrapperCol="{span: 19}"
       >
 
-         <component :is="'selectui'" :config="categoryConfig" v-decorator="['courseCategory',{rules: [{required:true, validator: checkColsItem }]}]"
-         ></component>
+         <!-- <component :is="'selectui'" :config="categoryConfig" v-decorator="['courseCategory',{rules: [{required:true, validator: checkColsItem }]}]"
+         ></component> -->
 
-        <!-- <a-select showSearch v-decorator="['courseCategory',{rules: [{ required: true, message: '请选择课程分类'}]}]"
+         <a-select showSearch v-decorator="['courseCategory',{rules: [{ required: false, message: '请选择课程分类'}]}]"
            placeholder="选择课程分类">
           <a-select-option value="1">少儿</a-select-option>
-        </a-select> -->
+        </a-select>
         <!-- <a-popover trigger="click">
           <template slot="content">
             <div class="add-cate-panel">
@@ -109,13 +109,13 @@
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-        <!-- <a-select showSearch v-decorator="['teacher',{rules: [{ required: true, message: '选择主讲教师'}]}]"
+         <a-select showSearch v-decorator="['teacher',{rules: [{ required: false, message: '选择主讲教师'}]}]"
            placeholder="选择主讲教师">
-          <a-select-option value="1">少儿</a-select-option>
-        </a-select> -->
+          <a-select-option value="1">王老师</a-select-option>
+        </a-select>
 
-         <component :is="'selectui'" :config="teacherConfig" v-decorator="['teacher',{rules: [{required:true, validator: checkColsItem }]}]"
-         ></component>
+         <!-- <component :is="'selectui'" :config="teacherConfig" v-decorator="['teacher',{rules: [{required:true, validator: checkColsItem }]}]"
+         ></component> -->
 
       </a-form-item>
 
@@ -166,20 +166,18 @@ export default {
 
     };
   },
-  mounted() {isUpdate
-
-        let rowData = this.$route.params.data
+mounted() {
+  let rowData = this.$route.params.data
+           let isUpdate = this.$route.params.isUpdate;//true为编辑进入，false或为空就是新增
+          this.form.setFieldsValue(rowData);
+},
+  watch: {
+  $route () {
+let rowData = this.$route.params.data
          let isUpdate = this.$route.params.isUpdate;//true为编辑进入，false或为空就是新增
         this.form.setFieldsValue(rowData);
-  console.log("”update  "+isUpdate);
-  console.log(this.type)
 
-   } ,
-  watch: {
-/*    $route () {
-let rowData = this.$route.params.data;
-
-    } */
+    }
   },
   methods: {
       checkColsItem (rule, value, callback) {

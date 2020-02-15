@@ -28,9 +28,9 @@
  <a-row style="padding-top:10px;">
       <a-col :md="14" :sm="24" >
       <a-button class="btn"  @click="addCourse" type="primary">新建</a-button>
-      <a-button class="btn" type="primary" ghost>开启</a-button>
+      <!-- <a-button class="btn" type="primary" ghost>开启</a-button>
       <a-button class="btn" type="primary" ghost>停招</a-button>
-      <a-button class="btn" type="primary" ghost>导出</a-button>
+      <a-button class="btn" type="primary" ghost>导出</a-button> -->
       </a-col>
          <a-col :md="6" :sm="24" >
            <a-form-item
@@ -84,7 +84,7 @@
             <a-menu-item @click="update(record)"><a>编辑</a></a-menu-item>
             <a-menu-item @click="changeStatus (text,!text.status)">
               <a>
-                {{text.status=='closed'?'重启':'停招'}}
+                {{text.status!=undifined||text.status=='closed'?'重启':'停招'}}
               </a>
               </a-menu-item>
 

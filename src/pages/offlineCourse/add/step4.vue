@@ -16,6 +16,11 @@ export default {
   name: 'Step3',
   components: {Result},
   methods: {
+    getWord(){
+      if (isUpdate == true) {
+        
+      }
+    },
     doOnceAgin () {
       this.$emit('finish');
     },

@@ -59,7 +59,7 @@ mounted(){
     },
 
     async OnSubmit () {
-      //this.showLoading();
+      this.showLoading();
       let isUpdate = this.$route.params.isUpdate;//true为编辑进入，false或为空就是新增
       let rowData = this.$route.params.data;
       console.log("”update00000  "+JSON.stringify(rowData));
@@ -76,18 +76,27 @@ mounted(){
           data:data
         }
         let error = await this.postUpdateCourse(params);
+        
+        if (error) {
+          this.toast(error, true);
+          return;
+        }
+        this.current += 1;
       } else{
          data.status = 1;
         let error = await this.postCreateCourse(data);
+        
+        if (error) {
+          this.toast(error, true);
+          return;
+        }
+        this.current += 1;
       }
 
       this.hideLoading();
 
-      if (error) {
-        this.toast(error, true);
-        return;
-      }
-      this.current += 1;
+     
+
 
     }
   }

@@ -37,13 +37,14 @@ export default {
       form: this.$form.createForm(this)
     };
   },
-  mounted() {
-
-        let rowData = this.$route.params.data;
+  watch: {
+  $route () {
+let rowData = this.$route.params.data
+         let isUpdate = this.$route.params.isUpdate;//true为编辑进入，false或为空就是新增
         this.form.setFieldsValue(rowData);
-  console.log(rowData)
 
-   } ,
+    }
+  },
   methods: {
     nextStep () {
       this.form.validateFields((error, values) => {
