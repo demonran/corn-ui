@@ -83,7 +83,16 @@ const routes = [
         path: '/signUp',
         name: '报名',
         component: () => import('@/pages/signUp/signUp'),
-        icon: 'form'
+        icon: 'form',
+        children: [
+          {
+            path: '/signUp/addSignUp',
+            name: '添加报名',
+            invisible: true,
+            component: () => import('@/pages/signUp/addSignUp'),
+            icon: 'none'
+          }
+          ]
       },
       // 学员
       {
