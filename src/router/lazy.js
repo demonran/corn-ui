@@ -101,6 +101,13 @@ const routes = [
         component: () => import('@/pages/students/stulist'),
         icon: 'solution'
       },
+      // 学员
+      {
+        path: '/user/list',
+        name: '微信用户管理',
+        component: () => import('@/pages/user/index'),
+        icon: 'solution'
+      },
       // test
       {
         path: '/students',

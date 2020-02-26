@@ -10,3 +10,7 @@ export async function postLogin (data) {
 export async function postLoginout () {
   return http.get('/logout');
 }
+
+export function users() {
+  return http.get('/users');
+}
