@@ -60,8 +60,8 @@ export default {
     nextStep () {
       this.form.validateFields((error, values) => {
         if (error) return;
-        this.values = {beginDate: values.beginDate.format('YYYY-MM-DD'),
-          endDate: values.endDate.format('YYYY-MM-DD'),
+        this.values = {beginDate: values.beginDate.format('YYYY.MM.DD'),
+          endDate: values.endDate.format('YYYY.MM.DD'),
           startClassTime: values.classTime.start,
           endClassTime: values.classTime.end};
 
