@@ -6,12 +6,9 @@
       rowKey="id"
       :columns="columns"
       :dataSource="dataSource"
-      :pagination="true"
-    >
+      :pagination="true">
       <img slot="avatarUrl" slot-scope="avatarUrl" :src="avatarUrl"/>
-      <template >
 
-      </template>
     </a-table>
   </div>
 

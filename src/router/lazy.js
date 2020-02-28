@@ -108,6 +108,7 @@ const routes = [
         component: () => import('@/pages/user/index'),
         icon: 'solution'
       },
+
       // test
       {
         path: '/students',
@@ -120,6 +121,28 @@ const routes = [
             path: '/students/stulist',
             name: '学员详情',
             component: () => import('@/pages/students/stulist'),
+            icon: 'none'
+          }
+        ]
+      },
+      // 设置
+      {
+        path: '/settings',
+        name: '设置',
+        component: RouteView,
+        icon: 'setting',
+        children: [
+          {
+            path: '/settings/category',
+            name: '课程分类',
+            component: () => import('@/pages/category/list'),
+            icon: 'none'
+          },
+          {
+            path: '/settings/category/add',
+            name: '添加课程分类',
+            invisible: true,
+            component: () => import('@/pages/category/add'),
             icon: 'none'
           }
         ]
@@ -299,80 +322,80 @@ const routes = [
   }
 ];
 
-let n = Tables.routes.length;
-for (let i = 0; i < n; i++) {
-  let pos = Tables.routes[i].pos;
-  let currRoute = Tables.routes[i].route;
-
-  if (!pos.parent) { //没有父级放在根路
-    let inserted = false;
-    if (pos.pre) {
-      let len = routes.length;
-      for (let k = 0; k < len; k++) {
-        if (routes[k].name == pos.pre) {
-          routes.splice(k + 1, 0, currRoute);
-          inserted = true;
-          break;
-        }
-      }
-    }
-    if (pos.post && !inserted) {
-      let len = routes.length;
-      for (let k = 0; k < len; k++) {
-        if (routes[k].name == pos.post) {
-          routes.splice(k, 0, currRoute);
-          inserted = true;
-          break;
-        }
-      }
-    }
-    if (!inserted) {
-      routes.push(currRoute);
-    }
-    continue;
-  }
-
-  //有parent
-  function findNode(nodes, name) {
-    let n = nodes.length;
-    for (let i = 0; i < n; i++) {
-      let item = nodes[i];
-      if (item.name == name) {
-        return item;
-      }
-      if (item.children) {
-        let ret = findNode(item.children, name);
-        if (ret) return ret;
-      }
-    }
-  }
-
-  let parentNode = findNode(routes, pos.parent);
-  if (!parentNode) {
-    console.error('not find ' + pos.parent, pos);
-    continue;
-  }
-  let root = parentNode.children;
-  let len = root.length;
-  let inserted = false;
-
-  for (let k = 0; k < len; k++) {
-    let item = root[k];
-
-    if (pos.pre && item.name == pos.pre) {
-      root.splice(k + 1, 0, currRoute);
-      inserted = true;
-      break;
-    }
-
-    if (pos.post && item.name == pos.post) {
-      root.splice(k, 0, currRoute);
-      inserted = true;
-      break;
-    }
-  }
-  if (!inserted) {
-    root.push(currRoute);
-  }
-}
+// let n = Tables.routes.length;
+// for (let i = 0; i < n; i++) {
+//   let pos = Tables.routes[i].pos;
+//   let currRoute = Tables.routes[i].route;
+//
+//   if (!pos.parent) { //没有父级放在根路
+//     let inserted = false;
+//     if (pos.pre) {
+//       let len = routes.length;
+//       for (let k = 0; k < len; k++) {
+//         if (routes[k].name == pos.pre) {
+//           routes.splice(k + 1, 0, currRoute);
+//           inserted = true;
+//           break;
+//         }
+//       }
+//     }
+//     if (pos.post && !inserted) {
+//       let len = routes.length;
+//       for (let k = 0; k < len; k++) {
+//         if (routes[k].name == pos.post) {
+//           routes.splice(k, 0, currRoute);
+//           inserted = true;
+//           break;
+//         }
+//       }
+//     }
+//     if (!inserted) {
+//       routes.push(currRoute);
+//     }
+//     continue;
+//   }
+//
+//   //有parent
+//   function findNode(nodes, name) {
+//     let n = nodes.length;
+//     for (let i = 0; i < n; i++) {
+//       let item = nodes[i];
+//       if (item.name == name) {
+//         return item;
+//       }
+//       if (item.children) {
+//         let ret = findNode(item.children, name);
+//         if (ret) return ret;
+//       }
+//     }
+//   }
+//
+//   let parentNode = findNode(routes, pos.parent);
+//   if (!parentNode) {
+//     console.error('not find ' + pos.parent, pos);
+//     continue;
+//   }
+//   let root = parentNode.children;
+//   let len = root.length;
+//   let inserted = false;
+//
+//   for (let k = 0; k < len; k++) {
+//     let item = root[k];
+//
+//     if (pos.pre && item.name == pos.pre) {
+//       root.splice(k + 1, 0, currRoute);
+//       inserted = true;
+//       break;
+//     }
+//
+//     if (pos.post && item.name == pos.post) {
+//       root.splice(k, 0, currRoute);
+//       inserted = true;
+//       break;
+//     }
+//   }
+//   if (!inserted) {
+//     root.push(currRoute);
+//   }
+// }
 export default new Router({ routes });

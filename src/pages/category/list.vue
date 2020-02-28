@@ -1,96 +1,57 @@
 <template>
-  <page-layout>
-    <div>
-      <a-row style="margin: 0 -12px">
-        <a-col style="padding: 0 0px" :xl="8" :lg="24" :md="24" :sm="24" :xs="24">
-          <a-card title="快速开始 / 便捷导航" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
-            <div class="item-group">
-              <a>操作一</a>
-              <a>操作二</a>
-              <a>操作三</a>
-              <a>操作四</a>
-              <a>操作五</a>
-              <a>操作六</a>
-              <a-button size="small" type="primary" ghost icon="plus">添加</a-button>
-            </div>
-          </a-card>
-          <a-card title="XX指数" style="margin-bottom: 24px" :bordered="false" :body-style="{padding: 0}">
-            <div style="min-height: 400px;">
-              <radar />
-            </div>
-          </a-card>
-          <a-card :loading="loading" title="团队" :bordered="false">
-            <div class="members">
-              <a-row>
-                <a-col :span="12" v-for="(item, index) in teams" :key="index">
-                  <a>
-                    <a-avatar size="small" :src="item.avatar" />
-                    <span class="member">{{item.name}}</span>
-                  </a>
-                </a-col>
-              </a-row>
-            </div>
-          </a-card>
-        </a-col>
-      </a-row>
+  <div>
+    <div class="operator">
+      <a-button @click="addNew" type="primary">新建</a-button>
     </div>
-  </page-layout>
+    <standard-table
+      :columns="columns"
+      :dataSource="categories"
+      :selectedRows="selectedRows"
+      rowKey="categoryId"
+      @change="onchange"
+    />
+  </div>
 </template>
 
 <script>
-import PageHeader from '../../components/page/PageHeader';
-import PageLayout from '../../layouts/PageLayout';
-import HeadInfo from '../../components/tool/HeadInfo';
-import Radar from '../../components/chart/Radar';
+import StandardTable from '@/components/table/StandardTable';
+import Category from '@/services/category';
 
 export default {
   name: 'WorkPlace',
-  components: {Radar, HeadInfo, PageLayout, PageHeader},
+  components: {StandardTable},
   data () {
     return {
-      projects: [],
       loading: true,
-      activities: [],
-      teams: []
+      categories: [],
+      selectedRows: [],
+      columns:[
+        {
+          title: '序号',
+          dataIndex: 'categoryId',
+        },
+        {
+          title: '分类名称',
+          dataIndex: 'categoryName',
+        },
+      ]
     };
   },
-  computed: {
-    currUser () {
-      return this.$store.state.account.user;
-    }
-  },
+
   mounted () {
-    this.getProjectList();
-    this.getActivites();
-    this.getTeams();
+    this.list();
   },
   methods: {
-    getProjectList () {
-      this.$axios({
-        method: 'get',
-        url: '/project'
-      }).then(res => {
-        this.projects = res.data;
-        this.loading = false;
-      });
+    list () {
+      Category.list().then(res => {
+        console.log(res)
+        this.categories = res.result.content;
+      })
     },
-    getActivites () {
-      this.$axios({
-        method: 'get',
-        url: '/work/activity'
-      }).then(res => {
-        this.activities = res.data;
-      });
-    },
-    getTeams () {
-      this.$axios({
-        method: 'get',
-        url: '/work/team'
-      }).then(res => {
-        this.teams = res.data;
-      });
+    addNew() {
+      this.$router.push('/settings/category/add');
     }
-  }
+  },
 };
 </script>
 

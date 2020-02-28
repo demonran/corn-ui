@@ -6,7 +6,7 @@
         :labelCol="{span: 7}"
         :wrapperCol="{span: 10}"
       >
-        <a-input placeholder="给目标起个名字" />
+        <a-input  placeholder="给目标起个名字" />
       </a-form-item>
       <a-form-item
         label="起止日期"
