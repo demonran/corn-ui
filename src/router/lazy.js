@@ -83,6 +83,14 @@ const routes = [
         path: '/signUp',
         name: '报名',
         component: () => import('@/pages/signUp/signUp'),
+        icon: 'form'
+      },
+      // 报名隐藏的
+      {
+        path: '/signUp',
+        name: '报名隐藏的',
+        component: RouteView,
+        invisible: true,
         icon: 'form',
         children: [
           {
@@ -101,7 +109,7 @@ const routes = [
         component: () => import('@/pages/students/stulist'),
         icon: 'solution'
       },
-      // 学员
+      // 微信用户管理
       {
         path: '/user/list',
         name: '微信用户管理',
@@ -143,6 +151,13 @@ const routes = [
             name: '添加课程分类',
             invisible: true,
             component: () => import('@/pages/category/add'),
+            icon: 'none'
+          },
+          {
+            path: '/settings/category/result',
+            name: '结果',
+            invisible: true,
+            component: () => import('@/pages/result/Success'),
             icon: 'none'
           }
         ]

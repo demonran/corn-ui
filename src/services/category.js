@@ -7,7 +7,9 @@ export default {
 
   add(data) {
       return http.post('/categories',data)
+  },
+  deleteCat(id) {
+      return http.delete('/categories/'+id)
   }
 
 }
-

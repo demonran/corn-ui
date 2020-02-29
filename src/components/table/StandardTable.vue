@@ -1,6 +1,6 @@
 <template>
   <div class="standard-table">
-    <div class="alert">
+    <!-- <div class="alert">
       <a-alert type="info" :show-icon="true">
         <div slot="message">
           已选择&nbsp;<a style="font-weight: 600">{{selectedRows.length}}</a>&nbsp;项&nbsp;&nbsp;
@@ -13,7 +13,7 @@
           <a style="margin-left: 24px">清空</a>
         </div>
       </a-alert>
-    </div>
+    </div> -->
     <a-table
       :bordered="bordered"
       :loading="loading"

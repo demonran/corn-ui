@@ -25,12 +25,19 @@
     },
     methods: {
       onsubmit() {
+        let that = this
         this.form.validateFields((err, values) => {
           if (!err) {
            Category.add(values)
+           that.goResult()
+           window.open('',self);
+           window.close();
           }
         });
 
+      },
+      goResult(){
+        this.$router.replace('/settings/category/result');
       }
     }
   };
