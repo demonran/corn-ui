@@ -159,6 +159,12 @@ const routes = [
             invisible: true,
             component: () => import('@/pages/result/Success'),
             icon: 'none'
+          },
+          {
+            path: '/settings/banner',
+            name: 'Banner设置',
+            component: () => import('@/pages/settings/banner/list'),
+            icon: 'none'
           }
         ]
       },
