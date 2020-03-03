@@ -41,12 +41,12 @@
             },
             ]"
           >
-                <a-select-option :value="item.categoryId" placeholder="请选择课程分类"
+                <!-- <a-select-option :value="item.categoryId" placeholder="请选择课程分类"
                 v-for="(item,i) in categories"
 
                 >
                   {{item.categoryName}}
-                </a-select-option>
+                </a-select-option> -->
 
               </a-select>
 
@@ -187,7 +187,7 @@ console.log('chooseCatId:',this.chooseCatId);
     getCategory(){
       Category.list().then(res => {
         //console.log(res)
-        this.categories = res.result.content;
+        //this.categories = res.result.content;
       })
     },
 
