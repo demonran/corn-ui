@@ -115,7 +115,7 @@
 
 <script>
 import PageLayout from "../../layouts/PageLayout";
-import { offlineList, addOffline, delOffline } from "@/services/signup";
+import Signup from "@/services/signup";
 import comm from "../mix";
 
 export default {
@@ -181,7 +181,7 @@ export default {
         param.beginDate = this.beginDate;
         param.endDate = this.endDate;
       }
-      let res = await offlineList(
+      let res = await Signup.list(
         Object.assign(this.page, filter ? param : {})
       );
       console.log(res);

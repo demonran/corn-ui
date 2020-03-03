@@ -100,7 +100,7 @@ const routes = [
             component: () => import('@/pages/signUp/addSignUp'),
             icon: 'none'
           }
-          ]
+        ]
       },
       // 学员
       {
@@ -165,6 +165,11 @@ const routes = [
             name: 'Banner设置',
             component: () => import('@/pages/settings/banner/list'),
             icon: 'none'
+          }, {
+            path: '/settings/addbanner',
+            name: '新增banner',
+            invisible: true,
+            component: () => import('@/pages/settings/banner/add')
           }
         ]
       },
