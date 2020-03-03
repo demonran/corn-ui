@@ -37,6 +37,7 @@
 
 <script>
 import Category from "@/services/category";
+import Common from "@/services/common"
 export default {
   data() {
     return {
@@ -46,10 +47,26 @@ export default {
     };
   },
   methods: {
+    beforeUpload(file) {
+      //   const isJPG = file.type === "image/jpeg";
+      //   if (!isJPG) {
+      //     this.$message.error("You can only upload JPG file!");
+      //   }
+      // 暂时只判断图片大小不超过10M
+      const isLt10M = file.size / 1024 / 1024 < 10;
+      if (!isLt10M) {
+        this.$message.error("图片不要超过10M哟");
+      }
+      return isLt10M;
+    },
     // 上传图片
-    uploadimg() {},
+    uploadimg(option) {
+      const formData = new FormData();
+      formData.append("file", option.file);
+      Common.uploadimg(formData)
+    },
     onsubmit() {
-      this.$message.info('先不提交')
+      this.$message.info("先不提交");
       //   let that = this;
       //   this.form.validateFields((err, values) => {
       //     if (!err) {
