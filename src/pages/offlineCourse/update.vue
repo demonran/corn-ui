@@ -38,21 +38,41 @@ export default {
   components: {PageLayout, PageHeader, Add},
   data () {
     return {
+
     };
   },
   computed: {
   },
-  watch:{
-      $route(){
-          if( this.$route.fullPath != "/course/updateOffline" ) return;
+  mounted() {
 
-          console.log( this.$route.params.courseId);
-      }
+
+             let isUpdate = this.$route.params.isUpdate;//true为编辑进入，false或为空就是新增
+            if(isUpdate==true){
+              let rowData = this.$route.params.data
+             // this.form.setFieldsValue(rowData);
+              console.log('update+',rowData)
+            }
+
+            //this.categoryName = rowData.courseCategory.categoryName
+
+
+
+  //this.isShareBrokerage = rowData.isShareBrokerage
+            //this.values.isShareBrokerage = values.brokerage.isSet == 1;
+            //this.values.shareBrokerageAmount = values.brokerage.money;
   },
-  mounted () {
-    //   console.log(this.$route );
-    
-  },
+  watch: {
+ /*   $route () {
+   let rowData = this.$route.params.data
+           let isUpdate = this.$route.params.isUpdate;//true为编辑进入，false或为空就是新增
+          this.form.setFieldsValue(rowData);
+
+  console.log('rowData',rowData)
+
+
+      } */
+    },
+
   updated () {
 
   },

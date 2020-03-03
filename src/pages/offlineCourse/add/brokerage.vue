@@ -24,6 +24,17 @@ export default {
       money: 0
     };
   },
+  mounted() {
+   /* let rowData = this.$route.params.data
+             let isUpdate = this.$route.params.isUpdate;//true为编辑进入，false或为空就是新增
+            this.form.setFieldsValue(rowData);
+            console.log('分享佣金')
+            console.log(rowData) */
+/* 
+              this.isSet = rowData.isShareBrokerage
+              this.money = rowData.shareBrokerageAmount */
+
+  },
   watch: {
     value (val = {}) {
       if (val.isSet !== this.isSet) this.isSet = val.isSet;

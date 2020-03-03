@@ -36,9 +36,7 @@ export default {
 form: this.$form.createForm(this)
     };
   },
-mounted(){
 
-},
   methods: {
     ...mapActions('offline', ['postCreateCourse','postUpdateCourse']),
     //...mapActions('table', ['postAddRow', 'postUpdateRow']),
@@ -76,7 +74,7 @@ mounted(){
           data:data
         }
         let error = await this.postUpdateCourse(params);
-        
+
         if (error) {
           this.toast(error, true);
           return;
@@ -85,7 +83,7 @@ mounted(){
       } else{
          data.status = 1;
         let error = await this.postCreateCourse(data);
-        
+
         if (error) {
           this.toast(error, true);
           return;
@@ -95,7 +93,7 @@ mounted(){
 
       this.hideLoading();
 
-     
+
 
 
     }

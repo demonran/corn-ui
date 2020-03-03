@@ -165,6 +165,12 @@ const routes = [
             name: 'Banner设置',
             component: () => import('@/pages/settings/banner/list'),
             icon: 'none'
+          },
+          {
+            path: '/settings/information',
+            name: '机构信息',
+            component: () => import('@/pages/settings/information/infor'),
+            icon: 'none'
           }
         ]
       },

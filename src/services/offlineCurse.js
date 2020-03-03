@@ -11,6 +11,9 @@ export default {
   delete (id) {
     return http.delete('/offline-course/' + id);
   },
+  image (id) {
+    return http.patch('/offline-course/image' + id);
+  },
   create (data) {
     return http.post('/offline-course/create', data);
   },
