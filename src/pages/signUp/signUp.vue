@@ -1,12 +1,10 @@
 <template>
   <page-layout title="报名">
-   <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="true">
-
-      <a-button class="btn"  @click="addClick" type="primary">新建</a-button>
+    <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="true">
+      <a-button class="btn" @click="addClick" type="primary">新建</a-button>
 
       <div class="search" slot="extra">
-
-        <a-form layout="inline" :form="form"  @submit="submitClick">
+        <a-form layout="inline" :form="form" @submit="submitClick">
           <a-form-item label="姓名">
             <a-input class="style_input" placeholder="请输入姓名" v-decorator="['name']" />
           </a-form-item>
@@ -49,7 +47,7 @@
 
       <a-table
         :bordered="true"
-        rowKey="id"
+        rowKey="registrationId"
         :pagination="offlinePagination"
         :columns="columns"
         :dataSource="dataSource"
@@ -204,7 +202,7 @@
 
 <script>
 import PageLayout from "../../layouts/PageLayout";
-import { offlineList, addOffline, delOffline } from "@/services/signup";
+import Signup from "@/services/signup";
 import comm from "../mix";
 
 const columns = [
@@ -242,20 +240,17 @@ const columns = [
     dataIndex: "price",
     scopedSlots: { customRender: "price" },
     key: "price"
-
   },
   {
     title: "支付方式",
     dataIndex: "payType",
     key: "payType"
-
   },
   {
     title: "报名时间",
     dataIndex: "beginDate",
     scopedSlots: { customRender: "beginDate" },
     key: "beginDate"
-
   },
   {
     title: "备注",
@@ -267,7 +262,6 @@ const columns = [
     dataIndex: "action",
     scopedSlots: { customRender: "action" },
     key: "action"
-
   }
 ];
 
@@ -317,13 +311,12 @@ export default {
   },
 
   mounted() {
-     this.fetchData();
+    this.fetchData();
   },
   methods: {
     // 请求列表数据
     fetchData(filter) {
       this.showLoading();
-
 
       var param = null;
       if (filter) {
@@ -332,7 +325,7 @@ export default {
         param.beginDate = this.beginDate;
         param.endDate = this.endDate;
       }
-      offlineList(Object.assign(this.page, filter ? param : {}))
+      Signup.list(Object.assign(this.page, filter ? param : {}))
         .then(res => {
           console.log(res);
           if (res.errorNo == 200) {
@@ -359,6 +352,11 @@ export default {
     // 获取一条信息内容
     async getOfflineById(id) {
       this.showLoading();
+      Signup.signupItem(id)
+        .then(res => {})
+        .catch(e => {
+          console.log(e);
+        });
       let res = await getOfflineItem({ id });
       console.log(res);
       this.hideLoading();
@@ -386,7 +384,7 @@ export default {
     // 删除点击
     async delClick(id) {
       this.showLoading();
-      console.log(id)
+      console.log(id);
       let res = await delOffline({ id });
       console.log(res);
       this.hideLoading();
@@ -425,7 +423,6 @@ export default {
       this.toast("更新成功了");
     },
 
-
     // 新增请求
     addRequest(params) {
       console.log("begain add");
@@ -448,14 +445,14 @@ export default {
         });
       console.log("马上来");
 
-       this.hideLoading();
-       if (res.errorNo != 200) {
-         this.toast(res.errorDesc, true);
-         return;
-       }
-       this.toast("新增成功");
-       this.handleCancel();
-       this.fetchData();
+      this.hideLoading();
+      if (res.errorNo != 200) {
+        this.toast(res.errorDesc, true);
+        return;
+      }
+      this.toast("新增成功");
+      this.handleCancel();
+      this.fetchData();
     },
     // dialog 取消
     handleCancel() {
@@ -482,10 +479,8 @@ export default {
     },
     // 点击添加
 
-
     addClick() {
       this.dialogVisible = true;
-
     },
     // 点击提交按钮
     submitClick(e) {
@@ -495,8 +490,6 @@ export default {
         this.fetchData(values);
       });
     },
-
-
 
     // 选中项改变
     onSelectChange(selectedRowKeys, selectedRows) {
@@ -512,7 +505,7 @@ export default {
 <style lang="less" scoped>
 .search {
   .style_input {
-    width:140px;
+    width: 140px;
   }
 }
 .name_des {
