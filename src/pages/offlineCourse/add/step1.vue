@@ -120,7 +120,8 @@
             <a-select
               v-decorator="[
                 'teacherId',
-                { rules: [{ required: false, message: '请选择老师' }] },
+                { rules: [{ required: false, message: '请选择老师' }],
+                initialValue: '王老师' },
               ]"
               placeholder="请选择老师"
 
@@ -202,9 +203,7 @@ console.log('chooseCatId:',this.chooseCatId);
 
         this.values = values;
         //this.values.courseCategoryId =that.categories.categoryId
-        this.values.courseCategoryId = this.chooseCatId
-
-
+        //this.values.courseCategoryId = this.chooseCatId
         this.values.isShareBrokerage = values.brokerage.isSet ;
         this.values.shareBrokerageAmount = values.brokerage.money;
         this.$emit('nextStep');

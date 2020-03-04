@@ -38,8 +38,9 @@
       </a-row>
 
       <a-table class="table"
-               :columns="columns" :scroll="{ x: '100%', y: 360 }"
+               :columns="columns" :scroll="{ x: '100%', y: 600 }"
                rowKey="courseId" :pagination="pagination" :dataSource="dataSource"
+               :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
               >
           <span slot="courseId" slot-scope="text,record,index">
              {{index+1}}
@@ -48,14 +49,12 @@
           <img :src="imageUrl"/>
         </template>
         <span slot="courseCategory"  slot-scope="text,record,index">
-          {{record.courseCategory}}
-          {{categoryName}}
-          {{record.courseCategory.categoryName}}
+          {{text.courseCategory.categoryName}}
         </span>
-        <span slot="beginDate" slot-scope="text,record,index">
-             {{record.beginDate}}~{{record.endDate}}
+        <span slot="beginDate" slot-scope="text,record">
+             {{record.beginDate}} ~ {{record.endDate}}
           </span>
-        <span slot="startClassTime" slot-scope="text,record,index">
+        <span slot="startClassTime" slot-scope="text,record">
              {{record.startClassTime}}-{{record.endClassTime}}
           </span>
         <span slot="status" slot-scope="status">
@@ -70,7 +69,7 @@
             <a-menu-item @click="update(record)"><a>编辑</a></a-menu-item>
             <a-menu-item @click="changeStatus (text,!text.status)">
               <a>
-                {{text.status!=undifined||text.status=='closed'?'重启':'停招'}}
+                {{text.status=='closed'?'重启':'停招'}}
               </a>
               </a-menu-item>
 
@@ -284,10 +283,7 @@
         this.$emit('finish');
         //this.$router.push({name:'编辑线下课程', params:{data:row}});
         this.$router.push({name: '编辑线下课程', params: {courseId: row.courseId, data: row, isUpdate: true}});
-      },
-      async changeCourseStatus(row) {
-
-      },
+      }
 
     }
   };

@@ -1,13 +1,13 @@
 import http from './http';
 import qs from 'qs';
-// import mock from './mockHttp';
+
 
 export default {
-  // 离线报名列表
+  // 报名列表
   list(param) {
    //return http.get('/registration/getAll?' + qs.stringify(param));
     return new Promise((resolve, reject) => {
-      http.get('/registration/getAll?' + qs.stringify(param)).then(e => {
+      http.get('/orders?' + qs.stringify(param)).then(e => {
         resolve(e);
       }).catch(e => {
         reject(e);
@@ -17,7 +17,7 @@ export default {
   // 获取单条报名数据
   signupItem(id) {
     return new Promise((resolve, reject) => {
-      http.get('/registration/' + id).then(e => {
+      http.get('/orders/' + id).then(e => {
         resolve(e);
       }).catch(e => {
         reject(e);

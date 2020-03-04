@@ -7,7 +7,7 @@
           v-decorator="['name', { rules: [{ required: true, message: '给机构起个名字' }] }]"
         />
       </a-form-item>
-      <a-form-item label="幻灯图片" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+      <!-- <a-form-item label="logo" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
          <a-upload
            name="imageUrl"
            listType="picture-card"
@@ -24,7 +24,7 @@
              <div class="ant-upload-text">Upload</div>
            </div>
          </a-upload>
-      </a-form-item>
+      </a-form-item> -->
 	   <a-form-item label="机构简介" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
       <a-input
         v-decorator="['description', { rules: [{ required: true, message: '给机构起个名字' }] }]"
@@ -32,15 +32,15 @@
 	   </a-form-item>
 		<a-form-item label="联系电话" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
 		  <a-input
-		    v-decorator="['name', { rules: [{ required: true, message: '给机构起个名字' }] }]"
+		    v-decorator="['tel', { rules: [{ required: true, message: '给机构起个名字' }] }]"
 		  />
 		</a-form-item>
 
-    <a-form-item label="机构地址" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+   <!-- <a-form-item label="机构地址" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
       <a-select
         v-decorator="[
           'address',
-          { rules: [{ required: true, message: 'Please select your gender!' }] },
+          { rules: [{ required: true, message: '请选择地址' }] },
         ]"
       >
         <a-select-option value="" placeholder="选择省">
@@ -53,7 +53,7 @@
           天府新区
         </a-select-option>
       </a-select>
-    </a-form-item>
+    </a-form-item> -->
     <a-form-item label="地址" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
       <a-input
         v-decorator="['address', { rules: [{ required: true, message: '请输入详细地址' }] }]"
