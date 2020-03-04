@@ -1,4 +1,4 @@
-import http from './upload';
+import http from './http';
 import qs from 'qs';
 
 export default {

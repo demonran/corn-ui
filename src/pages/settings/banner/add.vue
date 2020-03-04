@@ -13,13 +13,13 @@
           listType="picture-card"
           class="avatar-uploader"
           :showUploadList="false"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          action
+          accept=".jpg, .jpeg, .gif, .png, .bmp"
           :customRequest="uploadimg"
           :beforeUpload="beforeUpload"
-          @change="handleChange"
           v-decorator="['image', {rules: [{ required: true, message: '请上传图片' }]}]"
         >
-          <img v-if="image" :src="image" alt="avatar" />
+          <img class="imgshow" v-if="image" :src="image" alt="avatar" />
           <div v-else>
             <a-icon :type="loading ? 'loading' : 'plus'" />
           </div>
@@ -37,14 +37,36 @@
 
 <script>
 import Category from "@/services/category";
-import Common from "@/services/common"
+import BannerRequest from "@/services/banner";
+import CommonRequest from "@/services/common";
+import comm from "../../mix";
 export default {
+  mixins: [comm],
   data() {
     return {
+      id: "",
       form: this.$form.createForm(this),
       loading: false,
       image: ""
     };
+  },
+  mounted() {
+    this.id = this.$route.query.id || "";
+    if (id) {
+      // 这是编辑
+      BannerRequest.bannerItem(id)
+        .then(res => {
+          console.log("bannerItem:", res);
+          this.form.setFieldsValue({
+            name: res.name,
+            link: res.studentName
+          });
+          this.image = res.image;
+        })
+        .catch(e => {
+          console.log("error:", e);
+        });
+    }
   },
   methods: {
     beforeUpload(file) {
@@ -63,31 +85,50 @@ export default {
     uploadimg(option) {
       const formData = new FormData();
       formData.append("file", option.file);
-      Common.uploadimg(formData)
+      this.loading = true;
+      CommonRequest.uploadImg(formData)
+        .then(res => {
+          console.log("res:", res);
+          this.image = res.result;
+        })
+        .catch(e => {
+          console.log("something error");
+        })
+        .finally((this.loading = false));
     },
     onsubmit() {
-      this.$message.info("先不提交");
-      //   let that = this;
-      //   this.form.validateFields((err, values) => {
-      //     if (!err) {
-      //       Category.add(values);
-      //       that.goResult();
-      //       window.open("", self);
-      //       window.close();
-      //     }
-      //   });
+      let that = this;
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          var param = Object.assign(values);
+          param.image = this.image;
+          BannerRequest.add(param)
+            .then(res => {
+              that.toast("新增成功");
+              that.goResult();
+              console.log("resssss:", res);
+            })
+            .catch(e => {
+              console.log("error:", e);
+            });
+        }
+      });
     },
     goResult() {
-      this.$router.replace("/settings/category/result");
+      this.$router.replace("/settings/banner");
     }
   }
 };
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .avatar-uploader > .ant-upload {
   width: 128px;
   height: 128px;
+  .imgshow {
+    width: 128px;
+    height: 128px;
+  }
 }
 .ant-upload-select-picture-card i {
   font-size: 32px;
