@@ -50,7 +50,7 @@ export default {
       image: ""
     };
   },
-  mounted() {
+  activated() {
     this.id = this.$route.query.id || "";
     if (this.id) {
       // 这是编辑
@@ -68,6 +68,13 @@ export default {
         .catch(e => {
           console.log("error:", e);
         });
+    } else {
+      this.form.setFieldsValue({
+        title: "",
+        link: "",
+        image: ""
+      });
+      this.image = "";
     }
   },
   methods: {
@@ -120,7 +127,7 @@ export default {
               .then(res => {
                 that.toast("新增成功");
                 that.goResult();
-                window.close();
+                // window.close();
               })
               .catch(e => {
                 console.log("error:", e);
@@ -137,7 +144,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.avatar-uploader > .ant-upload {
+.avatar-uploader {
   width: 128px;
   height: 128px;
   .imgshow {
