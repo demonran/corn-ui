@@ -1,5 +1,5 @@
 <template>
-  <page-layout title="报名">
+  <page-layout title="">
     <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="true">
       <a-button class="btn" @click="addClick" type="primary">新建</a-button>
 
@@ -76,7 +76,7 @@
         <div class="colum_normal">{{text}}2019.09.11 12:22
         </div>
         </template >-->
-        <template slot="action" slot-scope="text,record,index">
+        <template slot="action" slot-scope="text,record">
           <div class="action_class">
             <div class="build" @click="edtClick(record)">编辑</div>
             <div class="build">建档</div>
@@ -506,6 +506,7 @@ export default {
 .search {
   .style_input {
     width: 140px;
+    margin-bottom: 10px;
   }
 }
 .name_des {
