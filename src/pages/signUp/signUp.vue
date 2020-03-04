@@ -54,19 +54,17 @@
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
         <span slot="id" slot-scope="text,record,index">{{index+1}}</span>
-        <template slot="studentName" slot-scope="text">
-          <div class="name_des">{{text}}</div>
-        </template>
+
         <template slot="info" slot-scope="text">
           <div class="info_name">
-            {{text}}
-            <div>123243</div>
+            {{text.guardianName}}
+            {{text.guardianPhoneNumber}}
           </div>
         </template>
         <template slot="courseName" slot-scope="text,record">
           <div class="info_name">
-            {{record.courseSubTitle}}
-            <div>{{record.courseTitle}}</div>
+
+            {{record.courseName}}
           </div>
         </template>
         <template slot="price" slot-scope="text">
@@ -129,7 +127,7 @@
             class="dia_item"
             placeholder="选择报名课程"
             :allowClear="true"
-            v-decorator="['registrationCourse', {rules: [{ required: true, message: '选择报名课程' }]}]"
+            v-decorator="['courseId', {rules: [{ required: true, message: '选择报名课程' }]}]"
           >
             <a-select-option :value="1">类型1</a-select-option>
             <a-select-option :value="2">类型2</a-select-option>
@@ -215,7 +213,6 @@ const columns = [
   {
     title: "姓名",
     dataIndex: "studentName",
-    scopedSlots: { customRender: "studentName" },
     key: "studentName"
   },
   {
@@ -247,7 +244,18 @@ const columns = [
     key: "payType"
   },
   {
+    title: "推荐人",
+    dataIndex: "payType",
+    key: "payType"
+  },
+  {
     title: "报名时间",
+    dataIndex: "beginDate",
+    scopedSlots: { customRender: "beginDate" },
+    key: "beginDate"
+  },
+  {
+    title: "报名方式",
     dataIndex: "beginDate",
     scopedSlots: { customRender: "beginDate" },
     key: "beginDate"
@@ -256,6 +264,11 @@ const columns = [
     title: "备注",
     key: "remark",
     dataIndex: "remark"
+  },
+  {
+    title: "状态",
+    key: "status",
+    dataIndex: "status"
   },
   {
     title: "操作",
@@ -311,7 +324,8 @@ export default {
   },
 
   mounted() {
-    this.fetchData();
+   this.fetchData();
+
   },
   methods: {
     // 请求列表数据
@@ -343,21 +357,25 @@ export default {
         .finally(e => {
           this.hideLoading();
         });
+
+
     },
     // 点击编辑
     edtClick(data) {
       this.edtId = data.id;
       this.getOfflineById(this.edtId);
+      console.log(this.edtId)
     },
     // 获取一条信息内容
     async getOfflineById(id) {
-      this.showLoading();
+      //this.showLoading();
       Signup.signupItem(id)
         .then(res => {})
         .catch(e => {
           console.log(e);
         });
-      let res = await getOfflineItem({ id });
+        
+      let res = await Signup.getOfflineItem(id);
       console.log(res);
       this.hideLoading();
       if (res.errorNo != 200) {
@@ -382,17 +400,22 @@ export default {
       this.dialogVisible = true;
     },
     // 删除点击
+
     async delClick(id) {
-      this.showLoading();
+      /* this.showLoading();
       console.log(id);
       let res = await delOffline({ id });
       console.log(res);
-      this.hideLoading();
-      if (res.errorNo != 200) {
-        this.toast(res.errorDesc, true);
-        return;
-      }
-      this.toast("删除成功了");
+      this.hideLoading(); */
+      Signup.delOffline(id).then(res => {
+        console.log(res)
+        if (res.errorNo != 200) {
+               this.toast(res.errorDesc, true);
+               return;
+             }
+        this.toast("删除成功了");
+      })
+
     },
     // dialog 确认
     handleOk(e) {
@@ -410,9 +433,9 @@ export default {
       });
     },
     // 更新请求
-    async updateRequest(params) {
+ /*   async updateRequest(id,params) {
       console.log("begain update");
-      this.showLoading();
+      //this.showLoading();
       let res = await updateOffline(this.edtId, Object.assign(params));
       console.log(res);
       this.hideLoading();
@@ -421,7 +444,12 @@ export default {
         return;
       }
       this.toast("更新成功了");
-    },
+
+
+
+
+
+    }, */
 
     // 新增请求
     addRequest(params) {
@@ -429,7 +457,7 @@ export default {
 
       //this.showLoading();
       params.registrationTime = this.signDate;
-      addOffline(Object.assign(params))
+      Signup.addOffline(Object.assign(params))
         .then(res => {
           console.log("add success:", res);
           this.handleCancel();

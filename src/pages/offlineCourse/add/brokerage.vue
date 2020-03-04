@@ -4,7 +4,7 @@
 
 <template>
     <div>
-        <a-radio-group  name="radioGroup" v-model="isSet" @change="radioGroupChange">
+        <a-radio-group  name="radioGroup" v-model="isSet" :defaultValue="isShare" @change="radioGroupChange">
           <a-radio :value="0">否</a-radio>
           <a-radio :value="1">是</a-radio>
         </a-radio-group>
@@ -21,26 +21,30 @@ export default {
   data () {
     return {
       isSet: 1,
-      money: 0
+      money: 0,
+      isShare:''
     };
   },
-  mounted() {
-   /* let rowData = this.$route.params.data
-             let isUpdate = this.$route.params.isUpdate;//true为编辑进入，false或为空就是新增
-            this.form.setFieldsValue(rowData);
-            console.log('分享佣金')
-            console.log(rowData) */
-/* 
-              this.isSet = rowData.isShareBrokerage
-              this.money = rowData.shareBrokerageAmount */
+  created () {
+    let data = this.$route.params.data
+    console.log(data.isShareBrokerage)
+    if(data.isShareBrokerage == true){
+      this.isSet = this.isShare = 1
 
+      }else{
+        this.isSet = this.isShare = 0
+      }
+
+      this.money=data.shareBrokerageAmount
+    console.log(this.isSet)
+    console.log(this.money)
   },
-  watch: {
+/*  watch: {
     value (val = {}) {
       if (val.isSet !== this.isSet) this.isSet = val.isSet;
       if (val.money !== this.money) this.money = val.money;
     }
-  },
+  }, */
   methods: {
     radioGroupChange () {
       console.log('radioGroupChange', {isSet: this.isSet, money: this.money});

@@ -10,6 +10,12 @@ export default {
   },
   deleteCat(id) {
       return http.delete('/categories/'+id)
+  },
+  update(id){
+    return http.put('/categories/' + id)
+  },
+  getCategories(){
+    return http.get('/categories/' + id)
   }
 
 }

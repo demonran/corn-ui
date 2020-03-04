@@ -27,14 +27,16 @@ export default {
   data () {
     return {
       start: moment('09:00', 'HH:mm'),
-      end: moment('18:00', 'HH:mm')
+      end: moment('17:00', 'HH:mm')
     };
   },
+
   created () {
-    if (this.value) {
-      this.start = moment(this.value.start, 'HH:mm');
-      this.end = moment(this.value.end, 'HH:mm');
-    }
+    let data = this.$route.params.data
+    console.log(data.startClassTime)
+      this.start = moment(data.startClassTime, 'HH:mm');
+      this.end = moment(data.endClassTime, 'HH:mm');
+    console.log(data.endClassTime)
   },
   watch: {
     value (val = {}) {
@@ -42,6 +44,8 @@ export default {
       let end = this.end.format('HH:mm');
       if (val.start !== start) this.start = moment(val.start, 'HH:mm');
       if (val.end !== end) this.end = moment(val.end, 'HH:mm');
+      console.log(this.start)
+      console.log(this.end)
     }
   },
   methods: {

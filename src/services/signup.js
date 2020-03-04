@@ -5,7 +5,7 @@ import qs from 'qs';
 export default {
   // 离线报名列表
   list(param) {
-    // return http.get('/registration/getAll?' + qs.stringify(param));
+   //return http.get('/registration/getAll?' + qs.stringify(param));
     return new Promise((resolve, reject) => {
       http.get('/registration/getAll?' + qs.stringify(param)).then(e => {
         resolve(e);
@@ -29,7 +29,7 @@ export default {
     return http.post('/registration/', id);
   },
 
-  // 添加离线报名信息
+  // 添加报名信息
   addOffline(param) {
     return new Promise((resolve, reject) => {
       http.post('/registration/create', param).then(e => {
@@ -48,9 +48,7 @@ export default {
 
   // 删除单条离线报名
   delOffline(id) {
-    console.log('0000')
     console.log(id)
-    console.log(id.id)
     return http.delete('/registration/' + id);
   }
 }

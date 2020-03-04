@@ -41,12 +41,12 @@
             },
             ]"
           >
-                <!-- <a-select-option :value="item.categoryId" placeholder="请选择课程分类"
+             <a-select-option :value="item.categoryId" placeholder="请选择课程分类"
                 v-for="(item,i) in categories"
 
                 >
                   {{item.categoryName}}
-                </a-select-option> -->
+                </a-select-option>
 
               </a-select>
 
@@ -100,7 +100,7 @@
         :wrapperCol="{span: 19}"
       >
         <brokerage v-decorator="['brokerage',{
-            initialValue: { isSet: 0, money: 0 },
+            initialValue: { isSet: '', money: '' },
             rules: [{ validator: checkBrokerage }],
           }]">
 
@@ -157,24 +157,17 @@ export default {
 categories:[],
 chooseCatId:'',
 categoryName:''
-/*      categoryConfig:{
-            dataS:{
-              remote:{
-                url:"/category/search?pageNum=1&pageSize=10",
-                filter(row){
-                 return {value:row.categoryId,label:row.name};
-                },
-                debug:true,
-              }
-            }
-      } */
-
     };
   },
 mounted() {
 this.getCategory();
   this.form.setFieldsValue(this.$route.params.data);
+  let data = this.$route.params.data
   console.log('rowData step 1',this.$route.params.data)
+  this.isSet =data.isShareBrokerage
+  this.money=data.shareBrokerageAmount
+  this.categoryName = data.courseCategory.categoryName
+  console.log(this.categoryName)
 },
 
   methods: {
@@ -186,8 +179,8 @@ console.log('chooseCatId:',this.chooseCatId);
     },
     getCategory(){
       Category.list().then(res => {
-        //console.log(res)
-        //this.categories = res.result.content;
+        console.log(res)
+        this.categories = res.result.content;
       })
     },
 
@@ -212,7 +205,7 @@ console.log('chooseCatId:',this.chooseCatId);
         this.values.courseCategoryId = this.chooseCatId
 
 
-        this.values.isShareBrokerage = values.brokerage.isSet == 1;
+        this.values.isShareBrokerage = values.brokerage.isSet ;
         this.values.shareBrokerageAmount = values.brokerage.money;
         this.$emit('nextStep');
       });
