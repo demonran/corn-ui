@@ -33,42 +33,24 @@
                 </div>
               </template>
 
-<<<<<<< HEAD
               <template slot="totalAmount" slot-scope="text">
                 <div class="fee">{{text.totalAmount}}</div>
               </template>
-              <!-- <template  slot="reportTime" slot-scope="text">
-              <div class="colum_normal">{{text}}2019.09.11 12:22
-              </div>
-              </template >-->
-              <template slot="action" slot-scope="text,record">
-                <div class="action_class">
-                  <!-- <div class="build" @click="edtClick(record)">编辑</div> -->
-                  <!-- <div class="build">建档</div> -->
-                  <!-- <div class="delete" @click="delClick(record.registrationId)">删除</div> -->
-                </div>
-              </template>
-            </a-table>
-=======
-            {{record.courseName}}
-          </div>
-        </template>
+             
+
         <template slot="price" slot-scope="text">
           <div class="fee">{{text}}</div>
         </template>
-        <!-- <template  slot="reportTime" slot-scope="text">
-        <div class="colum_normal">{{text}}2019.09.11 12:22
-        </div>
-        </template >-->
-        <template slot="action" slot-scope="text,record">
+
+<!--        <template slot="action" slot-scope="text,record">
           <div class="action_class">
             <div class="build" @click="edtClick(record)">编辑</div>
             <div class="build">建档</div>
             <div class="delete" @click="delClick(record.registrationId)">删除</div>
           </div>
-        </template>
+        </template> -->
       </a-table>
->>>>>>> 7488622129b8c5c61552ebfa67e533920eabab21
+
     </a-card>
   </page-layout>
 </template>
@@ -155,12 +137,12 @@ export default {
           key: "status",
           dataIndex: "status"
         }, */
-        {
+       /* {
           title: "操作",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
           key: "action"
-        }
+        } */
       ],
       dataSource: [],
       page: {
