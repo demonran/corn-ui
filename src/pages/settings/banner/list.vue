@@ -24,17 +24,17 @@
         :pagination="pagination"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
-        <span slot="id" slot-scope="text,record,index">{{index+1}}</span>
+        <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
         <img style="width: 100px" slot="image" slot-scope="image" :src="image" />
 
-        <span slot="action" slot-scope="text,record">
-          <a-menu-item @click="update(record)">
-            <a>编辑</a>
-          </a-menu-item>
-          <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(text.categoryId)">
-            <a>删除</a>
-          </a-popconfirm>
-        </span>
+        <template slot="action" slot-scope="text,record">
+          <div class="action_class">
+            <div class="build" @click="edt(record)">编辑</div>
+            <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(record.id)">
+              <div class="build">删除</div>
+            </a-popconfirm>
+          </div>
+        </template>
       </a-table>
     </a-card>
   </page-layout>
@@ -43,10 +43,11 @@
 <script>
 import PageLayout from "@/layouts/PageLayout";
 import Banners from "@/services/banner";
+import comm from "../../mix";
 
 export default {
   name: "PageView",
-
+  mixins: [comm],
   components: { PageLayout },
   data() {
     return {
@@ -57,13 +58,14 @@ export default {
         {
           title: "序号",
           width: "10%",
-          scopedSlots: { customRender: "id" }
+          scopedSlots: { customRender: "columnId" },
           // render: (text, record, index) => `${index + 1}`
+          key: "columnId"
         },
         {
-          title: "ID",
-          dataIndex: "id",
-          key: "id"
+          title: "标题",
+          dataIndex: "title",
+          key: "title"
         },
         {
           title: "图片",
@@ -155,10 +157,21 @@ export default {
     add() {
       this.$router.push("/settings/addbanner");
     },
-    deleteRow(id) {
-      Category.deleteCat(id).then(res => {
-        console.log(res);
+    edt(data) {
+      this.$router.push({
+        path: "/settings/edtbanner",
+        query: { id: data.id }
       });
+    },
+    deleteRow(id) {
+      Banners.del(id)
+        .then(res => {
+          this.toast('删除成功')
+          this.list()
+        })
+        .catch(e => {
+          console.log("error:", e);
+        });
     },
     // 选中项改变
     onSelectChange(selectedRowKeys, selectedRows) {
@@ -195,5 +208,20 @@ export default {
 .btn.fr {
   float: right;
   margin-left: 5px;
+}
+.action_class {
+  display: flex;
+  flex-direction: row;
+  .build {
+    font-size: 14px;
+    font-family: "PingFang SC";
+    font-weight: 400;
+    line-height: 22px;
+    color: rgba(24, 144, 255, 1);
+    opacity: 1;
+    padding: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
 }
 </style>

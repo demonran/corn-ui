@@ -15,5 +15,5 @@ export default {
   post: patch(http, 'post'),
   delete: patch(http, 'delete'),
   put: patch(http, 'put'),
-  patch: patch(http, 'patch')
+  patch: patch(http, 'patch'),
 };
