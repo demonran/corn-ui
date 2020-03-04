@@ -1,9 +1,50 @@
 <template>
-  <page-layout title="banner设置">
-    <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="true">
-      <a-row style="padding-top:10px;">
+  <page-layout title="老师">
+    <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="false">
+      <a-button class="btn" @click="addClick" type="primary">添加</a-button>
+
+      <div class="search" slot="extra">
+        <a-form layout="inline" :form="form" @submit="submitClick">
+          <a-form-item label="课程">
+            <a-input class="style_input" placeholder="请输入课程" v-decorator="['teachCategory']" />
+          </a-form-item>
+          <a-form-item label="状态">
+            <a-select
+              class="style_input"
+              placeholder="请选择"
+              :allowClear="true"
+              v-decorator="['status']"
+            >
+              <a-select-option :value="1">状态1</a-select-option>
+              <a-select-option :value="2">状态2</a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item label="名称">
+            <a-input class="style_input" placeholder="请输入名称" v-decorator="['name']" />
+          </a-form-item>
+          <span style="float: right; margin-top: 3px;">
+            <a-button type="primary" html-type="submit">查询</a-button>
+            <a-button style="margin-left: 8px" @click="resetClick">重置</a-button>
+          </span>
+        </a-form>
+      </div>
+
+      <!-- <a-row style="padding-top:10px;">
         <a-col :md="14" :sm="24">
-          <a-button class="btn" @click="add" type="primary">新建</a-button>
+          <a-button class="btn" @click="add" type="primary">添加</a-button>
+        </a-col>
+        <a-col :md="6" :sm="24">
+          <a-form-item label="课程:" :labelCol="{span: 5}" :wrapperCol="{span: 16, offset: 1}">
+            <a-input placeholder="请输入" v-model="filterKeyword" />
+          </a-form-item>
+        </a-col>
+        <a-col :md="6" :sm="24">
+          <a-form-item label="状态:" :labelCol="{span: 5}" :wrapperCol="{span: 16, offset: 1}">
+            <a-select v-model="filterStatus" placeholder="请选择" style="width:100%">
+              <a-select-option :value="1">1</a-select-option>
+              <a-select-option :value="0">2</a-select-option>
+            </a-select>
+          </a-form-item>
         </a-col>
         <a-col :md="6" :sm="24">
           <a-form-item label="名称:" :labelCol="{span: 5}" :wrapperCol="{span: 16, offset: 1}">
@@ -13,19 +54,20 @@
 
         <a-col :md="4" :sm="24">
           <a-button type="primary" class="btn fr" @click="search">查询</a-button>
+          <a-button type="primary" class="btn fr" @click="search">重置</a-button>
         </a-col>
-      </a-row>
+      </a-row>-->
 
       <a-table
         class="table"
         :columns="columns"
         rowKey="id"
-        :dataSource="banners"
+        :dataSource="dataSource"
         :pagination="pagination"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
         <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
-        <img style="width: 100px" slot="image" slot-scope="image" :src="image" />
+        <img style="width: 100px" slot="avatar" slot-scope="avatar" :src="avatar" />
 
         <template slot="action" slot-scope="text,record">
           <div class="action_class">
@@ -42,7 +84,7 @@
 
 <script>
 import PageLayout from "@/layouts/PageLayout";
-import Banners from "@/services/banner";
+import TeacherRequest from "@/services/teacher";
 import comm from "../../mix";
 
 export default {
@@ -51,33 +93,43 @@ export default {
   components: { PageLayout },
   data() {
     return {
-      banners: [],
       filterStatus: 1,
       filterKeyword: "",
+      form: this.$form.createForm(this),
       columns: [
         {
           title: "序号",
-          width: "10%",
-          scopedSlots: { customRender: "columnId" },
+          scopedSlots: { customRender: "columnId" }
           // render: (text, record, index) => `${index + 1}`
-          key: "columnId"
-        },
-        {
-          title: "标题",
-          dataIndex: "title",
-          key: "title"
         },
         {
           title: "图片",
-          dataIndex: "image",
-          key: "image",
-          scopedSlots: { customRender: "image" }
+          dataIndex: "avatar",
+          scopedSlots: { customRender: "avatar" }
         },
-
         {
-          title: "链接",
-          dataIndex: "link",
-          key: "link"
+          title: "名称",
+          dataIndex: "name"
+        },
+        {
+          title: "教学课程",
+          dataIndex: "teachCategory"
+        },
+        {
+          title: "毕业学校",
+          dataIndex: "school"
+        },
+        {
+          title: "联系电话",
+          dataIndex: "tel"
+        },
+        {
+          title: "家庭住址",
+          dataIndex: "address"
+        },
+        {
+          title: "状态",
+          dataIndex: "status"
         },
         {
           title: "操作",
@@ -130,21 +182,29 @@ export default {
       this.page.pageNum = 1;
       this.list();
     },
+    submitClick(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        console.log("coming...", values);
+        // 参数先不管 直接搜索
+        this.page.pageNum = 1;
+        this.list();
+      });
+    },
+    resetClick() {
+      this.form.resetFields();
+    },
     list() {
-      // Banners.list().then(res => {
-      //   console.log(res)
-      //   this.banners = res.result;
-      // })
       // todo 参数需要修改
-      Banners.list(
+      TeacherRequest.list(
         Object.assign(this.page, { filterKeyword: this.filterKeyword })
       )
         .then(res => {
           console.log(res);
-          this.banners =
+          this.dataSource =
             this.page.pageNum === 1
-              ? res.result
-              : this.banners.concat(res.result);
+              ? res.result.content
+              : this.dataSource.concat(res.result.content);
           this.pagination.total = res.result.total || 0;
         })
         .catch(e => {
@@ -154,8 +214,9 @@ export default {
         });
     },
 
-    add() {
-      this.$router.push("/settings/addbanner");
+    addClick() {
+      this.toast("不要点");
+      // this.$router.push("/settings/addbanner");
     },
     edt(data) {
       this.$router.push({
@@ -166,8 +227,8 @@ export default {
     deleteRow(id) {
       Banners.del(id)
         .then(res => {
-          this.toast('删除成功')
-          this.list()
+          this.toast("删除成功");
+          this.list();
         })
         .catch(e => {
           console.log("error:", e);
@@ -186,8 +247,13 @@ export default {
 <style lang="less" scoped>
 .btn {
   margin-top: 3px;
+  margin-bottom: 10px;
 }
-
+.search {
+  .style_input {
+    width: 150px;
+  }
+}
 .search-btn {
   margin-left: 14px;
   margin-right: 9px;

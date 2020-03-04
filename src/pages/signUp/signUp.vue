@@ -1,5 +1,5 @@
 <template>
-  <page-layout title="报名">
+  <page-layout title="">
     <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="true">
       <a-row style="padding-top:10px;">
         <!-- <a-col :md="14" :sm="24">
@@ -33,6 +33,7 @@
                 </div>
               </template>
 
+<<<<<<< HEAD
               <template slot="totalAmount" slot-scope="text">
                 <div class="fee">{{text.totalAmount}}</div>
               </template>
@@ -48,6 +49,26 @@
                 </div>
               </template>
             </a-table>
+=======
+            {{record.courseName}}
+          </div>
+        </template>
+        <template slot="price" slot-scope="text">
+          <div class="fee">{{text}}</div>
+        </template>
+        <!-- <template  slot="reportTime" slot-scope="text">
+        <div class="colum_normal">{{text}}2019.09.11 12:22
+        </div>
+        </template >-->
+        <template slot="action" slot-scope="text,record">
+          <div class="action_class">
+            <div class="build" @click="edtClick(record)">编辑</div>
+            <div class="build">建档</div>
+            <div class="delete" @click="delClick(record.registrationId)">删除</div>
+          </div>
+        </template>
+      </a-table>
+>>>>>>> 7488622129b8c5c61552ebfa67e533920eabab21
     </a-card>
   </page-layout>
 </template>
@@ -232,8 +253,24 @@ export default {
 
 
 <style lang="less" scoped>
+<<<<<<< HEAD
 .btn {
   margin-top: 3px;
+=======
+.search {
+  .style_input {
+    width: 140px;
+    margin-bottom: 10px;
+  }
+}
+.name_des {
+  font-size: 16px;
+  font-family: "PingFang SC";
+  font-weight: 500;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.85);
+  opacity: 1;
+>>>>>>> 7488622129b8c5c61552ebfa67e533920eabab21
 }
 
 .search-btn {
