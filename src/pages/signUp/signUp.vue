@@ -36,7 +36,7 @@
               <template slot="totalAmount" slot-scope="text">
                 <div class="fee">{{text.totalAmount}}</div>
               </template>
-             
+
 
         <template slot="price" slot-scope="text">
           <div class="fee">{{text}}</div>
@@ -235,10 +235,10 @@ export default {
 
 
 <style lang="less" scoped>
-<<<<<<< HEAD
+
 .btn {
   margin-top: 3px;
-=======
+}
 .search {
   .style_input {
     width: 140px;
@@ -252,7 +252,7 @@ export default {
   line-height: 22px;
   color: rgba(0, 0, 0, 0.85);
   opacity: 1;
->>>>>>> 7488622129b8c5c61552ebfa67e533920eabab21
+
 }
 
 .search-btn {
