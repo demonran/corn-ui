@@ -30,7 +30,7 @@
         <template slot="action" slot-scope="text,record">
           <div class="action_class">
             <div class="build" @click="edt(record)">编辑</div>
-            <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(text.categoryId)">
+            <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(record.id)">
               <div class="build">删除</div>
             </a-popconfirm>
           </div>
@@ -43,10 +43,11 @@
 <script>
 import PageLayout from "@/layouts/PageLayout";
 import Banners from "@/services/banner";
+import comm from "../../mix";
 
 export default {
   name: "PageView",
-
+  mixins: [comm],
   components: { PageLayout },
   data() {
     return {
@@ -62,9 +63,9 @@ export default {
           key: "columnId"
         },
         {
-          title: "ID",
-          dataIndex: "id",
-          key: "id"
+          title: "标题",
+          dataIndex: "title",
+          key: "title"
         },
         {
           title: "图片",
@@ -165,7 +166,8 @@ export default {
     deleteRow(id) {
       Banners.del(id)
         .then(res => {
-          console.log(res);
+          this.toast('删除成功')
+          this.list()
         })
         .catch(e => {
           console.log("error:", e);
@@ -219,6 +221,7 @@ export default {
     opacity: 1;
     padding: 5px;
     margin-left: 10px;
+    cursor: pointer;
   }
 }
 </style>

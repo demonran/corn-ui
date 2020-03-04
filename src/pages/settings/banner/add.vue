@@ -3,7 +3,7 @@
     <a-form :form="form" @submit="onsubmit">
       <a-form-item label="标题" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-input
-          v-decorator="['name', {rules: [{ required: true, message: '请输入标题' }]}]"
+          v-decorator="['title', {rules: [{ required: true, message: '请输入标题' }]}]"
           placeholder="请输入标题"
         />
       </a-form-item>
@@ -52,16 +52,18 @@ export default {
   },
   mounted() {
     this.id = this.$route.query.id || "";
-    if (id) {
+    if (this.id) {
       // 这是编辑
-      BannerRequest.bannerItem(id)
+      BannerRequest.bannerItem(this.id)
         .then(res => {
           console.log("bannerItem:", res);
+          const data = res.result;
           this.form.setFieldsValue({
-            name: res.name,
-            link: res.studentName
+            title: data.title,
+            link: data.link,
+            image: data.image
           });
-          this.image = res.image;
+          this.image = data.image;
         })
         .catch(e => {
           console.log("error:", e);
@@ -102,15 +104,28 @@ export default {
         if (!err) {
           var param = Object.assign(values);
           param.image = this.image;
-          BannerRequest.add(param)
-            .then(res => {
-              that.toast("新增成功");
-              that.goResult();
-              console.log("resssss:", res);
-            })
-            .catch(e => {
-              console.log("error:", e);
-            });
+          if (that.id) {
+            //编辑
+            param.id = this.id;
+            BannerRequest.bannerEdtItem(param)
+              .then(res => {
+                that.toast("修改成功");
+                that.goResult();
+              })
+              .catch(e => {
+                console.log("error:", e);
+              });
+          } else {
+            BannerRequest.add(param)
+              .then(res => {
+                that.toast("新增成功");
+                that.goResult();
+                window.close();
+              })
+              .catch(e => {
+                console.log("error:", e);
+              });
+          }
         }
       });
     },

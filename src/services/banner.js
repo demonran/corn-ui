@@ -26,7 +26,7 @@ export default {
       http
         .post("/banners?", param)
         .then(e => {
-          if (res.errorNo == 200) {
+          if (e.errorNo == 200) {
             resolve(e);
           } else {
             reject(e);
@@ -41,9 +41,26 @@ export default {
   bannerItem(id) {
     return new Promise((resolve, reject) => {
       http
-        .post("/banneritem?", param)
+        .get("/banners/" + id)
         .then(e => {
-          if (res.errorNo == 200) {
+          if (e.errorNo == 200) {
+            resolve(e);
+          } else {
+            reject(e);
+          }
+        })
+        .catch(e => {
+          reject(e);
+        });
+    });
+  },
+  // 编辑单项banner
+  bannerEdtItem(param) {
+    return new Promise((resolve, reject) => {
+      http
+        .put("/banners/" + param.id, param)
+        .then(e => {
+          if (e.errorNo == 200) {
             resolve(e);
           } else {
             reject(e);
@@ -58,9 +75,9 @@ export default {
   del(id) {
     return new Promise((resolve, reject) => {
       http
-        .post("/del?", param)
+        .delete("/banners/" + id)
         .then(e => {
-          if (res.errorNo == 200) {
+          if (e.errorNo == 200) {
             resolve(e);
           } else {
             reject(e);

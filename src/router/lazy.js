@@ -163,17 +163,20 @@ const routes = [
           {
             path: '/settings/banner',
             name: 'Banner设置',
+            meta: { keepAlive: false },
             component: () => import('@/pages/settings/banner/list'),
             icon: 'none'
           }, {
             path: '/settings/addbanner',
             name: '新增banner',
+            meta: { keepAlive: false },
             invisible: true,
             component: () => import('@/pages/settings/banner/add')
           }, {
             path: '/settings/edtbanner',
             name: '编辑banner',
             invisible: true,
+            meta: { keepAlive: false },
             component: () => import('@/pages/settings/banner/add')
           }
         ]
