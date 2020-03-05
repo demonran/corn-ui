@@ -1,12 +1,15 @@
-import http from './http';
-import mock from './mockHttp';
+import qs from "qs";
+import patch from "./httpPatch";
+import common from "./common";
 
-import qs from 'qs';
 
 export default {
-  list (query) {
+/*  list (query) {
     let params = qs.stringify(query);
     return http.get('/offline-course/search?' + params);
+  }, */
+  list(param) {
+    return common.get("/offline-course/search?" + qs.stringify(param));
   },
   delete (id) {
     return http.delete('/offline-course/' + id);

@@ -38,10 +38,12 @@
       </a-row>
 
       <a-table class="table"
-               :columns="columns" :scroll="{ x: '100%', y: 600 }"
-               rowKey="courseId" :pagination="pagination" :dataSource="dataSource"
-               :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-              >
+        :columns="columns"
+        :scroll="{ x: '100%', y: 600 }"
+        rowKey="id"
+        :pagination="pagination" :dataSource="dataSource"
+        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+      >
           <span slot="courseId" slot-scope="text,record,index">
              {{index+1}}
           </span>
@@ -92,7 +94,7 @@
 </template>
 
 <script>
-  import PageHeader from '../../components/page/PageHeader';
+
   import PageLayout from '../../layouts/PageLayout';
   import OfflineCurse from '@/services/offlineCurse';
   import comm from '../mix';
@@ -101,21 +103,22 @@
   export default {
     name: 'PageView',
     mixins: [comm],
-
-    components: {PageLayout, PageHeader},
+    components: {PageLayout},
     data() {
       return {
         categoryName:'',
         pagination: {
-          pageSize: 10,
-          total: 0,
-          defaultCurrent: 1,
-          showSizeChanger: true,
-          showQuickJumper: true,
-          showTotal(total) {
-            return `共${total}项`;
-          }
-        },
+                pageSize: 5,
+                total: 0,
+                defaultCurrent: 1,
+                showQuickJumper: true,
+                showSizeChanger: true,
+                pageSizeOptions: ["10", "20", "30", "40"],
+                showTotal(total) {
+                  return `共${total}项`;
+                }
+
+              },
         filterStatus: 1,
         filterKeyword: '',
         columns: [
@@ -197,38 +200,35 @@
             key: 'action',
             width: 150,
             scopedSlots: {customRender: 'action'}
-
-
-
           },
-
-
         ],
         dataSource: [],
+        selectedRows: [],
         selectedRowKeys: [] // Check here to configure the default column
       };
     },
     computed: {},
-    created() {
-      this.pagination.onShowSizeChange = (index, pageSize) => {
-        this.list({pageNum: index, pageSize});
-      };
-      this.pagination.onChange = (index, pageSize) => {
-        this.list({pageNum: index, pageSize});
-      };
-    },
-    mounted() {
-      this.list();
-
-    },
-    beforeDestroy() {
+    activated(){
       this.list();
     },
     methods: {
-
+      // 选中项改变
+onChange(index, pageSize) {
+          // 页码改变的回调，参数是改变后的页码及每页条数
+          this.page.pageNum = index;
+          this.page.pageSize = pageSize;
+          this.list();
+          // console.log("change", current + ":" + count);
+        },
+        onShowSizeChange(index, pageSize) {
+          // pageSize 变化的回调
+          this.page.pageNum = index;
+          this.page.pageSize = pageSize;
+          this.list();
+          // console.log("showSizeChange", current + ":" + count);
+        },
       async list(query) {
-        if (!query) query = {pageNum: this.pagination.current, pageSize: this.pagination.pageSize};
-        if (!query.pageSize) query.pageSize = this.pagination.pageSize;
+
 
         //query.status = this.filterStatus;
         if (this.filterKeyword) query.name = this.filterKeyword;
@@ -242,7 +242,7 @@
           this.toast(res.errorDesc, true);
           return;
         }
-        this.pagination.total = res.result.total;
+
         this.dataSource = res.result.content;
 
 
