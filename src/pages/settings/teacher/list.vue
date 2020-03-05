@@ -28,36 +28,6 @@
           </span>
         </a-form>
       </div>
-
-      <!-- <a-row style="padding-top:10px;">
-        <a-col :md="14" :sm="24">
-          <a-button class="btn" @click="add" type="primary">添加</a-button>
-        </a-col>
-        <a-col :md="6" :sm="24">
-          <a-form-item label="课程:" :labelCol="{span: 5}" :wrapperCol="{span: 16, offset: 1}">
-            <a-input placeholder="请输入" v-model="filterKeyword" />
-          </a-form-item>
-        </a-col>
-        <a-col :md="6" :sm="24">
-          <a-form-item label="状态:" :labelCol="{span: 5}" :wrapperCol="{span: 16, offset: 1}">
-            <a-select v-model="filterStatus" placeholder="请选择" style="width:100%">
-              <a-select-option :value="1">1</a-select-option>
-              <a-select-option :value="0">2</a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :md="6" :sm="24">
-          <a-form-item label="名称:" :labelCol="{span: 5}" :wrapperCol="{span: 16, offset: 1}">
-            <a-input placeholder="请输入" v-model="filterKeyword" />
-          </a-form-item>
-        </a-col>
-
-        <a-col :md="4" :sm="24">
-          <a-button type="primary" class="btn fr" @click="search">查询</a-button>
-          <a-button type="primary" class="btn fr" @click="search">重置</a-button>
-        </a-col>
-      </a-row>-->
-
       <a-table
         class="table"
         :columns="columns"
@@ -68,13 +38,17 @@
       >
         <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
         <img style="width: 100px" slot="avatar" slot-scope="avatar" :src="avatar" />
+        <span slot="status" slot-scope="text,record">{{record.status === 'ENABLED' ? '启用': '禁用'}}</span>
 
         <template slot="action" slot-scope="text,record">
           <div class="action_class">
+            <div class="build" v-if="record.status === 'ENABLED'" @click="changeStatus(record)">停课</div>
+            <div class="build" v-else @click="changeStatus(record)">启用</div>
             <div class="build" @click="edt(record)">编辑</div>
-            <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(record.id)">
+            <!-- <div class="build" @click="recommend(record)">推荐</div> -->
+            <!-- <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(record.id)">
               <div class="build">删除</div>
-            </a-popconfirm>
+            </a-popconfirm> -->
           </div>
         </template>
       </a-table>
@@ -129,7 +103,9 @@ export default {
         },
         {
           title: "状态",
-          dataIndex: "status"
+          dataIndex: "status",
+          key: "status",
+          scopedSlots: { customRender: "status" }
         },
         {
           title: "操作",
@@ -215,17 +191,32 @@ export default {
     },
 
     addClick() {
-      this.toast("不要点");
-      // this.$router.push("/settings/addbanner");
+      // this.toast("不要点");
+      this.$router.push("/settings/addTeacher");
     },
     edt(data) {
       this.$router.push({
-        path: "/settings/edtbanner",
+        path: "/settings/edtTeacher",
         query: { id: data.id }
       });
     },
+    // 修改状态
+    changeStatus(data) {
+      var param = {
+        id: data.id,
+        status: data.status === "ENABLED" ? "DISABLED" : "ENABLED"
+      };
+      TeacherRequest.patch(param)
+        .then(res => {
+          this.toast("切换状态成功");
+          this.list();
+        })
+        .catch(e => {});
+    },
+    // 设置推荐
+    recommend(data) {},
     deleteRow(id) {
-      Banners.del(id)
+      TeacherRequest.del(id)
         .then(res => {
           this.toast("删除成功");
           this.list();

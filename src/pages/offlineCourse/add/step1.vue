@@ -43,7 +43,7 @@
           >
              <a-select-option :value="item.categoryId" placeholder="请选择课程分类"
                 v-for="(item,i) in categories"
-
+                :key="i"
                 >
                   {{item.categoryName}}
                 </a-select-option>

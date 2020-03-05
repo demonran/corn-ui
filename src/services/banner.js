@@ -1,91 +1,26 @@
-import http from "./http";
 import qs from "qs";
+import patch from "./httpPatch";
+import common from "./common";
 
 export default {
   list(param) {
-    // return http.get('/banners');
-    return new Promise((resolve, reject) => {
-      http
-        .get("/banners?" + qs.stringify(param))
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
-          }
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+    return common.get("/banners?" + qs.stringify(param));
   },
 
   add(param) {
     // return http.post('/banners', data)
-    return new Promise((resolve, reject) => {
-      http
-        .post("/banners?", param)
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
-          }
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+    return common.post("/banners?", param);
   },
   // 获取单项banner
   bannerItem(id) {
-    return new Promise((resolve, reject) => {
-      http
-        .get("/banners/" + id)
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
-          }
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+    return common.get("/banners/" + id);
   },
   // 编辑单项banner
   bannerEdtItem(param) {
-    return new Promise((resolve, reject) => {
-      http
-        .put("/banners/" + param.id, param)
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
-          }
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+    return common.put("/banners/" + param.id, param);
   },
   // 删除单项
   del(id) {
-    return new Promise((resolve, reject) => {
-      http
-        .delete("/banners/" + id)
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
-          }
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+    return common.delete("/banners/" + id);
   }
 };
