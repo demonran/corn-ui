@@ -1,5 +1,5 @@
 <template>
-  <page-layout title="">
+<!--  <page-layout title=""> -->
     <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="true">
       <a-row style="padding-top:10px;">
         <!-- <a-col :md="14" :sm="24">
@@ -21,26 +21,22 @@
               rowKey="registrationId"
               :pagination="pagination"
               :columns="columns"
-              :dataSource="orders"
+              :dataSource="dataSource"
               :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
             >
               <span slot="id" slot-scope="text,record,index">{{index+1}}</span>
 
-              <template slot="patriarchName" slot-scope="text">
+              <template slot="patriarchName" slot-scope="text,record">
                 <div class="info_name">
-                  {{text.patriarchName}}
-                  {{text.tel}}
+                  {{record.patriarchName}}
+                 <div class="tel">{{record.tel}}</div>
                 </div>
               </template>
 
-              <template slot="totalAmount" slot-scope="text">
-                <div class="fee">{{text.totalAmount}}</div>
+              <template slot="totalAmount" slot-scope="text,record">
+                <div class="fee">{{record.totalAmount}}</div>
               </template>
 
-
-        <template slot="price" slot-scope="text">
-          <div class="fee">{{text}}</div>
-        </template>
 
 <!--        <template slot="action" slot-scope="text,record">
           <div class="action_class">
@@ -52,36 +48,22 @@
       </a-table>
 
     </a-card>
-  </page-layout>
+<!--  </page-layout> -->
 </template>
 
 <script>
-import PageLayout from "@/layouts/PageLayout";
+
+  import PageLayout from '../../layouts/PageLayout';
 import Signup from "@/services/signup";
 import comm from "../mix";
-
-export default {
-  name: "PageView",
-  mixins: [comm],
-  components: { PageLayout },
-  data() {
-    return {
-      orders: [],
-      filterStatus: 1,
-      filterKeyword: "",
-      columns : [
+const columns = [
         {
           title: "序号",
           dataIndex: "id",
           scopedSlots: { customRender: "id" },
           key: "id"
         },
-        {
-          title: "序号",
-          dataIndex: "userId",
 
-          key: "userId"
-        },
         {
           title: "姓名",
           dataIndex: "studentName",
@@ -105,7 +87,7 @@ export default {
           scopedSlots: { customRender: "totalAmount" },
           key: "totalAmount"
         },
-      /*  {
+        {
           title: "支付方式",
           dataIndex: "payType",
           key: "payType"
@@ -136,15 +118,25 @@ export default {
           title: "状态",
           key: "status",
           dataIndex: "status"
-        }, */
+        },
        /* {
           title: "操作",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },
           key: "action"
         } */
-      ],
+      ];
+export default {
+  name: "PageView",
+  mixins: [comm],
+  components: { PageLayout },
+  data() {
+    return {
+      columns,
       dataSource: [],
+      filterStatus: 1,
+      filterKeyword: "",
+
       page: {
         pageSize: 20,
         pageNum: 1
@@ -185,10 +177,10 @@ export default {
 
   methods: {
     // 点击搜索
-    search() {
+    /* search() {
       this.page.pageNum = 1;
       this.list();
-    },
+    }, */
     list() {
       // Signup.list().then(res => {
       //   console.log(res)
@@ -200,12 +192,13 @@ export default {
       )
         .then(res => {
           console.log(res);
-          this.orders =
+          this.dataSource = res.result.content
+          /* this.dataSource =
             this.page.pageNum === 1
               ? res.result
-              : this.orders.concat(res.result);
-          this.pagination.total = res.result.total || 0;
-          console.log(res.result)
+              : this.dataSource.concat(res.result.content);
+          this.pagination.total = res.result.total || 0; */
+          console.log(res.result.content)
         })
         .catch(e => {
           // this.toast(e.errorDesc, true);
@@ -214,15 +207,8 @@ export default {
         });
     },
 
-    add() {
-      this.$router.push("/settings/addbanner");
-    },
-    edt(data) {
-      this.$router.push({
-        path: "/settings/edtbanner",
-        query: { id: data.id }
-      });
-    },
+
+
 
     // 选中项改变
     onSelectChange(selectedRowKeys, selectedRows) {
@@ -269,6 +255,9 @@ export default {
 
   td {
     padding: 0 !important;
+  }
+  .tel{
+    color:#E8E8E8;
   }
 }
 
