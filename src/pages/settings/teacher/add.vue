@@ -144,7 +144,7 @@ export default {
             experience: data.experience,
             name: data.name,
             school: data.school,
-            categoryId: data.categoryId,
+            categoryId: data.category.categoryId,
             tel: data.tel
           });
           this.avatar = data.avatar;

@@ -38,6 +38,7 @@
       >
         <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
         <img style="width: 100px" slot="avatar" slot-scope="avatar" :src="avatar" />
+        <span slot="category" slot-scope="text,record">{{record.category?record.category.categoryName:''}}</span>
         <span slot="status" slot-scope="text,record">{{record.status === 'ENABLED' ? '启用': '禁用'}}</span>
 
         <template slot="action" slot-scope="text,record">
@@ -87,7 +88,9 @@ export default {
         },
         {
           title: "教学课程",
-          dataIndex: "teachCategory"
+          dataIndex: "category",
+          key: "category",
+          scopedSlots: { customRender: "category" }
         },
         {
           title: "毕业学校",
