@@ -1,15 +1,18 @@
-import http from './http';
+import http from "./http";
+import common from "./common";
 
 export default {
-  list () {
-    return http.get('/categories');
+  categoryList() {
+    return common.get("/categories/all");
+  },
+  list() {
+    return http.get("/categories");
   },
 
   add(data) {
-      return http.post('/categories',data)
+    return http.post("/categories", data);
   },
   deleteCat(id) {
-      return http.delete('/categories/'+id)
+    return http.delete("/categories/" + id);
   }
-
-}
+};

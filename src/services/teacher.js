@@ -1,89 +1,28 @@
-import http from "./http";
 import qs from "qs";
+import common from "./common";
 
 export default {
   list(param) {
-    return new Promise((resolve, reject) => {
-      http
-        .get("/teachers?" + qs.stringify(param))
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
-          }
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+    return common.get("/teachers?" + qs.stringify(param));
   },
 
   add(param) {
-    return new Promise((resolve, reject) => {
-      http
-        .post("/teachers?", param)
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
-          }
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+    return common.post("/teachers?", param);
   },
   // 获取单项banner
   teacherItem(id) {
-    return new Promise((resolve, reject) => {
-      http
-        .get("/teachers/" + id)
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
-          }
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+    return common.get("/teachers/" + id);
   },
   // 编辑单项banner
-  bannerEdtItem(param) {
-    return new Promise((resolve, reject) => {
-      http
-        .put("/banners/" + param.id, param)
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
-          }
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+  teacherEdtItem(param) {
+    return common.put("/teachers/" + param.id, param);
   },
   // 删除单项
   del(id) {
-    return new Promise((resolve, reject) => {
-      http
-        .delete("/banners/" + id)
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
-          }
-        })
-        .catch(e => {
-          reject(e);
-        });
-    });
+    return common.delete("/teachers/" + id);
+  },
+  // 修改状态
+  patch(param) {
+    return common.patch("/teachers/" + param.id, param);
   }
 };

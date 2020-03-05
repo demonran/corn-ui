@@ -180,6 +180,18 @@ const routes = [
             name: '教师管理',
             icon: 'none',
             component: () => import('@/pages/settings/teacher/list')
+          }, {
+            path: '/settings/addTeacher',
+            name: '添加教师',
+            icon: 'none',
+            invisible: true,
+            component: () => import('@/pages/settings/teacher/add')
+          }, {
+            path: '/settings/edtTeacher',
+            name: '编辑教师',
+            icon: 'none',
+            invisible: true,
+            component: () => import('@/pages/settings/teacher/add')
           }
         ]
       },
