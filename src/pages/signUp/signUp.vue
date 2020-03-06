@@ -25,19 +25,21 @@
               :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
             >
               <span slot="id" slot-scope="text,record,index">{{index+1}}</span>
-
               <template slot="patriarchName" slot-scope="text,record">
                 <div class="info_name">
                   {{record.patriarchName}}
                  <div class="tel">{{record.tel}}</div>
                 </div>
               </template>
-
               <template slot="totalAmount" slot-scope="text,record">
                 <div class="fee">{{record.totalAmount}}</div>
               </template>
-
-
+              <template slot="courseName" slot-scope="text,record">
+                <div class="fee">{{record.courseInfo.courseName}}</div>
+              </template>
+              <template slot="beginDate" slot-scope="text,record">
+                <div class="fee">{{record.courseInfo.beginDate}}</div>
+              </template>
 <!--        <template slot="action" slot-scope="text,record">
           <div class="action_class">
             <div class="build" @click="edtClick(record)">编辑</div>
@@ -50,10 +52,9 @@
     </a-card>
 <!--  </page-layout> -->
 </template>
-
 <script>
 
-  import PageLayout from '../../layouts/PageLayout';
+import PageLayout from '../../layouts/PageLayout';
 import Signup from "@/services/signup";
 import comm from "../mix";
 const columns = [
@@ -78,7 +79,8 @@ const columns = [
         {
           title: "课程名称",
           dataIndex: "courseName",
-          key: "courseName"
+          key: "courseName",
+          scopedSlots: { customRender: "courseName" },
         },
 
         {
@@ -103,12 +105,12 @@ const columns = [
           scopedSlots: { customRender: "beginDate" },
           key: "beginDate"
         },
-        {
+/*        {
           title: "报名方式",
           dataIndex: "beginDate",
           scopedSlots: { customRender: "beginDate" },
           key: "beginDate"
-        },
+        }, 
         {
           title: "备注",
           key: "remark",
@@ -119,7 +121,7 @@ const columns = [
           key: "status",
           dataIndex: "status"
         },
-       /* {
+       {
           title: "操作",
           dataIndex: "action",
           scopedSlots: { customRender: "action" },

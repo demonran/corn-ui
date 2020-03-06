@@ -106,7 +106,6 @@
     components: {PageLayout},
     data() {
       return {
-        categoryName:'',
         pagination: {
                 pageSize: 5,
                 total: 0,
@@ -227,27 +226,26 @@ onChange(index, pageSize) {
           this.list();
           // console.log("showSizeChange", current + ":" + count);
         },
-      async list(query) {
-
-
-        //query.status = this.filterStatus;
-        if (this.filterKeyword) query.name = this.filterKeyword;
-
-        this.showLoading();
-        let res = await OfflineCurse.list(query);
-
-        console.log(res);
-        this.hideLoading();
-        if (res.errorNo != 200) {
-          this.toast(res.errorDesc, true);
-          return;
-        }
-
-        this.dataSource = res.result.content;
-
-
-      },
-
+        list() {
+          // todo 参数需要修改
+          OfflineCurse.list(
+            //Object.assign(this.page, { filterKeyword: this.filterKeyword })
+          )
+            .then(res => {
+              console.log(res);
+              this.dataSource = res.result.content
+              /* this.dataSource =
+                this.page.pageNum === 1
+                  ? res.result.content
+                  : this.dataSource.concat(res.result.content);
+              this.pagination.total = res.result.total || 0; */
+            })
+            .catch(e => {
+              // this.toast(e.errorDesc, true);
+              // this.pagination.total = 0;
+              console.log(e);
+            });
+        },
       addCourse() {
         this.$router.push('/course/addOffline');
       },

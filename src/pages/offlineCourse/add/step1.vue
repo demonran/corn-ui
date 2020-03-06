@@ -47,32 +47,13 @@
                 >
                   {{item.categoryName}}
                 </a-select-option>
-
               </a-select>
-
-          <!--
-              <a-select default-value="1"
-                v-decorator="[
-                  'courseCategoryId',
-                  { rules: [{ required: true, message: '请选择课程分类' }] },
-                ]"
-                placeholder="请选择课程分类"
-
-              >
-                <a-select-option  :value="item.categoryId" v-for="(item,i) in categories" :key="i">
-                  {{item.categoryName}}
-                </a-select-option>
-              </a-select> -->
-            </a-form-item>
-
       </a-form-item>
       <a-form-item
         label="课时单价"
         :labelCol="{span: 5}"
         :wrapperCol="{span: 19}"
       >
-
-
         <a-input v-decorator="['price',{rules: [{ required: false, message: '请输入课时单价'}]}]"
             prefix="￥" placeholder="请输入课时单价" type="number" />
 
@@ -116,24 +97,22 @@
         <a-input v-decorator="['limitStudents',{rules: [{ required: false, message: '输入限制人数'}]}]"
           placeholder="输入限制人数" />
       </a-form-item>
-      <a-form-item label="老师" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-            <a-select
-              v-decorator="[
-                'teacherId',
-                { rules: [{ required: false, message: '请选择老师' }],
-                initialValue: '王老师' },
-              ]"
-              placeholder="请选择老师"
-
-            >
-              <a-select-option value="1">
-                少儿
-              </a-select-option>
-              <a-select-option value="1">
-                国画
-              </a-select-option>
-            </a-select>
-          </a-form-item>
+      <a-form-item label="老师" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+        <a-select
+          class="style_input"
+          placeholder="请选择老师"
+          :allowClear="true"
+          v-decorator="['teacherId', {rules: [{ required: true, message: '请选择老师' }],
+          initialValue: teacherName
+          }]"
+        >
+          <a-select-option
+            v-for="(item, index) in teacherList"
+            :key="index"
+            :value="item.id"
+          >{{item.name}}</a-select-option>
+        </a-select>
+      </a-form-item>
 
       <a-form-item :wrapperCol="{span: 19, offset: 5}">
         <a-button type="primary" @click="nextStep">下一步</a-button>
@@ -146,6 +125,7 @@
 import brokerage from './brokerage';
 import mix from '../../mix';
 import Category from '@/services/category';
+import TeacherRequest from "@/services/teacher";
 export default {
   mixins: [mix],
   name: 'Step1',
@@ -156,19 +136,24 @@ export default {
       form: this.$form.createForm(this),
       creatingCateName: '',
 categories:[],
+teacherList:[],
 chooseCatId:'',
-categoryName:''
+categoryName:'',
+teacherName:''
+
     };
   },
 mounted() {
 this.getCategory();
+this.getTeacher();
   this.form.setFieldsValue(this.$route.params.data);
   let data = this.$route.params.data
   console.log('rowData step 1',this.$route.params.data)
   this.isSet =data.isShareBrokerage
   this.money=data.shareBrokerageAmount
   this.categoryName = data.courseCategory.categoryName
-  console.log(this.categoryName)
+  this.teacherName = data.teacher.name
+  console.log('choose teacher:',this.teacher)
 },
 
   methods: {
@@ -178,11 +163,20 @@ this.chooseCatId =  value;
 console.log('chooseCatId:',this.chooseCatId);
 
     },
+
     getCategory(){
       Category.list().then(res => {
         console.log(res)
         this.categories = res.result.content;
       })
+    },
+    getTeacher(){
+      TeacherRequest.list()
+            .then(res => {
+              this.teacherList = res.result.content;
+              console.log('teacher:',res.result.content)
+            })
+            .catch(e => {});
     },
 
       checkColsItem (rule, value, callback) {
@@ -204,6 +198,7 @@ console.log('chooseCatId:',this.chooseCatId);
         this.values = values;
         //this.values.courseCategoryId =that.categories.categoryId
         //this.values.courseCategoryId = this.chooseCatId
+        this.values.teacherId = values.teacherList.id
         this.values.isShareBrokerage = values.brokerage.isSet ;
         this.values.shareBrokerageAmount = values.brokerage.money;
         this.$emit('nextStep');

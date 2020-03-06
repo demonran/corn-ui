@@ -1,10 +1,10 @@
 <template>
   <page-layout title="banner设置">
     <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="true">
-    <a-form :form="form" @submit="handleSubmit">
+    <a-form :form="form"  @submit="onsubmit">
       <a-form-item label="机构名称" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-        <a-input
-          v-decorator="['name', { rules: [{ required: true, message: '给机构起个名字' }] }]"
+        <a-input readonly
+          value="哎呀呀,我是不可以更改的"
         />
       </a-form-item>
       <!-- <a-form-item label="logo" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
@@ -32,7 +32,7 @@
 	   </a-form-item>
 		<a-form-item label="联系电话" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
 		  <a-input
-		    v-decorator="['tel', { rules: [{ required: true, message: '给机构起个名字' }] }]"
+ 		    v-decorator="['tel', { rules: [{ required: true, message: '给机构起个名字' }] }]"
 		  />
 		</a-form-item>
 
@@ -73,7 +73,7 @@
 <script>
 
   import PageLayout from '@/layouts/PageLayout';
-  import Banners from '@/services/information';
+  import info from '@/services/information';
 
 
   export default {
@@ -88,7 +88,35 @@
       };
     },
     computed: {},
-    created() {
+    activated() {
+
+        // 这是编辑
+        info.infoItem()
+          .then(res => {
+            console.log("infoItem:", res);
+            const data = res.result;
+            this.form.setFieldsValue({
+              /* address: data.address,
+              cover: data.cover,
+              createdAt:data.createdAt,
+              description: data.description,
+              id: data.id,
+              name: data.name,
+              tel: data.tel */
+              address: '我是地址地址',
+              cover: '我是地址地址',
+              description: "我是描述",
+              tel: "我是电话"
+            });
+            this.avatar = data.avatar;
+            this.description = data.description;
+            this.editor.txt.html(this.description);
+            console.log("infoItem:", res);
+          })
+          .catch(e => {
+            console.log("error:", e);
+          });
+
     },
     mounted() {
 
@@ -96,39 +124,33 @@
     },
 
     methods: {
-      handleSubmit(e) {
-            e.preventDefault();
-            this.form.validateFields((err, values) => {
-              if (!err) {
-                console.log('Received values of form: ', values);
-              }
-            });
-      },
-      beforeUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        if (!isJPG) {
-          this.$message.error('You can only upload JPG file!');
-        }
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-          this.$message.error('Image must smaller than 2MB!');
-        }
-        return isJPG && isLt2M;
-      },
-      handleChange(info) {
-              if (info.file.status === 'uploading') {
-                this.loading = true;
-                return;
-              }
-              if (info.file.status === 'done') {
-                // Get this url from response in real world.
-                getBase64(info.file.originFileObj, imageUrl => {
-                  this.imageUrl = imageUrl;
-                  this.loading = false;
-                });
-              }
-            },
 
+		edt(data) {
+		  this.$router.push({
+		    path: "/settings/edtInfo",
+		    query: { id: data.id }
+		  });
+		},
+    onsubmit() {
+      let that = this;
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          var param = Object.assign(values);
+         // param.description = this.description;
+console.log(param)
+            //编辑
+            info.EdtItem(param)
+              .then(res => {
+                that.toast("修改成功");
+                that.goResult();
+              })
+              .catch(e => {
+                console.log("error:", e);
+              });
+
+        }
+      });
+    },
     }
   };
 </script>

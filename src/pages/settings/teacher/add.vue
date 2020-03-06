@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import Category from "@/services/category";
+
 import TeacherRequest from "@/services/teacher";
 import CommonRequest from "@/services/common";
 import CategoryRequest from "@/services/category";
