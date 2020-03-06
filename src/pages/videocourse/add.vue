@@ -402,6 +402,9 @@ export default {
         });
       } else if (this.currentStep === 1) {
         param = param.concat(["content", "cover", "videoUrl"]);
+        if (hasFree == 0) {
+          param.push("price");
+        }
         this.form.validateFields(param, (err, values) => {
           if (!err) {
             // 第二步验证通过
@@ -429,6 +432,9 @@ export default {
       param.cover = this.cover;
       param.content = this.content;
       param.videoUrl = this.videoUrl;
+      if (param.isFree === 1) {
+        param.price = 0;
+      }
       if (that.id) {
         //编辑
         param.id = this.id;

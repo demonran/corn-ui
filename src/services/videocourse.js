@@ -7,7 +7,7 @@ export default {
     },
 
     add(param) {
-        return common.post("/online-course?", param);
+        return common.post("/online-course", param);
     },
     getItem(id) {
         return common.get("/online-course/" + id);

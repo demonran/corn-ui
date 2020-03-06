@@ -34,13 +34,15 @@
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
         <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
+        <span slot="createdAt" slot-scope="text,record">{{formateTime(record.createdAt)}}</span>
         <img style="width: 100px" slot="avatar" slot-scope="avatar" :src="avatar" />
+        <span slot="price" slot-scope="text,record">{{record.price===0?'免费':record.price}}</span>
         <span
           slot="category"
           slot-scope="text,record"
         >{{record.category?record.category.categoryName:''}}</span>
         <span slot="status" slot-scope="text,record">{{record.status === 'OPENED' ? '上架中': '已下架'}}</span>
-        <span slot="teacher" slot-scope="text,record">{{record.teacher}}</span>
+        <span slot="teacher" slot-scope="text,record">{{record.teacher?record.teacher.name:''}}</span>
         <template slot="action" slot-scope="text,record">
           <div class="action_class">
             <div class="build" v-if="record.status === 'OPENED'" @click="changeStatuss(record)">下架</div>
@@ -70,6 +72,7 @@ export default {
     return {
       filterStatus: 1,
       filterKeyword: "",
+      formateTime: this.fmtTime,
       form: this.$form.createForm(this),
       columns: [
         {
@@ -83,7 +86,8 @@ export default {
         },
         {
           title: "价格",
-          dataIndex: "price"
+          dataIndex: "price",
+          scopedSlots: { customRender: "price" }
         },
         {
           title: "类型",
@@ -93,7 +97,8 @@ export default {
         },
         {
           title: "更新时间",
-          dataIndex: "createdAt"
+          dataIndex: "createdAt",
+          scopedSlots: { customRender: "createdAt" }
         },
         {
           title: "主讲老师",
