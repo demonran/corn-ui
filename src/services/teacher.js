@@ -24,5 +24,9 @@ export default {
   // 修改状态
   patch(param) {
     return common.patch("/teachers/" + param.id, param);
+  },
+  // 根据分类获取老师
+  getAllteacher(param) {
+    return common.get("/teachers/all?" + qs.stringify(param));
   }
 };
