@@ -191,23 +191,27 @@ export default {
     this.seteditor();
     if (this.id) {
       // 这是编辑
-      TeacherRequest.teacherItem(this.id)
+      VideoRequest.getItem(this.id)
         .then(res => {
-          console.log("teacherItem:", res);
+          console.log("getItem:", res);
           const data = res.result;
+          this.isFree = data.price !== 0;
           this.form.setFieldsValue({
-            address: data.address,
-            avatar: data.avatar,
-            content: data.content,
-            experience: data.experience,
-            name: data.name,
-            school: data.school,
             categoryId: data.category.categoryId,
-            tel: data.tel
+            price: data.price,
+            isFree: data.price === 0 ? 1 : 0,
+            subTitle: data.subTitle,
+            teacherId: data.teacher.id,
+            title: data.title,
+            content: data.content,
+            cover: data.cover,
+            videoUrl: data.videoUrl
           });
-          this.avatar = data.avatar;
+          this.getTeacherList(data.category.categoryId);
+          this.cover = data.cover;
+          this.videoUrl = data.videoUrl;
           this.content = data.content;
-          this.editor.txt.html(this.content);
+          this.editor.txt.html(data.content);
         })
         .catch(e => {
           console.log("error:", e);
@@ -438,7 +442,7 @@ export default {
       if (that.id) {
         //编辑
         param.id = this.id;
-        TeacherRequest.teacherEdtItem(param)
+        VideoRequest.edtItem(param)
           .then(res => {
             that.toast("修改成功");
             that.goResult();

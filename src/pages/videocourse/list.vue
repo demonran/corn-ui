@@ -45,11 +45,12 @@
         <span slot="teacher" slot-scope="text,record">{{record.teacher?record.teacher.name:''}}</span>
         <template slot="action" slot-scope="text,record">
           <div class="action_class">
-            <div class="build" v-if="record.status === 'OPENED'" @click="changeStatuss(record)">下架</div>
-            <div class="build" v-else @click="changeStatuss(record)">上架</div>
-            <div class="build" @click="edts(record)">编辑</div>
-            <div class="build" @click="recommends(record)">推荐</div>
-            <a-popconfirm title="是否要删除此行？" @confirm="deleteRows(record.id)">
+            <div class="build" v-if="record.status === 'OPENED'" @click="changeStatus(record)">下架</div>
+            <div class="build" v-else @click="changeStatus(record)">上架</div>
+            <div class="build" @click="edt(record)">编辑</div>
+            <div class="build" v-if="!record.recommend" @click="recommend(record)">推荐</div>
+            <div class="build" v-else @click="recommend(record)">取消推荐</div>
+            <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(record.id)">
               <div class="build">删除</div>
             </a-popconfirm>
           </div>
@@ -224,11 +225,11 @@ export default {
     recommend(data) {
       var param = {
         id: data.id,
-        recommend: true
+        recommend: !data.recommend
       };
       VideoRequest.changeRecommend(param)
         .then(res => {
-          this.toast("推荐成功");
+          this.toast("操作成功");
           this.list();
         })
         .catch(e => {
