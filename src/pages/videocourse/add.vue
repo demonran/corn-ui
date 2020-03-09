@@ -373,6 +373,7 @@ export default {
       const formData = new FormData();
       formData.append("file", option.file);
       this.loading = true;
+      this.showLoading();
       CommonRequest.uploadImg(formData)
         .then(res => {
           console.log("res:", res);
@@ -381,13 +382,17 @@ export default {
         .catch(e => {
           console.log("something error");
         })
-        .finally((this.loading = false));
+        .finally(e => {
+          this.loading = false;
+          this.hideLoading();
+        });
     },
     // 上传视频
     uploadVideo(option) {
       const formData = new FormData();
       formData.append("file", option.file);
       this.loading = true;
+      this.showLoading();
       CommonRequest.uploadImg(formData)
         .then(res => {
           console.log("res:", res);
@@ -396,7 +401,10 @@ export default {
         .catch(e => {
           console.log("something error");
         })
-        .finally((this.loading = false));
+        .finally(e => {
+          this.loading = false;
+          this.hideLoading();
+        });
     },
     // 点击上一步
     preClick() {
