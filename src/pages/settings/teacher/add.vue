@@ -77,7 +77,7 @@
           </div>
         </a-upload>
       </a-form-item>
-      <!-- <a-form-item label="是否推荐到首页" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+      <a-form-item label="是否推荐到首页" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-radio-group
           buttonStyle="solid"
           v-decorator="['weather', {rules: [{ required: true, message: '请选择' }]}]"
@@ -86,7 +86,7 @@
           <a-radio value="1">是</a-radio>
         </a-radio-group>
       </a-form-item>
-      <a-form-item label="是否启用" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+      <!--<a-form-item label="是否启用" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-radio-group
           buttonStyle="solid"
           v-decorator="['weather', {rules: [{ required: true, message: '请选择' }]}]"
