@@ -80,10 +80,10 @@
       <a-form-item label="是否推荐到首页" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-radio-group
           buttonStyle="solid"
-          v-decorator="['weather', {rules: [{ required: true, message: '请选择' }]}]"
+          v-decorator="['recommend', {rules: [{ required: true, message: '请选择' }]}]"
         >
-          <a-radio value="0">否</a-radio>
-          <a-radio value="1">是</a-radio>
+          <a-radio :value="0">否</a-radio>
+          <a-radio :value="1">是</a-radio>
         </a-radio-group>
       </a-form-item>
       <!--<a-form-item label="是否启用" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
@@ -146,7 +146,8 @@ export default {
             name: data.name,
             school: data.school,
             categoryId: data.category.categoryId,
-            tel: data.tel
+            tel: data.tel,
+            recommend: data.recommend ? 1 : 0
           });
           this.avatar = data.avatar;
           this.description = data.description;
@@ -164,7 +165,8 @@ export default {
         name: "",
         school: "",
         categoryId: "",
-        tel: ""
+        tel: "",
+        recommend: null
       });
       this.avatar = "";
       this.description = "";
@@ -280,6 +282,7 @@ export default {
           var param = Object.assign(values);
           param.avatar = this.avatar;
           param.description = this.description;
+          param.recommend = param.recommend === 1;
           if (that.id) {
             //编辑
             param.id = this.id;
