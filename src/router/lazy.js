@@ -127,6 +127,54 @@ const routes = [
         ]
       },
 
+      // 动态模块
+      {
+        path: "/dynamic",
+        name: "动态",
+        component: RouteView,
+        icon: "book",
+        children: [
+          {
+            path: "/dynamic/banner",
+            name: "首页幻灯",
+            component: () => import("@/pages/dynamic/banner/list"),
+            icon: "none"
+          },
+          {
+            path: "/dynamic/addbanner",
+            name: "新增banner",
+            invisible: true,
+            component: () => import("@/pages/dynamic/banner/add")
+          },
+          {
+            path: "/dynamic/edtbanner",
+            name: "编辑banner",
+            invisible: true,
+            component: () => import("@/pages/dynamic/banner/add")
+          },
+          {
+            path: "/dynamic/article",
+            name: "文章管理",
+            component: () => import("@/pages/dynamic/article/list"),
+            icon: "none"
+          },
+          {
+            path: "/dynamic/addarticle",
+            name: "新增文章",
+            invisible: true,
+            component: () => import("@/pages/dynamic/article/add"),
+            icon: "none"
+          },
+          {
+            path: "/dynamic/edtarticle",
+            name: "编辑文章",
+            invisible: true,
+            component: () => import("@/pages/dynamic/article/add"),
+            icon: "none"
+          }
+        ]
+      },
+
       // 报名模块
       {
         path: "/signUp",
@@ -210,28 +258,10 @@ const routes = [
             icon: "none"
           },
           {
-            path: "/settings/banner",
-            name: "Banner设置",
-            component: () => import("@/pages/settings/banner/list"),
-            icon: "none"
-          },
-          {
             path: "/settings/information",
             name: "机构信息",
             component: () => import("@/pages/settings/information/infor"),
             icon: "none"
-          },
-          {
-            path: "/settings/addbanner",
-            name: "新增banner",
-            invisible: true,
-            component: () => import("@/pages/settings/banner/add")
-          },
-          {
-            path: "/settings/edtbanner",
-            name: "编辑banner",
-            invisible: true,
-            component: () => import("@/pages/settings/banner/add")
           },
           {
             path: "/settings/teacher",

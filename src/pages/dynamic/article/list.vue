@@ -1,35 +1,48 @@
 <template>
-  <page-layout title="banner设置">
-    <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="true">
-      <a-row style="padding-top:10px;">
-        <a-col :md="14" :sm="24">
-          <a-button class="btn" @click="add" type="primary">新建</a-button>
-        </a-col>
-        <a-col :md="6" :sm="24">
-          <a-form-item label="名称:" :labelCol="{span: 5}" :wrapperCol="{span: 16, offset: 1}">
-            <a-input placeholder="请输入" v-model="filterKeyword" />
+  <page-layout title="article">
+    <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="false">
+      <a-button class="btn" @click="addClick" type="primary">添加</a-button>
+
+      <div class="search" slot="extra">
+        <a-form layout="inline" :form="form" @submit="submitClick">
+          <a-form-item label="名称">
+            <a-input class="style_input" placeholder="请输入" v-decorator="['teachCategory']" />
           </a-form-item>
-        </a-col>
-
-        <a-col :md="4" :sm="24">
-          <a-button type="primary" class="btn fr" @click="search">查询</a-button>
-        </a-col>
-      </a-row>
-
+          <a-form-item label="状态">
+            <a-select
+              class="style_input"
+              placeholder="请选择"
+              :allowClear="true"
+              v-decorator="['status']"
+            >
+              <a-select-option :value="1">状态1</a-select-option>
+              <a-select-option :value="2">状态2</a-select-option>
+            </a-select>
+          </a-form-item>
+          <span style="float: right; margin-top: 3px;">
+            <a-button type="primary" html-type="submit">查询</a-button>
+            <a-button style="margin-left: 8px" @click="resetClick">重置</a-button>
+          </span>
+        </a-form>
+      </div>
       <a-table
         class="table"
         :columns="columns"
         rowKey="id"
-        :dataSource="banners"
+        :dataSource="dataSource"
         :pagination="pagination"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
         <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
-        <img style="width: 100px" slot="image" slot-scope="image" :src="image" />
-
+        <span slot="createdAt" slot-scope="text,record">{{formateTime(record.createdAt)}}</span>
+        <img style="width: 100px" slot="cover" slot-scope="text,record" :src="record.cover" />
+        <span slot="recommend" slot-scope="text,record">{{record.recommend ? '是':'否'}}</span>
+        <span slot="category" slot-scope="text,record">{{record.category?record.category.name:''}}</span>
         <template slot="action" slot-scope="text,record">
           <div class="action_class">
             <div class="build" @click="edt(record)">编辑</div>
+            <!-- <div class="build" v-if="!record.recommend" @click="recommend(record)">推荐</div> -->
+            <!-- <div class="build" v-else @click="recommend(record)">取消推荐</div> -->
             <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(record.id)">
               <div class="build">删除</div>
             </a-popconfirm>
@@ -42,7 +55,7 @@
 
 <script>
 import PageLayout from "@/layouts/PageLayout";
-import Banners from "@/services/banner";
+import ArticleRequest from "@/services/article";
 import comm from "../../mix";
 
 export default {
@@ -51,33 +64,44 @@ export default {
   components: { PageLayout },
   data() {
     return {
-      banners: [],
       filterStatus: 1,
       filterKeyword: "",
+      formateTime: this.fmtTime,
+      form: this.$form.createForm(this),
       columns: [
         {
           title: "序号",
-          width: "10%",
-          scopedSlots: { customRender: "columnId" },
+          scopedSlots: { customRender: "columnId" }
           // render: (text, record, index) => `${index + 1}`
-          key: "columnId"
-        },
-        {
-          title: "标题",
-          dataIndex: "title",
-          key: "title"
         },
         {
           title: "图片",
-          dataIndex: "image",
-          key: "image",
-          scopedSlots: { customRender: "image" }
+          dataIndex: "cover",
+          scopedSlots: { customRender: "cover" }
         },
-
         {
-          title: "链接",
-          dataIndex: "link",
-          key: "link"
+          title: "名称",
+          dataIndex: "title"
+        },
+        {
+          title: "类型",
+          dataIndex: "category",
+          key: "category",
+          scopedSlots: { customRender: "category" }
+        },
+        {
+          title: "更新时间",
+          dataIndex: "createdAt",
+          scopedSlots: { customRender: "createdAt" }
+        },
+        {
+          title: "查看次数",
+          dataIndex: "readCount"
+        },
+        {
+          title: "是否推荐到首页",
+          dataIndex: "recommend",
+          scopedSlots: { customRender: "recommend" }
         },
         {
           title: "操作",
@@ -130,21 +154,29 @@ export default {
       this.page.pageNum = 1;
       this.list();
     },
+    submitClick(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        console.log("coming...", values);
+        // 参数先不管 直接搜索
+        this.page.pageNum = 1;
+        this.list();
+      });
+    },
+    resetClick() {
+      this.form.resetFields();
+    },
     list() {
-      // Banners.list().then(res => {
-      //   console.log(res)
-      //   this.banners = res.result;
-      // })
       // todo 参数需要修改
-      Banners.list(
+      ArticleRequest.list(
         Object.assign(this.page, { filterKeyword: this.filterKeyword })
       )
         .then(res => {
           console.log(res);
-          this.banners =
+          this.dataSource =
             this.page.pageNum === 1
-              ? res.result
-              : this.banners.concat(res.result);
+              ? res.result.content
+              : this.dataSource.concat(res.result.content);
           this.pagination.total = res.result.total || 0;
         })
         .catch(e => {
@@ -154,20 +186,20 @@ export default {
         });
     },
 
-    add() {
-      this.$router.push("/settings/addbanner");
+    addClick() {
+      this.$router.push("/dynamic/addarticle");
     },
     edt(data) {
       this.$router.push({
-        path: "/settings/edtbanner",
+        path: "/dynamic/edtarticle",
         query: { id: data.id }
       });
     },
     deleteRow(id) {
-      Banners.del(id)
+      ArticleRequest.del(id)
         .then(res => {
-          this.toast('删除成功')
-          this.list()
+          this.toast("删除成功");
+          this.list();
         })
         .catch(e => {
           console.log("error:", e);
@@ -186,8 +218,13 @@ export default {
 <style lang="less" scoped>
 .btn {
   margin-top: 3px;
+  margin-bottom: 10px;
 }
-
+.search {
+  .style_input {
+    width: 150px;
+  }
+}
 .search-btn {
   margin-left: 14px;
   margin-right: 9px;

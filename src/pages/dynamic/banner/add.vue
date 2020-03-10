@@ -137,7 +137,7 @@ export default {
       });
     },
     goResult() {
-      this.$router.replace("/settings/banner");
+      this.$router.replace("/dynamic/banner");
     }
   }
 };
