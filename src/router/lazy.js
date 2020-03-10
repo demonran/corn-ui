@@ -74,6 +74,26 @@ const routes = [
             invisible: true,
             component: () => import('@/pages/offlineCourse/update'),
             icon: 'none'
+          },
+          {
+            path: '/course/videocourse',
+            name: '视频公开课',
+            component: () => import('@/pages/videocourse/list'),
+            icon: 'none'
+          },
+          {
+            path: '/course/addVideo',
+            name: '添加视频公开课',
+            invisible: true,
+            component: () => import('@/pages/videocourse/add'),
+            icon: 'none'
+          },
+          {
+            path: '/course/edtVideo',
+            name: '编辑视频公开课',
+            invisible: true,
+            component: () => import('@/pages/videocourse/add'),
+            icon: 'none'
           }
         ]
       },

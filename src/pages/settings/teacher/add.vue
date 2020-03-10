@@ -98,6 +98,7 @@
       <a-form-item label="详细介绍" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <div
           ref="editor"
+          style="width:550px"
           v-decorator="['description', {rules: [{ required: true, message: '请填写详细介绍' }]}]"
         ></div>
       </a-form-item>
