@@ -61,8 +61,27 @@ export default {
   },
   mounted() {
     this.seteditor();
-    this.form.setFieldsValue(this.$route.params.data);
-    console.log("rowData step 2", this.$route.params.data);
+  },
+  activated() {
+    var data = this.$route.params.data;
+    if (data) {
+      this.form.setFieldsValue({
+        imageUrl: data.imageUrl,
+        content: data.content
+      });
+      this.imageUrl = data.imageUrl;
+      this.content = data.content;
+      this.editor.txt.html(data.content);
+      console.log("rowData step 2", this.$route.params.data);
+    } else {
+      this.form.setFieldsValue({
+        imageUrl: "",
+        content: ""
+      });
+      this.imageUrl = "";
+      this.content = "";
+      this.editor.txt.html("");
+    }
   },
   methods: {
     seteditor() {
@@ -131,6 +150,9 @@ export default {
       // 创建富文本编辑器
       this.editor.create();
     },
+    resetForm() {
+      this.form.resetFields();
+    },
     beforeUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10;
       if (!isLt10M) {
@@ -151,6 +173,7 @@ export default {
         })
         .catch(e => {
           console.log("something error");
+          this.form.setFieldsValue({ imageUrl: "" });
         })
         .finally(e => {
           this.loading = false;
@@ -162,6 +185,7 @@ export default {
         if (error) return;
 
         this.values = values;
+        this.values.imageUrl = this.imageUrl;
         this.$emit("nextStep");
       });
     },

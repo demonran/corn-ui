@@ -43,12 +43,12 @@
       >
         <span slot="courseId" slot-scope="text,record,index">{{index+1}}</span>
         <template slot="imageUrl" slot-scope="imageUrl">
-          <img :src="imageUrl" />
+          <img style="width: 100px" :src="imageUrl" />
         </template>
         <span
-          slot="courseCategory"
+          slot="category"
           slot-scope="text,record"
-        >{{record.courseCategory?record.courseCategory.categoryName:''}}</span>
+        >{{record.category?record.category.categoryName:''}}</span>
         <span slot="beginDate" slot-scope="text,record">{{record.beginDate}} ~ {{record.endDate}}</span>
         <span
           slot="startClassTime"
@@ -130,9 +130,9 @@ export default {
         },
         {
           title: "课程分类",
-          dataIndex: "courseCategory",
-          key: "courseCategory",
-          scopedSlots: { customRender: "courseCategory" }
+          dataIndex: "category",
+          key: "category",
+          scopedSlots: { customRender: "category" }
         },
         {
           title: "费用",

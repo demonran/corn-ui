@@ -11,26 +11,25 @@
 </template>
 
 <script>
-import Result from '../../../components/result/Result';
+import Result from "../../../components/result/Result";
 export default {
-  name: 'Step3',
-  components: {Result},
+  name: "Step3",
+  components: { Result },
   methods: {
-    getWord(){
+    getWord() {
       if (isUpdate == true) {
-        
       }
     },
-    doOnceAgin () {
-      this.$emit('finish');
+    doOnceAgin() {
+      this.$emit("finish");
     },
-    backList () {
-      this.$router.push('/course/offline');
+    backList() {
+      this.$router.replace("/course/offline");
+      this.$emit("finish");
     }
   }
 };
 </script>
 
 <style scoped>
-
 </style>

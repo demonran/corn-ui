@@ -17,7 +17,7 @@
       class="time-picker"
       v-model="start"
       @change="rangChagne"
-      :allowClear="false"
+      :allowEmpty="false"
     />
     <span>-</span>
     <a-time-picker
@@ -25,7 +25,7 @@
       class="time-picker"
       v-model="end"
       @change="rangChagne"
-      :allowClear="false"
+      :allowEmpty="false"
     />
   </div>
 </template>
@@ -64,9 +64,7 @@ export default {
   methods: {
     rangChagne() {
       console.log();
-      if (this.start) {
-        let start = this.start.format("HH:mm");
-      }
+      let start = this.start.format("HH:mm");
       let end = this.end.format("HH:mm");
       if (!this.value || this.value.start != start || this.value.end != end) {
         this.$emit("change", { start, end });

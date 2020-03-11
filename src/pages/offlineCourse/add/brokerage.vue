@@ -35,7 +35,7 @@ export default {
       isShare: ""
     };
   },
-  created() {
+  activated() {
     let data = this.$route.params.data;
     if (data) {
       console.log(data.isShareBrokerage);

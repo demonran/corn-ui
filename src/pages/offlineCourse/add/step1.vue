@@ -101,11 +101,7 @@
               ]"
           placeholder="请选择老师"
         >
-          <a-select-option
-            :value="item.id"
-            v-for="(item,i) in teachers"
-            :key="i"
-          >{{item.name}}</a-select-option>
+          <a-select-option :value="item.id" v-for="(item,i) in teachers" :key="i">{{item.name}}</a-select-option>
         </a-select>
       </a-form-item>
 
@@ -137,21 +133,49 @@ export default {
       categoryName: ""
     };
   },
-  mounted() {
+  activated() {
     this.getCategory();
     var data = this.$route.params.data;
     if (data) {
-      this.form.setFieldsValue(data);
-      let data = this.$route.params.data;
-      console.log("rowData step 1", this.$route.params.data);
-      this.isSet = data.isShareBrokerage;
+      this.isSet = data.isShareBrokerage ? 1 : 0;
       this.money = data.shareBrokerageAmount;
-      this.categoryName = data.courseCategory.categoryName;
+      this.form.setFieldsValue({
+        courseName: data.courseName,
+        courseSubTitle: data.courseSubTitle,
+        courseCategoryId: data.courseCategoryId,
+        price: data.price,
+        lesson: data.lesson,
+        totalAmount: data.totalAmount,
+        brokerage: { isSet: this.isSet, money: this.money },
+        limitStudents: data.limitStudents,
+        teacherId: data.teacherId
+      });
+      this.getTeachersById(data.courseCategoryId);
+      console.log("rowData step 1", this.$route.params.data);
+      this.categoryName = data.category.categoryName;
       console.log(this.categoryName);
+    } else {
+      this.form.setFieldsValue({
+        courseName: "",
+        courseSubTitle: "",
+        courseCategoryId: "",
+        price: null,
+        lesson: null,
+        totalAmount: null,
+        brokerage: null,
+        limitStudents: null,
+        teacherId: ""
+      });
+      this.isSet = 0;
+      this.money = null;
+      this.categoryName = "";
     }
   },
 
   methods: {
+    resetForm(){
+      this.form.resetFields()
+    },
     handleChange(e) {
       this.getTeachersById(e);
     },

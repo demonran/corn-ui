@@ -47,7 +47,7 @@ export default {
       form: this.$form.createForm(this)
     };
   },
-  mounted() {
+  activated() {
     const data = this.$route.params.data;
     console.log("rowData step 3", data);
     // let data = this.$route.params.data;
@@ -59,10 +59,18 @@ export default {
         endDate: moment(data.endDate, "YYYY-MM-DD")
       });
       console.log(data.endDate);
+    } else {
+      this.form.setFieldsValue({
+        beginDate: null, // moment(0, "YYYY-MM-DD"),
+        endDate: null // moment(0, "YYYY-MM-DD")
+      });
     }
   },
   methods: {
     moment,
+    resetForm() {
+      this.form.resetFields();
+    },
     doOnceAgin() {
       this.$emit("finish");
     },
