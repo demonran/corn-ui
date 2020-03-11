@@ -105,22 +105,25 @@
           </a-upload>
         </a-form-item>
         <a-form-item label="课程视频" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
-          <!-- accept=".avi, .wmv, .mpg, .mpeg, .mov, .rm, .ram, .swf, .flv, .mp4" -->
           <a-upload
             name="avatar"
             listType="picture-card"
             class="avatar-uploader"
             :showUploadList="false"
+            accept=".avi, .wmv, .mpg, .mpeg, .mov, .rm, .ram, .swf, .flv, .mp4"
             action
             :customRequest="uploadVideo"
             :beforeUpload="beforeVideoUpload"
             v-decorator="['videoUrl', {rules: [{ required: true, message: '请上传视频' }]}]"
           >
-            <img class="imgshow" v-if="videoUrl" :src="videoUrl" alt="videoUrl" />
+            <!-- <img class="imgshow" v-if="videoUrl" :src="videoUrl" alt="videoUrl" /> -->
+            <a-icon v-if="videoUrl" type="video-camera" />
             <div v-else>
               <a-icon :type="loading ? 'loading' : 'plus'" />
             </div>
           </a-upload>
+          <a-button type="primary" @click="previewClick">点击预览</a-button>
+          <br />
           <span>目前仅支持在手机端播放，建议时常2-10分钟，建议视频宽比16:9</span>
         </a-form-item>
         <a-form-item label="图文介绍" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
@@ -187,8 +190,16 @@ export default {
     };
   },
   mounted() {
-    this.id = this.$route.query.id || "";
     this.seteditor();
+    CategoryRequest.categoryList()
+      .then(res => {
+        this.categoryList = res.result;
+      })
+      .catch(e => {});
+  },
+  activated() {
+    this.id = this.$route.query.id || "";
+    this.currentStep = 0;
     if (this.id) {
       // 这是编辑
       VideoRequest.getItem(this.id)
@@ -219,12 +230,12 @@ export default {
     } else {
       this.initFormData();
     }
-    CategoryRequest.categoryList()
-      .then(res => {
-        this.categoryList = res.result;
-      })
-      .catch(e => {});
   },
+  // activated() {
+  //   this.currentStep = 0;
+  //   this.initFormData();
+  //   this.isFree = false;
+  // },
   //   mounted() {
   // this.seteditor();
   // CategoryRequest.categoryList()
@@ -251,6 +262,7 @@ export default {
           videoUrl: ""
         });
         this.cover = "";
+        this.videoUrl = "";
         this.content = "";
         this.editor.txt.html("");
       }
@@ -264,6 +276,10 @@ export default {
           this.teacherList = res.result;
         })
         .catch(e => {});
+    },
+    // 预览视频
+    previewClick() {
+      if (this.videoUrl) window.open(this.videoUrl, "_blank");
     },
     isFreeClick(e) {
       this.isFree = e.target.value === 0;
@@ -357,6 +373,7 @@ export default {
       const formData = new FormData();
       formData.append("file", option.file);
       this.loading = true;
+      this.showLoading();
       CommonRequest.uploadImg(formData)
         .then(res => {
           console.log("res:", res);
@@ -365,13 +382,17 @@ export default {
         .catch(e => {
           console.log("something error");
         })
-        .finally((this.loading = false));
+        .finally(e => {
+          this.loading = false;
+          this.hideLoading();
+        });
     },
     // 上传视频
     uploadVideo(option) {
       const formData = new FormData();
       formData.append("file", option.file);
       this.loading = true;
+      this.showLoading();
       CommonRequest.uploadImg(formData)
         .then(res => {
           console.log("res:", res);
@@ -380,7 +401,10 @@ export default {
         .catch(e => {
           console.log("something error");
         })
-        .finally((this.loading = false));
+        .finally(e => {
+          this.loading = false;
+          this.hideLoading();
+        });
     },
     // 点击上一步
     preClick() {
@@ -420,10 +444,13 @@ export default {
     },
     // 继续添加
     continueClick() {
+      // this.$router.push("/course/addVideo");
+      this.id = "";
       this.currentStep = 0;
       // 清除数据
       this.hadInfo = true;
       this.initFormData();
+      this.isFree = false;
     },
     // 返回列表
     backListClick() {
@@ -444,10 +471,13 @@ export default {
         param.id = this.id;
         VideoRequest.edtItem(param)
           .then(res => {
-            that.toast("修改成功");
-            that.goResult();
+            this.resultString = "操作成功";
+            this.resultIcon = "check";
+            // that.goResult();
           })
           .catch(e => {
+            this.resultString = "操作失败";
+            this.resultIcon = "close";
             console.log("error:", e);
           })
           .finally((that.isSubmitting = false));

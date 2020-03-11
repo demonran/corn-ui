@@ -1,13 +1,37 @@
 <template>
   <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
     <a-form :form="form" @submit="onsubmit">
-      <a-form-item label="标题" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+      <a-form-item label="作品名称" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-input
-          v-decorator="['title', {rules: [{ required: true, message: '请输入标题' }]}]"
-          placeholder="请输入标题"
+          v-decorator="['name', {rules: [{ required: true, message: '请输入作品名称' }]}]"
+          placeholder="请输入作品名称"
         />
       </a-form-item>
-      <a-form-item label="图片" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+      <a-form-item label="作者姓名" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+        <a-input
+          v-decorator="['author', {rules: [{ required: true, message: '请输入作者姓名' }]}]"
+          placeholder="请输入作者姓名"
+        />
+      </a-form-item>
+      <a-form-item label="所属分类" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+        <!-- <a-input
+          v-decorator="['teachCategory', {rules: [{ required: true, message: '请输入教学类型' }]}]"
+          placeholder="请输入教学类型"
+        />-->
+        <a-select
+          class="style_input"
+          placeholder="请选择所属分类"
+          :allowClear="true"
+          v-decorator="['categoryId', {rules: [{ required: true, message: '请选择所属分类' }]}]"
+        >
+          <a-select-option
+            v-for="(item, index) in categoryList"
+            :key="index"
+            :value="item.categoryId"
+          >{{item.categoryName}}</a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item label="作品图片" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-upload
           name="avatar"
           listType="picture-card"
@@ -19,17 +43,33 @@
           :beforeUpload="beforeUpload"
           v-decorator="['image', {rules: [{ required: true, message: '请上传图片' }]}]"
         >
-          <img class="imgshow" v-if="image" :src="image" alt="avatar" />
+          <img class="imgshow" v-if="image" :src="image" alt="image" />
           <div v-else>
             <a-icon :type="loading ? 'loading' : 'plus'" />
           </div>
         </a-upload>
       </a-form-item>
-      <a-form-item label="跳转链接" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
-        <a-input v-decorator="['link']" placeholder="请输入跳转链接" />
+      <a-form-item label="是否推荐到首页" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+        <a-radio-group
+          buttonStyle="solid"
+          v-decorator="['recommend', {rules: [{ required: true, message: '请选择' }]}]"
+        >
+          <a-radio :value="0">否</a-radio>
+          <a-radio :value="1">是</a-radio>
+        </a-radio-group>
       </a-form-item>
+      <!-- <a-form-item label="是否启用" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+        <a-radio-group
+          buttonStyle="solid"
+          v-decorator="['weather', {rules: [{ required: true, message: '请选择' }]}]"
+        >
+          <a-radio value="0">否</a-radio>
+          <a-radio value="1">是</a-radio>
+        </a-radio-group>
+      </a-form-item>-->
       <a-form-item :wrapperCol="{span: 10, offset: 7}">
-        <a-button type="primary" @click="onsubmit">提交</a-button>
+        <a-button type="primary" @click="onsubmit">保存</a-button>
+        <!-- <a-button style="margin-left:10px" @click="cancelClick">取消</a-button> -->
       </a-form-item>
     </a-form>
   </a-card>
@@ -37,9 +77,11 @@
 
 <script>
 import Category from "@/services/category";
-import BannerRequest from "@/services/banner";
+import PaintRequest from "@/services/painting";
 import CommonRequest from "@/services/common";
-import comm from "../../mix";
+import CategoryRequest from "@/services/category";
+import comm from "../mix";
+
 export default {
   mixins: [comm],
   data() {
@@ -47,21 +89,24 @@ export default {
       id: "",
       form: this.$form.createForm(this),
       loading: false,
-      image: ""
+      categoryList: [], // 课程分类
+      image: "" // 头像
     };
   },
   activated() {
     this.id = this.$route.query.id || "";
     if (this.id) {
       // 这是编辑
-      BannerRequest.bannerItem(this.id)
+      PaintRequest.getItem(this.id)
         .then(res => {
-          console.log("bannerItem:", res);
+          console.log("getItem:", res);
           const data = res.result;
           this.form.setFieldsValue({
-            title: data.title,
-            link: data.link,
-            image: data.image
+            author: data.author,
+            image: data.image,
+            name: data.name,
+            categoryId: data.category.id,
+            recommend: data.recommend ? 1 : 0
           });
           this.image = data.image;
         })
@@ -70,12 +115,21 @@ export default {
         });
     } else {
       this.form.setFieldsValue({
-        title: "",
-        link: "",
-        image: ""
+        author: "",
+        image: "",
+        name: "",
+        categoryId: null,
+        recommend: null
       });
       this.image = "";
     }
+  },
+  mounted() {
+    CategoryRequest.categoryList()
+      .then(res => {
+        this.categoryList = res.result;
+      })
+      .catch(e => {});
   },
   methods: {
     beforeUpload(file) {
@@ -95,6 +149,7 @@ export default {
       const formData = new FormData();
       formData.append("file", option.file);
       this.loading = true;
+      this.showLoading();
       CommonRequest.uploadImg(formData)
         .then(res => {
           console.log("res:", res);
@@ -103,7 +158,10 @@ export default {
         .catch(e => {
           console.log("something error");
         })
-        .finally((this.loading = false));
+        .finally(e => {
+          this.loading = false;
+          this.hideLoading();
+        });
     },
     onsubmit() {
       let that = this;
@@ -111,10 +169,11 @@ export default {
         if (!err) {
           var param = Object.assign(values);
           param.image = this.image;
+          param.recommend = param.recommend === 1;
           if (that.id) {
             //编辑
             param.id = this.id;
-            BannerRequest.bannerEdtItem(param)
+            PaintRequest.edtItem(param)
               .then(res => {
                 that.toast("修改成功");
                 that.goResult();
@@ -123,7 +182,7 @@ export default {
                 console.log("error:", e);
               });
           } else {
-            BannerRequest.add(param)
+            PaintRequest.add(param)
               .then(res => {
                 that.toast("新增成功");
                 that.goResult();
@@ -136,8 +195,11 @@ export default {
         }
       });
     },
+    cancelClick() {
+      // todo
+    },
     goResult() {
-      this.$router.replace("/settings/banner");
+      this.$router.replace("/painting/list");
     }
   }
 };

@@ -1,33 +1,33 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import PageView from '@/layouts/PageView';
-import RouteView from '@/layouts/RouteView';
-import MenuView from '@/layouts/MenuView2';
-import Login from '@/pages/login/Login';
-import Tables from '@/tables/index';
+import Vue from "vue";
+import Router from "vue-router";
+import PageView from "@/layouts/PageView";
+import RouteView from "@/layouts/RouteView";
+import MenuView from "@/layouts/MenuView2";
+import Login from "@/pages/login/Login";
+import Tables from "@/tables/index";
 
 Vue.use(Router);
 
 const routes = [
   {
-    path: '/login',
-    name: 'login',
+    path: "/login",
+    name: "login",
     component: Login,
     invisible: true
   },
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: MenuView,
-    redirect: '/login',
-    icon: 'none',
+    redirect: "/login",
+    icon: "none",
     invisible: true,
     children: [
       {
-        path: '/situation',
-        name: '概况',
-        component: () => import('@/pages/situation/situation'),
-        icon: 'solution'
+        path: "/situation",
+        name: "概况",
+        component: () => import("@/pages/situation/situation"),
+        icon: "solution"
       },
       /* {
         path: '/dashboard',
@@ -50,345 +50,409 @@ const routes = [
         ]
       }, */
       {
-        path: '/course',
-        name: '课程',
+        path: "/course",
+        name: "课程",
         component: RouteView,
-        icon: 'table',
+        icon: "table",
         children: [
           {
-            path: '/course/offline',
-            name: '线下课程',
-            component: () => import('@/pages/offlineCourse/list'),
-            icon: 'none'
+            path: "/course/offline",
+            name: "线下课程",
+            component: () => import("@/pages/offlineCourse/list"),
+            icon: "none"
           },
           {
-            path: '/course/addOffline',
-            name: '添加线下课程',
+            path: "/course/addOffline",
+            name: "添加线下课程",
             invisible: true,
-            component: () => import('@/pages/offlineCourse/add'),
-            icon: 'none'
+            component: () => import("@/pages/offlineCourse/add"),
+            icon: "none"
           },
           {
-            path: '/course/updateOffline',
-            name: '编辑线下课程',
+            path: "/course/updateOffline",
+            name: "编辑线下课程",
             invisible: true,
-            component: () => import('@/pages/offlineCourse/update'),
-            icon: 'none'
+            component: () => import("@/pages/offlineCourse/update"),
+            icon: "none"
           },
           {
-            path: '/course/videocourse',
-            name: '视频公开课',
-            component: () => import('@/pages/videocourse/list'),
-            icon: 'none'
+            path: "/course/videocourse",
+            name: "视频公开课",
+            component: () => import("@/pages/videocourse/list"),
+            icon: "none"
           },
           {
-            path: '/course/addVideo',
-            name: '添加视频公开课',
+            path: "/course/addVideo",
+            name: "添加视频公开课",
             invisible: true,
-            component: () => import('@/pages/videocourse/add'),
-            icon: 'none'
+            component: () => import("@/pages/videocourse/add"),
+            icon: "none"
           },
           {
-            path: '/course/edtVideo',
-            name: '编辑视频公开课',
+            path: "/course/edtVideo",
+            name: "编辑视频公开课",
             invisible: true,
-            component: () => import('@/pages/videocourse/add'),
-            icon: 'none'
+            component: () => import("@/pages/videocourse/add"),
+            icon: "none"
+          }
+        ]
+      },
+      // 作品模块
+      {
+        path: "/painting",
+        name: "作品",
+        component: RouteView,
+        icon: "book",
+        children: [
+          {
+            path: "/painting/list",
+            name: "所有作品",
+            component: () => import("@/pages/painting/list"),
+            icon: "none"
+          },
+          {
+            path: "/painting/add",
+            name: "新增作品",
+            invisible: true,
+            component: () => import("@/pages/painting/add"),
+            icon: "none"
+          },
+          {
+            path: "/painting/edt",
+            name: "编辑作品",
+            invisible: true,
+            component: () => import("@/pages/painting/add"),
+            icon: "none"
+          }
+        ]
+      },
+
+      // 动态模块
+      {
+        path: "/dynamic",
+        name: "动态",
+        component: RouteView,
+        icon: "book",
+        children: [
+          {
+            path: "/dynamic/banner",
+            name: "首页幻灯",
+            component: () => import("@/pages/dynamic/banner/list"),
+            icon: "none"
+          },
+          {
+            path: "/dynamic/addbanner",
+            name: "新增banner",
+            invisible: true,
+            component: () => import("@/pages/dynamic/banner/add")
+          },
+          {
+            path: "/dynamic/edtbanner",
+            name: "编辑banner",
+            invisible: true,
+            component: () => import("@/pages/dynamic/banner/add")
+          },
+          {
+            path: "/dynamic/article",
+            name: "文章管理",
+            component: () => import("@/pages/dynamic/article/list"),
+            icon: "none"
+          },
+          {
+            path: "/dynamic/addarticle",
+            name: "新增文章",
+            invisible: true,
+            component: () => import("@/pages/dynamic/article/add"),
+            icon: "none"
+          },
+          {
+            path: "/dynamic/edtarticle",
+            name: "编辑文章",
+            invisible: true,
+            component: () => import("@/pages/dynamic/article/add"),
+            icon: "none"
           }
         ]
       },
 
       // 报名模块
       {
-        path: '/signUp',
-        name: '报名',
-        component: () => import('@/pages/signUp/signUp'),
-        icon: 'form'
+        path: "/signUp",
+        name: "报名",
+        component: () => import("@/pages/signUp/signUp"),
+        icon: "form"
       },
       // 报名隐藏的
       {
-        path: '/signUp',
-        name: '报名隐藏的',
+        path: "/signUp",
+        name: "报名隐藏的",
         component: RouteView,
         invisible: true,
-        icon: 'form',
+        icon: "form",
         children: [
           {
-            path: '/signUp/addSignUp',
-            name: '添加报名',
+            path: "/signUp/addSignUp",
+            name: "添加报名",
             invisible: true,
-            component: () => import('@/pages/signUp/addSignUp'),
-            icon: 'none'
+            component: () => import("@/pages/signUp/addSignUp"),
+            icon: "none"
           }
         ]
       },
       // 学员
       {
-        path: '/students',
-        name: '学员',
-        component: () => import('@/pages/students/stulist'),
-        icon: 'solution'
+        path: "/students",
+        name: "学员",
+        component: () => import("@/pages/students/stulist"),
+        icon: "solution"
       },
       // 微信用户管理
       {
-        path: '/user/list',
-        name: '微信用户管理',
-        component: () => import('@/pages/user/index'),
-        icon: 'solution'
+        path: "/user/list",
+        name: "微信用户管理",
+        component: () => import("@/pages/user/index"),
+        icon: "solution"
       },
 
       // test
       {
-        path: '/students',
-        name: '学员隐藏的',
+        path: "/students",
+        name: "学员隐藏的",
         component: RouteView,
-        icon: 'solution',
+        icon: "solution",
         invisible: true,
         children: [
           {
-            path: '/students/stulist',
-            name: '学员详情',
-            component: () => import('@/pages/students/stulist'),
-            icon: 'none'
+            path: "/students/stulist",
+            name: "学员详情",
+            component: () => import("@/pages/students/stulist"),
+            icon: "none"
           }
         ]
       },
       // 设置
       {
-        path: '/settings',
-        name: '设置',
+        path: "/settings",
+        name: "设置",
         component: RouteView,
-        icon: 'setting',
+        icon: "setting",
         children: [
           {
-            path: '/settings/category',
-            name: '课程分类',
-            component: () => import('@/pages/category/list'),
-            icon: 'none'
+            path: "/settings/category",
+            name: "课程分类",
+            component: () => import("@/pages/category/list"),
+            icon: "none"
           },
           {
-            path: '/settings/category/add',
-            name: '添加课程分类',
+            path: "/settings/category/add",
+            name: "添加课程分类",
             invisible: true,
-            component: () => import('@/pages/category/add'),
-            icon: 'none'
+            component: () => import("@/pages/category/add"),
+            icon: "none"
           },
           {
-            path: '/settings/category/result',
-            name: '结果',
+            path: "/settings/category/result",
+            name: "结果",
             invisible: true,
-            component: () => import('@/pages/result/Success'),
-            icon: 'none'
+            component: () => import("@/pages/result/Success"),
+            icon: "none"
           },
           {
-            path: '/settings/banner',
-            name: 'Banner设置',
-            component: () => import('@/pages/settings/banner/list'),
-            icon: 'none'
+            path: "/settings/information",
+            name: "机构信息",
+            component: () => import("@/pages/settings/information/infor"),
+            icon: "none"
           },
           {
-            path: '/settings/information',
-            name: '机构信息',
-            component: () => import('@/pages/settings/information/infor'),
-            icon: 'none'
-          }, {
-            path: '/settings/addbanner',
-            name: '新增banner',
+            path: "/settings/teacher",
+            name: "教师管理",
+            icon: "none",
+            component: () => import("@/pages/settings/teacher/list")
+          },
+          {
+            path: "/settings/addTeacher",
+            name: "添加教师",
+            icon: "none",
             invisible: true,
-            component: () => import('@/pages/settings/banner/add')
-          }, {
-            path: '/settings/edtbanner',
-            name: '编辑banner',
+            component: () => import("@/pages/settings/teacher/add")
+          },
+          {
+            path: "/settings/edtTeacher",
+            name: "编辑教师",
+            icon: "none",
             invisible: true,
-            component: () => import('@/pages/settings/banner/add')
-          }, {
-            path: '/settings/teacher',
-            name: '教师管理',
-            icon: 'none',
-            component: () => import('@/pages/settings/teacher/list')
-          }, {
-            path: '/settings/addTeacher',
-            name: '添加教师',
-            icon: 'none',
-            invisible: true,
-            component: () => import('@/pages/settings/teacher/add')
-          }, {
-            path: '/settings/edtTeacher',
-            name: '编辑教师',
-            icon: 'none',
-            invisible: true,
-            component: () => import('@/pages/settings/teacher/add')
+            component: () => import("@/pages/settings/teacher/add")
           }
         ]
       },
       {
-        path: '/form',
-        name: '表单页',
+        path: "/form",
+        name: "表单页",
         component: PageView,
-        icon: 'form',
+        icon: "form",
         invisible: true,
         children: [
           {
-            path: '/form/basic',
-            name: '基础表单',
-            component: () => import('@/pages/form/BasicForm'),
-            icon: 'none'
+            path: "/form/basic",
+            name: "基础表单",
+            component: () => import("@/pages/form/BasicForm"),
+            icon: "none"
           },
           {
-            path: '/form/step',
-            name: '分步表单',
-            component: () => import('@/pages/form/stepForm/StepForm'),
-            icon: 'none'
+            path: "/form/step",
+            name: "分步表单",
+            component: () => import("@/pages/form/stepForm/StepForm"),
+            icon: "none"
           },
           {
-            path: '/form/advanced',
-            name: '高级表单',
-            component: () => import('@/pages/form/advancedForm/AdvancedForm'),
-            icon: 'none'
+            path: "/form/advanced",
+            name: "高级表单",
+            component: () => import("@/pages/form/advancedForm/AdvancedForm"),
+            icon: "none"
           }
         ]
       },
       {
-        path: '/list',
-        name: '列表页',
+        path: "/list",
+        name: "列表页",
         component: PageView,
-        icon: 'table',
+        icon: "table",
         invisible: true,
         children: [
           {
-            path: '/list/query',
-            name: '查询表格',
-            component: () => import('@/pages/list/QueryList'),
-            icon: 'none'
+            path: "/list/query",
+            name: "查询表格",
+            component: () => import("@/pages/list/QueryList"),
+            icon: "none"
           },
           {
-            path: '/list/primary',
-            name: '标准列表',
-            component: () => import('@/pages/list/StandardList'),
-            icon: 'none'
+            path: "/list/primary",
+            name: "标准列表",
+            component: () => import("@/pages/list/StandardList"),
+            icon: "none"
           },
           {
-            path: '/list/card',
-            name: '卡片列表',
-            component: () => import('@/pages/list/CardList'),
-            icon: 'none'
+            path: "/list/card",
+            name: "卡片列表",
+            component: () => import("@/pages/list/CardList"),
+            icon: "none"
           },
           {
-            path: '/list/search',
-            name: '搜索列表',
-            component: () => import('@/pages/list/search/SearchLayout'),
-            icon: 'none',
+            path: "/list/search",
+            name: "搜索列表",
+            component: () => import("@/pages/list/search/SearchLayout"),
+            icon: "none",
             children: [
               {
-                path: '/list/search/article',
-                name: '文章',
-                component: () => import('@/pages/list/search/ArticleList'),
-                icon: 'none'
+                path: "/list/search/article",
+                name: "文章",
+                component: () => import("@/pages/list/search/ArticleList"),
+                icon: "none"
               },
               {
-                path: '/list/search/application',
-                name: '应用',
-                component: () => import('@/pages/list/search/ApplicationList'),
-                icon: 'none'
+                path: "/list/search/application",
+                name: "应用",
+                component: () => import("@/pages/list/search/ApplicationList"),
+                icon: "none"
               },
               {
-                path: '/list/search/project',
-                name: '项目',
-                component: () => import('@/pages/list/search/ProjectList'),
-                icon: 'none'
+                path: "/list/search/project",
+                name: "项目",
+                component: () => import("@/pages/list/search/ProjectList"),
+                icon: "none"
               }
             ]
           }
         ]
       },
       {
-        path: '/detail',
-        name: '详情页',
-        icon: 'profile',
+        path: "/detail",
+        name: "详情页",
+        icon: "profile",
         component: RouteView,
         invisible: true,
         children: [
           {
-            path: '/detail/basic',
-            name: '基础详情页',
-            icon: 'none',
-            component: () => import('@/pages/detail/BasicDetail')
+            path: "/detail/basic",
+            name: "基础详情页",
+            icon: "none",
+            component: () => import("@/pages/detail/BasicDetail")
           },
           {
-            path: '/detail/advanced',
-            name: '高级详情页',
-            icon: 'none',
-            component: () => import('@/pages/detail/AdvancedDetail')
+            path: "/detail/advanced",
+            name: "高级详情页",
+            icon: "none",
+            component: () => import("@/pages/detail/AdvancedDetail")
           }
         ]
       },
       {
-        path: '/result',
-        name: '结果页',
-        icon: 'check-circle-o',
+        path: "/result",
+        name: "结果页",
+        icon: "check-circle-o",
         component: PageView,
         invisible: true,
         children: [
           {
-            path: '/result/success',
-            name: '成功',
-            icon: 'none',
-            component: () => import('@/pages/result/Success')
+            path: "/result/success",
+            name: "成功",
+            icon: "none",
+            component: () => import("@/pages/result/Success")
           },
           {
-            path: '/result/error',
-            name: '失败',
-            icon: 'none',
-            component: () => import('@/pages/result/Error')
+            path: "/result/error",
+            name: "失败",
+            icon: "none",
+            component: () => import("@/pages/result/Error")
           }
         ]
       },
       {
-        path: '/exception',
-        name: '异常页',
-        icon: 'warning',
+        path: "/exception",
+        name: "异常页",
+        icon: "warning",
         component: RouteView,
         invisible: true,
         children: [
           {
-            path: '/exception/404',
-            name: '404',
-            icon: 'none',
-            component: () => import('@/pages/exception/404')
+            path: "/exception/404",
+            name: "404",
+            icon: "none",
+            component: () => import("@/pages/exception/404")
           },
           {
-            path: '/exception/403',
-            name: '403',
-            icon: 'none',
-            component: () => import('@/pages/exception/403')
+            path: "/exception/403",
+            name: "403",
+            icon: "none",
+            component: () => import("@/pages/exception/403")
           },
           {
-            path: '/exception/500',
-            name: '500',
-            icon: 'none',
-            component: () => import('@/pages/exception/500')
+            path: "/exception/500",
+            name: "500",
+            icon: "none",
+            component: () => import("@/pages/exception/500")
           }
         ]
       },
       {
-        path: '/components',
-        redirect: '/components/taskcard',
-        name: '小组件',
-        icon: 'appstore-o',
+        path: "/components",
+        redirect: "/components/taskcard",
+        name: "小组件",
+        icon: "appstore-o",
         invisible: true,
         component: PageView,
         children: [
           {
-            path: '/components/taskcard',
-            name: '任务卡片',
-            icon: 'none',
-            component: () => import('@/pages/components/TaskCard')
+            path: "/components/taskcard",
+            name: "任务卡片",
+            icon: "none",
+            component: () => import("@/pages/components/TaskCard")
           },
           {
-            path: '/components/palette',
-            name: '颜色复选框',
-            icon: 'none',
-            component: () => import('@/pages/components/Palette')
+            path: "/components/palette",
+            name: "颜色复选框",
+            icon: "none",
+            component: () => import("@/pages/components/Palette")
           }
         ]
       }

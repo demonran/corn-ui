@@ -1,22 +1,28 @@
 <template>
   <a-card :body-style="{padding: '24px 32px'}" :bordered="false">
     <a-form :form="form" @submit="onsubmit">
-      <a-form-item label="教师名称" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+      <a-form-item label="文章标题" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-input
-          v-decorator="['name', {rules: [{ required: true, message: '请输入教师名称' }]}]"
-          placeholder="请输入教师名称"
+          v-decorator="['title', {rules: [{ required: true, message: '请输入文章标题' }]}]"
+          placeholder="请输入文章标题"
         />
       </a-form-item>
-      <a-form-item label="教学类型" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+      <a-form-item label="文章摘要" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+        <a-input
+          v-decorator="['content', {rules: [{ required: true, message: '请输入文章摘要' }]}]"
+          placeholder="请输入文章摘要"
+        />
+      </a-form-item>
+      <a-form-item label="所属分类" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <!-- <a-input
           v-decorator="['teachCategory', {rules: [{ required: true, message: '请输入教学类型' }]}]"
           placeholder="请输入教学类型"
         />-->
         <a-select
           class="style_input"
-          placeholder="请选择教学类型"
+          placeholder="请选择所属分类"
           :allowClear="true"
-          v-decorator="['categoryId', {rules: [{ required: true, message: '请选择教学类型' }]}]"
+          v-decorator="['categoryId', {rules: [{ required: true, message: '请选择所属分类' }]}]"
         >
           <a-select-option
             v-for="(item, index) in categoryList"
@@ -25,41 +31,7 @@
           >{{item.categoryName}}</a-select-option>
         </a-select>
       </a-form-item>
-      <a-form-item label="毕业学校" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
-        <a-input
-          v-decorator="['school', {rules: [{ required: true, message: '请输入毕业学校' }]}]"
-          placeholder="请输入毕业学校"
-        />
-      </a-form-item>
-      <a-form-item label="居住地址" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
-        <a-input
-          v-decorator="['address', {rules: [{ required: true, message: '请输入居住地址' }]}]"
-          placeholder="请输入居住地址"
-        />
-      </a-form-item>
-      <a-form-item label="教学经验" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
-        <a-input
-          v-decorator="['experience', {rules: [{ required: true, message: '请输入教学经验' }]}]"
-          placeholder="请输入教学经验"
-        />
-        <!-- <a-select
-          class="style_input"
-          placeholder="请选择教学经验"
-          :allowClear="true"
-          v-decorator="['experience', {rules: [{ required: true, message: '请选择教学经验' }]}]"
-        >
-          <a-select-option :value="1">经验1</a-select-option>
-          <a-select-option :value="2">经验2</a-select-option>
-        </a-select>-->
-      </a-form-item>
-      <a-form-item label="联系电话" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
-        <a-input
-          v-decorator="['tel', {rules: [{ required: true, message: '请输入联系电话' }]}]"
-          placeholder="请输入联系电话"
-          maxlength="11"
-        />
-      </a-form-item>
-      <a-form-item label="头像" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+      <a-form-item label="作品图片" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-upload
           name="avatar"
           listType="picture-card"
@@ -69,9 +41,9 @@
           accept=".jpg, .jpeg, .gif, .png, .bmp"
           :customRequest="uploadimg"
           :beforeUpload="beforeUpload"
-          v-decorator="['avatar', {rules: [{ required: true, message: '请上传头像' }]}]"
+          v-decorator="['cover', {rules: [{ required: true, message: '请上传图片' }]}]"
         >
-          <img class="imgshow" v-if="avatar" :src="avatar" alt="avatar" />
+          <img class="imgshow" v-if="cover" :src="cover" alt="cover" />
           <div v-else>
             <a-icon :type="loading ? 'loading' : 'plus'" />
           </div>
@@ -86,7 +58,14 @@
           <a-radio :value="1">是</a-radio>
         </a-radio-group>
       </a-form-item>
-      <!--<a-form-item label="是否启用" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+      <a-form-item label="详细内容" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+        <div
+          style="width:550px"
+          ref="editor"
+          v-decorator="['description', {rules: [{ required: true, message: '请填写详细内容' }]}]"
+        ></div>
+      </a-form-item>
+      <!-- <a-form-item label="是否启用" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-radio-group
           buttonStyle="solid"
           v-decorator="['weather', {rules: [{ required: true, message: '请选择' }]}]"
@@ -95,24 +74,17 @@
           <a-radio value="1">是</a-radio>
         </a-radio-group>
       </a-form-item>-->
-      <a-form-item label="详细介绍" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
-        <div
-          ref="editor"
-          style="width:550px"
-          v-decorator="['description', {rules: [{ required: true, message: '请填写详细介绍' }]}]"
-        ></div>
-      </a-form-item>
       <a-form-item :wrapperCol="{span: 10, offset: 7}">
         <a-button type="primary" @click="onsubmit">保存</a-button>
-        <a-button style="margin-left:10px" @click="cancelClick">取消</a-button>
+        <!-- <a-button style="margin-left:10px" @click="cancelClick">取消</a-button> -->
       </a-form-item>
     </a-form>
   </a-card>
 </template>
 
 <script>
-
-import TeacherRequest from "@/services/teacher";
+import Category from "@/services/category";
+import ArticleRequest from "@/services/article";
 import CommonRequest from "@/services/common";
 import CategoryRequest from "@/services/category";
 import comm from "../../mix";
@@ -126,49 +98,43 @@ export default {
       form: this.$form.createForm(this),
       loading: false,
       categoryList: [], // 课程分类
-      avatar: "", // 头像
-      description: "" //富文本内容
+      cover: "",
+      description: ""
     };
   },
   activated() {
     this.id = this.$route.query.id || "";
     if (this.id) {
       // 这是编辑
-      TeacherRequest.teacherItem(this.id)
+      ArticleRequest.getItem(this.id)
         .then(res => {
-          console.log("teacherItem:", res);
+          console.log("getItem:", res);
           const data = res.result;
           this.form.setFieldsValue({
-            address: data.address,
-            avatar: data.avatar,
+            content: data.content,
             description: data.description,
-            experience: data.experience,
-            name: data.name,
-            school: data.school,
-            categoryId: data.category.categoryId,
-            tel: data.tel,
-            recommend: data.recommend ? 1 : 0
+            cover: data.cover,
+            categoryId: data.category.id,
+            recommend: data.recommend ? 1 : 0,
+            title: data.title
           });
-          this.avatar = data.avatar;
+          this.cover = data.cover;
           this.description = data.description;
-          this.editor.txt.html(this.description);
+          this.editor.txt.html(data.description);
         })
         .catch(e => {
           console.log("error:", e);
         });
     } else {
       this.form.setFieldsValue({
-        address: "",
-        avatar: "",
+        content: "",
         description: "",
-        experience: "",
-        name: "",
-        school: "",
+        cover: "",
         categoryId: "",
-        tel: "",
-        recommend: null
+        recommend: null,
+        title: ""
       });
-      this.avatar = "";
+      this.cover = "";
       this.description = "";
       this.editor.txt.html("");
     }
@@ -265,28 +231,31 @@ export default {
       const formData = new FormData();
       formData.append("file", option.file);
       this.loading = true;
+      this.showLoading();
       CommonRequest.uploadImg(formData)
         .then(res => {
           console.log("res:", res);
-          this.avatar = res.result;
+          this.cover = res.result;
         })
         .catch(e => {
           console.log("something error");
         })
-        .finally((this.loading = false));
+        .finally(e => {
+          this.loading = false;
+          this.hideLoading();
+        });
     },
     onsubmit() {
       let that = this;
       this.form.validateFields((err, values) => {
         if (!err) {
           var param = Object.assign(values);
-          param.avatar = this.avatar;
-          param.description = this.description;
+          param.cover = this.cover;
           param.recommend = param.recommend === 1;
           if (that.id) {
             //编辑
             param.id = this.id;
-            TeacherRequest.teacherEdtItem(param)
+            ArticleRequest.edtItem(param)
               .then(res => {
                 that.toast("修改成功");
                 that.goResult();
@@ -295,7 +264,7 @@ export default {
                 console.log("error:", e);
               });
           } else {
-            TeacherRequest.add(param)
+            ArticleRequest.add(param)
               .then(res => {
                 that.toast("新增成功");
                 that.goResult();
@@ -312,7 +281,7 @@ export default {
       // todo
     },
     goResult() {
-      this.$router.replace("/settings/teacher");
+      this.$router.replace("/dynamic/article");
     }
   }
 };
