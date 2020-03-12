@@ -173,11 +173,12 @@ export default {
   },
 
   methods: {
-    resetForm(){
-      this.form.resetFields()
+    resetForm() {
+      this.form.resetFields();
     },
     handleChange(e) {
       this.getTeachersById(e);
+      this.form.resetFields(["teacherId"]);
     },
     getCategory() {
       Category.list().then(res => {
@@ -193,13 +194,13 @@ export default {
         this.teachers = res.result;
       });
     },
-    getTeacher(){
+    getTeacher() {
       TeacherRequest.list()
-            .then(res => {
-              this.teacherList = res.result.content;
-              console.log('teacher:',res.result.content)
-            })
-            .catch(e => {});
+        .then(res => {
+          this.teacherList = res.result.content;
+          console.log("teacher:", res.result.content);
+        })
+        .catch(e => {});
     },
 
     checkColsItem(rule, value, callback) {

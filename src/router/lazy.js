@@ -251,6 +251,13 @@ const routes = [
             icon: "none"
           },
           {
+            path: "/settings/category/edt",
+            name: "编辑课程分类",
+            invisible: true,
+            component: () => import("@/pages/category/add"),
+            icon: "none"
+          },
+          {
             path: "/settings/category/result",
             name: "结果",
             invisible: true,

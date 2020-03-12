@@ -12,7 +12,13 @@ export default {
   add(data) {
     return http.post("/categories", data);
   },
+  getItem(id) {
+    return common.get('categories/' + id)
+  },
+  edtItem(param) {
+    return common.put('categories/' + param.id, param)
+  },
   deleteCat(id) {
-    return http.delete("/categories/" + id);
+    return common.delete("/categories/" + id);
   }
 };

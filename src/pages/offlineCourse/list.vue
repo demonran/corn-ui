@@ -122,12 +122,12 @@ export default {
           dataIndex: "courseName",
           key: "courseName"
         },
-        {
-          title: "封面",
-          dataIndex: "imageUrl",
-          key: "imageUrl",
-          scopedSlots: { customRender: "imageUrl" }
-        },
+        // {
+        //   title: "封面",
+        //   dataIndex: "imageUrl",
+        //   key: "imageUrl",
+        //   scopedSlots: { customRender: "imageUrl" }
+        // },
         {
           title: "课程分类",
           dataIndex: "category",
@@ -136,8 +136,8 @@ export default {
         },
         {
           title: "费用",
-          dataIndex: "price",
-          key: "price"
+          dataIndex: "totalAmount",
+          key: "totalAmount"
         },
         {
           title: "起始时间",
@@ -164,8 +164,8 @@ export default {
         },
         {
           title: "总课时",
-          dataIndex: "totalAmount",
-          key: "totalAmount"
+          dataIndex: "lesson",
+          key: "lesson"
         },
         {
           title: "状态",
