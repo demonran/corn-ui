@@ -97,8 +97,12 @@ export default {
   data() {
     return {
       categoryName: "",
+      page: {
+        pageSize: 20,
+        pageNum: 1
+      },
       pagination: {
-        pageSize: 5,
+        pageSize: 20,
         total: 0,
         defaultCurrent: 1,
         showQuickJumper: true,
@@ -209,7 +213,9 @@ export default {
       if (this.filterKeyword) query.name = this.filterKeyword;
 
       this.showLoading();
-      let res = await OfflineCurse.list(query);
+      let res = await OfflineCurse.list(
+        Object.assign(this.page, { filterKeyword: this.filterKeyword })
+      );
 
       console.log(res);
       this.hideLoading();
