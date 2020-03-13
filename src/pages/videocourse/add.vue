@@ -191,11 +191,6 @@ export default {
   },
   mounted() {
     this.seteditor();
-    CategoryRequest.categoryList()
-      .then(res => {
-        this.categoryList = res.result;
-      })
-      .catch(e => {});
   },
   activated() {
     this.id = this.$route.query.id || "";
@@ -230,6 +225,11 @@ export default {
     } else {
       this.initFormData();
     }
+    CategoryRequest.categoryList()
+      .then(res => {
+        this.categoryList = res.result;
+      })
+      .catch(e => {});
   },
   // activated() {
   //   this.currentStep = 0;
@@ -338,7 +338,7 @@ export default {
           .catch(e => {
             that.toast(e, true);
             console.log("something error", e);
-          })
+          });
       };
       this.editor.customConfig.onchange = html => {
         this.content = html; // 绑定当前逐渐地值

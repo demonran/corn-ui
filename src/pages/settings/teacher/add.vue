@@ -111,7 +111,6 @@
 </template>
 
 <script>
-
 import TeacherRequest from "@/services/teacher";
 import CommonRequest from "@/services/common";
 import CategoryRequest from "@/services/category";
@@ -172,14 +171,14 @@ export default {
       this.description = "";
       this.editor.txt.html("");
     }
-  },
-  mounted() {
-    this.seteditor();
     CategoryRequest.categoryList()
       .then(res => {
         this.categoryList = res.result;
       })
       .catch(e => {});
+  },
+  mounted() {
+    this.seteditor();
   },
   methods: {
     seteditor() {
@@ -236,7 +235,7 @@ export default {
           .catch(e => {
             that.toast(e, true);
             console.log("something error", e);
-          })
+          });
       };
       this.editor.customConfig.onchange = html => {
         this.description = html; // 绑定当前逐渐地值

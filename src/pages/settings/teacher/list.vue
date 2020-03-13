@@ -63,7 +63,7 @@ import TeacherRequest from "@/services/teacher";
 import comm from "../../mix";
 
 export default {
-  name: "PageView",
+  name: "teacherlist",
   mixins: [comm],
   components: { PageLayout },
   data() {

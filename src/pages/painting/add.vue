@@ -123,14 +123,13 @@ export default {
       });
       this.image = "";
     }
-  },
-  mounted() {
     CategoryRequest.categoryList()
       .then(res => {
         this.categoryList = res.result;
       })
       .catch(e => {});
   },
+  mounted() {},
   methods: {
     beforeUpload(file) {
       //   const isJPG = file.type === "image/jpeg";
