@@ -352,6 +352,7 @@ export default {
     // 选择分类
     categoryChange(e) {
       this.getTeacherList(e);
+      this.form.resetFields(["teacherId"]);
     },
     beforeUpload(file) {
       const isLt10M = file.size / 1024 / 1024 < 10;
