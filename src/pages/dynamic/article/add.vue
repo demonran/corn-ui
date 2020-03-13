@@ -197,13 +197,12 @@ export default {
         CommonRequest.uploadImg(params)
           .then(res => {
             console.log("res:", res);
-            insert(res.data.url);
+            insert(res.result);
           })
           .catch(e => {
             that.toast(e, true);
             console.log("something error", e);
           })
-          .finally((this.loading = false));
       };
       this.editor.customConfig.onchange = html => {
         this.description = html; // 绑定当前逐渐地值
