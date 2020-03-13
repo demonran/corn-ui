@@ -154,46 +154,50 @@ export default {
         pageSize: 20,
         pageNum: 1
       },
-      pagination: {
-        pageSize: 20,
-        total: 0,
-        defaultCurrent: 1,
-        showQuickJumper: true,
-        showSizeChanger: true,
-        pageSizeOptions: ["10", "20", "30", "40"],
-        showTotal(total) {
-          return `共${total}项`;
-        },
-        onChange(index, pageSize) {
-          // 页码改变的回调，参数是改变后的页码及每页条数
-          this.page.pageNum = index;
-          this.page.pageSize = pageSize;
-          this.list();
-          // console.log("change", current + ":" + count);
-        },
-        onShowSizeChange(index, pageSize) {
-          // pageSize 变化的回调
-          this.page.pageNum = index;
-          this.page.pageSize = pageSize;
-          this.list();
-          // console.log("showSizeChange", current + ":" + count);
-        }
-      },
+      pagination: null,
       selectedRows: [],
       selectedRowKeys: [] // Check here to configure the default column
     };
   },
   computed: {},
+  mounted() {
+    const that = this;
+    this.pagination = {
+      pageSize: 20,
+      total: 0,
+      defaultCurrent: 1,
+      showQuickJumper: true,
+      showSizeChanger: true,
+      pageSizeOptions: ["10", "20", "30", "40"],
+      showTotal(total) {
+        return `共${total}项`;
+      },
+      onChange(index, pageSize) {
+        // 页码改变的回调，参数是改变后的页码及每页条数
+        that.page.pageNum = index;
+        that.page.pageSize = pageSize;
+        that.list();
+        // console.log("change", current + ":" + count);
+      },
+      onShowSizeChange(index, pageSize) {
+        // pageSize 变化的回调
+        that.page.pageNum = index;
+        that.page.pageSize = pageSize;
+        that.list();
+        // console.log("showSizeChange", current + ":" + count);
+      }
+    };
+  },
   activated() {
     this.list();
   },
 
   methods: {
     // 点击搜索
-    /* search() {
+    search() {
       this.page.pageNum = 1;
       this.list();
-    }, */
+    },
     list() {
       // Signup.list().then(res => {
       //   console.log(res)

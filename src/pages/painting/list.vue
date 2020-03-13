@@ -37,10 +37,7 @@
         <span slot="createdAt" slot-scope="text,record">{{formateTime(record.createdAt)}}</span>
         <img style="width: 100px" slot="image" slot-scope="image" :src="image" />
         <span slot="recommend" slot-scope="text,record">{{record.recommend ? '是':'否'}}</span>
-        <span
-          slot="category"
-          slot-scope="text,record"
-        >{{record.category?record.category.name:''}}</span>
+        <span slot="category" slot-scope="text,record">{{record.category?record.category.name:''}}</span>
         <template slot="action" slot-scope="text,record">
           <div class="action_class">
             <div class="build" @click="edt(record)">编辑</div>
@@ -117,36 +114,40 @@ export default {
         pageSize: 20,
         pageNum: 1
       },
-      pagination: {
-        pageSize: 20,
-        total: 0,
-        defaultCurrent: 1,
-        showQuickJumper: true,
-        showSizeChanger: true,
-        pageSizeOptions: ["10", "20", "30", "40"],
-        showTotal(total) {
-          return `共${total}项`;
-        },
-        onChange(index, pageSize) {
-          // 页码改变的回调，参数是改变后的页码及每页条数
-          this.page.pageNum = index;
-          this.page.pageSize = pageSize;
-          this.list();
-          // console.log("change", current + ":" + count);
-        },
-        onShowSizeChange(index, pageSize) {
-          // pageSize 变化的回调
-          this.page.pageNum = index;
-          this.page.pageSize = pageSize;
-          this.list();
-          // console.log("showSizeChange", current + ":" + count);
-        }
-      },
+      pagination: null,
       selectedRows: [],
       selectedRowKeys: [] // Check here to configure the default column
     };
   },
   computed: {},
+  mounted() {
+    const that = this
+    this.pagination = {
+      pageSize: 20,
+      total: 0,
+      defaultCurrent: 1,
+      showQuickJumper: true,
+      showSizeChanger: true,
+      pageSizeOptions: ["10", "20", "30", "40"],
+      showTotal(total) {
+        return `共${total}项`;
+      },
+      onChange(index, pageSize) {
+        // 页码改变的回调，参数是改变后的页码及每页条数
+        that.page.pageNum = index;
+        that.page.pageSize = pageSize;
+        that.list();
+        // console.log("change", index + ":" + pageSize);
+      },
+      onShowSizeChange(index, pageSize) {
+        // console.log("showSizeChange", index + ":" + pageSize);
+        // pageSize 变化的回调
+        that.page.pageNum = index;
+        that.page.pageSize = pageSize;
+        that.list();
+      }
+    };
+  },
   activated() {
     this.list();
   },

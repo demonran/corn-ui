@@ -101,17 +101,7 @@ export default {
         pageSize: 20,
         pageNum: 1
       },
-      pagination: {
-        pageSize: 20,
-        total: 0,
-        defaultCurrent: 1,
-        showQuickJumper: true,
-        showSizeChanger: true,
-        pageSizeOptions: ["10", "20", "30", "40"],
-        showTotal(total) {
-          return `共${total}项`;
-        }
-      },
+      pagination: null,
       filterStatus: 1,
       filterKeyword: "",
       columns: [
@@ -189,25 +179,42 @@ export default {
     };
   },
   computed: {},
+  mounted() {
+    const that = this;
+    this.pagination = null;
+  },
+  mounted() {
+    const that = this;
+    this.pagination = {
+      pageSize: 20,
+      total: 0,
+      defaultCurrent: 1,
+      showQuickJumper: true,
+      showSizeChanger: true,
+      pageSizeOptions: ["10", "20", "30", "40"],
+      showTotal(total) {
+        return `共${total}项`;
+      },
+      onChange(index, pageSize) {
+        // 页码改变的回调，参数是改变后的页码及每页条数
+        that.page.pageNum = index;
+        that.page.pageSize = pageSize;
+        that.list();
+        // console.log("change", index + ":" + pageSize);
+      },
+      onShowSizeChange(index, pageSize) {
+        // console.log("showSizeChange", index + ":" + pageSize);
+        // pageSize 变化的回调
+        that.page.pageNum = index;
+        that.page.pageSize = pageSize;
+        that.list();
+      }
+    };
+  },
   activated() {
     this.list();
   },
   methods: {
-    // 选中项改变
-    onChange(index, pageSize) {
-      // 页码改变的回调，参数是改变后的页码及每页条数
-      this.page.pageNum = index;
-      this.page.pageSize = pageSize;
-      this.list();
-      // console.log("change", current + ":" + count);
-    },
-    onShowSizeChange(index, pageSize) {
-      // pageSize 变化的回调
-      this.page.pageNum = index;
-      this.page.pageSize = pageSize;
-      this.list();
-      // console.log("showSizeChange", current + ":" + count);
-    },
     async list(query) {
       //query.status = this.filterStatus;
       if (this.filterKeyword) query.name = this.filterKeyword;

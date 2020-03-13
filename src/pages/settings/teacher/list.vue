@@ -38,7 +38,10 @@
       >
         <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
         <img style="width: 100px" slot="avatar" slot-scope="avatar" :src="avatar" />
-        <span slot="category" slot-scope="text,record">{{record.category?record.category.categoryName:''}}</span>
+        <span
+          slot="category"
+          slot-scope="text,record"
+        >{{record.category?record.category.categoryName:''}}</span>
         <span slot="status" slot-scope="text,record">{{record.status === 'ENABLED' ? '启用': '禁用'}}</span>
 
         <template slot="action" slot-scope="text,record">
@@ -49,7 +52,7 @@
             <!-- <div class="build" @click="recommend(record)">推荐</div> -->
             <!-- <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(record.id)">
               <div class="build">删除</div>
-            </a-popconfirm> -->
+            </a-popconfirm>-->
           </div>
         </template>
       </a-table>
@@ -121,36 +124,40 @@ export default {
         pageSize: 20,
         pageNum: 1
       },
-      pagination: {
-        pageSize: 20,
-        total: 0,
-        defaultCurrent: 1,
-        showQuickJumper: true,
-        showSizeChanger: true,
-        pageSizeOptions: ["10", "20", "30", "40"],
-        showTotal(total) {
-          return `共${total}项`;
-        },
-        onChange(index, pageSize) {
-          // 页码改变的回调，参数是改变后的页码及每页条数
-          this.page.pageNum = index;
-          this.page.pageSize = pageSize;
-          this.list();
-          // console.log("change", current + ":" + count);
-        },
-        onShowSizeChange(index, pageSize) {
-          // pageSize 变化的回调
-          this.page.pageNum = index;
-          this.page.pageSize = pageSize;
-          this.list();
-          // console.log("showSizeChange", current + ":" + count);
-        }
-      },
+      pagination: null,
       selectedRows: [],
       selectedRowKeys: [] // Check here to configure the default column
     };
   },
   computed: {},
+  mounted() {
+    const that = this;
+    this.pagination = {
+      pageSize: 20,
+      total: 0,
+      defaultCurrent: 1,
+      showQuickJumper: true,
+      showSizeChanger: true,
+      pageSizeOptions: ["10", "20", "30", "40"],
+      showTotal(total) {
+        return `共${total}项`;
+      },
+      onChange(index, pageSize) {
+        // 页码改变的回调，参数是改变后的页码及每页条数
+        that.page.pageNum = index;
+        that.page.pageSize = pageSize;
+        that.list();
+        // console.log("change", current + ":" + count);
+      },
+      onShowSizeChange(index, pageSize) {
+        // pageSize 变化的回调
+        that.page.pageNum = index;
+        that.page.pageSize = pageSize;
+        that.list();
+        // console.log("showSizeChange", current + ":" + count);
+      }
+    };
+  },
   activated() {
     this.list();
   },
