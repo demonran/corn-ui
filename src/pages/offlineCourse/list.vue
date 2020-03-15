@@ -181,10 +181,6 @@ export default {
   computed: {},
   mounted() {
     const that = this;
-    this.pagination = null;
-  },
-  mounted() {
-    const that = this;
     this.pagination = {
       pageSize: 20,
       total: 0,
