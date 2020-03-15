@@ -114,38 +114,37 @@ export default {
         pageSize: 20,
         pageNum: 1
       },
-      pagination: null,
+      pagination: {
+        pageSize: 20,
+        total: 0,
+        defaultCurrent: 1,
+        showQuickJumper: true,
+        showSizeChanger: true,
+        pageSizeOptions: ["10", "20", "30", "40"],
+        showTotal(total) {
+          return `共${total}项`;
+        }
+      },
       selectedRows: [],
       selectedRowKeys: [] // Check here to configure the default column
     };
   },
   computed: {},
   mounted() {
-    const that = this
-    this.pagination = {
-      pageSize: 20,
-      total: 0,
-      defaultCurrent: 1,
-      showQuickJumper: true,
-      showSizeChanger: true,
-      pageSizeOptions: ["10", "20", "30", "40"],
-      showTotal(total) {
-        return `共${total}项`;
-      },
-      onChange(index, pageSize) {
-        // 页码改变的回调，参数是改变后的页码及每页条数
-        that.page.pageNum = index;
-        that.page.pageSize = pageSize;
-        that.list();
-        // console.log("change", index + ":" + pageSize);
-      },
-      onShowSizeChange(index, pageSize) {
-        // console.log("showSizeChange", index + ":" + pageSize);
-        // pageSize 变化的回调
-        that.page.pageNum = index;
-        that.page.pageSize = pageSize;
-        that.list();
-      }
+    const that = this;
+    this.pagination.onChange = (index, pageSize) => {
+      // 页码改变的回调，参数是改变后的页码及每页条数
+      that.page.pageNum = index;
+      that.page.pageSize = pageSize;
+      that.list();
+      // console.log("change", index + ":" + pageSize);
+    };
+    this.pagination.onShowSizeChange = (index, pageSize) => {
+      // console.log("showSizeChange", index + ":" + pageSize);
+      // pageSize 变化的回调
+      that.page.pageNum = index;
+      that.page.pageSize = pageSize;
+      that.list();
     };
   },
   activated() {

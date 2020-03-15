@@ -126,7 +126,7 @@ export default {
     return {
       page: {
         pageSize: 20,
-        currentPage: 1
+        pageNum: 1
       },
       dataSource: [
         { title: "123" },
@@ -164,8 +164,25 @@ export default {
     };
   },
   mounted() {
-    // this.fetchData();
+    const that = this;
+    this.listPagination.onChange = (index, pageSize) => {
+      // 页码改变的回调，参数是改变后的页码及每页条数
+      that.page.pageNum = index;
+      that.page.pageSize = pageSize;
+      that.fetchData();
+      // console.log("change", current + ":" + count);
+    };
+    this.listPagination.onShowSizeChange = (index, pageSize) => {
+      // pageSize 变化的回调
+      that.page.pageNum = index;
+      that.page.pageSize = pageSize;
+      that.fetchData();
+      // console.log("showSizeChange", current + ":" + count);
+    };
   },
+  // mounted() {
+    // this.fetchData();
+  // },
   methods: {
     // 点击全部学习中的已学完的
     onSelectChange(e) {
