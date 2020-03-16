@@ -109,7 +109,6 @@ export default {
         showSizeChanger: true,
         pageSizeOptions: ["10", "20", "30", "40"],
         showTotal(total) {
-          debugger
           return `共${total}项`;
         }
       },
