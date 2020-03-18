@@ -29,19 +29,12 @@
 
         <span slot="status" slot-scope="status">{{status == 'OPENED'?"上架中":'已下架'}}</span>
         <span slot="action" slot-scope="text,record">
-          <a-menu-item @click="update(record)">
-            <a>编辑</a>
-          </a-menu-item>
-          <!-- <a-menu-item @click="changeStatus (text,!text.status)">
-              <a>
-                {{text.status!=undifined||text.status=='closed'?'上架':'下架'}}
-              </a>
-            </a-menu-item>
-          <a-menu-item @click="up(record)"><a>上移</a></a-menu-item>-->
-
-          <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(text.categoryId)">
-            <a>删除</a>
-          </a-popconfirm>
+          <div class="action_class">
+            <div class="build" @click="update(record)">编辑</div>
+            <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(record.categoryId)">
+              <div class="build">删除</div>
+            </a-popconfirm>
+          </div>
         </span>
       </a-table>
     </a-card>
@@ -117,6 +110,12 @@ export default {
   },
 
   methods: {
+    resetList(){
+      //  this.form.resetFields();
+    },
+    search(){
+      this.list()
+    },
     list() {
       Category.list().then(res => {
         console.log(res);
@@ -138,6 +137,11 @@ export default {
         path: "/settings/category/edt",
         query: { id: data.categoryId }
       });
+    },
+    // 选中项改变
+    onSelectChange(selectedRowKeys, selectedRows) {
+      this.selectedRowKeys = selectedRowKeys;
+      this.selectedRows = selectedRows;
     }
   }
 };
@@ -169,5 +173,20 @@ export default {
 .btn.fr {
   float: right;
   margin-left: 5px;
+}
+.action_class {
+  display: flex;
+  flex-direction: row;
+  .build {
+    font-size: 14px;
+    font-family: "PingFang SC";
+    font-weight: 400;
+    line-height: 22px;
+    color: rgba(24, 144, 255, 1);
+    opacity: 1;
+    padding: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
 }
 </style>

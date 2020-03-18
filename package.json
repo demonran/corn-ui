@@ -29,7 +29,7 @@
     "viser-vue": "^2.2.5",
     "vue": "2.5.17",
     "vue-perfect-scrollbar": "^0.1.0",
-    "vue-router": "^3.0.1",
+    "vue-router": "3.0.1",
     "vuedraggable": "^2.16.0",
     "wangeditor": "^3.1.1",
     "vuex": "^3.0.1"
