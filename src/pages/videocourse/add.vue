@@ -119,7 +119,7 @@
             <!-- <img class="imgshow" v-if="videoUrl" :src="videoUrl" alt="videoUrl" /> -->
             <a-icon v-if="videoUrl" type="video-camera" />
             <div v-else>
-              <a-icon :type="loading ? 'loading' : 'plus'" />
+              <a-icon :type="loading1 ? 'loading' : 'plus'" />
             </div>
           </a-upload>
           <a-button type="primary" @click="previewClick">点击预览</a-button>
@@ -177,9 +177,9 @@ export default {
       currentStep: 0,
       isFree: null,
       isSubmitting: false,
-      hadInfo: false,
       form: this.$form.createForm(this),
       loading: false,
+      loading1: false,
       categoryList: [], // 课程分类
       teacherList: [], // 老师列表
       cover: "", // 封面
@@ -223,7 +223,7 @@ export default {
           console.log("error:", e);
         });
     } else {
-      this.initFormData();
+        this.initFormData()
     }
     CategoryRequest.categoryList()
       .then(res => {
@@ -246,17 +246,13 @@ export default {
   //   },
   methods: {
     initFormData() {
-      if (this.currentStep === 0) {
-        this.form.setFieldsValue({
+      this.form.setFieldsValue({
           categoryId: "",
           price: null,
           isFree: null,
           subTitle: "",
           teacherId: "",
-          title: ""
-        });
-      } else if (this.currentStep === 1) {
-        this.form.setFieldsValue({
+          title: "",
           content: "",
           cover: "",
           videoUrl: ""
@@ -265,7 +261,6 @@ export default {
         this.videoUrl = "";
         this.content = "";
         this.editor.txt.html("");
-      }
     },
     getTeacherList(categoryId) {
       const param = {
@@ -391,7 +386,7 @@ export default {
     uploadVideo(option) {
       const formData = new FormData();
       formData.append("file", option.file);
-      this.loading = true;
+      this.loading1 = true;
       this.showLoading();
       CommonRequest.uploadImg(formData)
         .then(res => {
@@ -402,7 +397,7 @@ export default {
           console.log("something error");
         })
         .finally(e => {
-          this.loading = false;
+          this.loading1 = false;
           this.hideLoading();
         });
     },
@@ -422,10 +417,6 @@ export default {
         this.form.validateFields(param, (err, values) => {
           if (!err) {
             this.currentStep = 1;
-            if (this.hadInfo) {
-              this.initFormData();
-              this.hadInfo = false;
-            }
           }
         });
       } else if (this.currentStep === 1) {
@@ -448,7 +439,6 @@ export default {
       this.id = "";
       this.currentStep = 0;
       // 清除数据
-      this.hadInfo = true;
       this.initFormData();
       this.isFree = false;
     },
