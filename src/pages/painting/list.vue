@@ -34,7 +34,7 @@
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
         <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
-        <span slot="createdAt" slot-scope="text,record">{{formateTime(record.createdAt)}}</span>
+        <span slot="createdAt" slot-scope="text,record">{{record.createdAt}}</span>
         <img style="width: 100px" slot="image" slot-scope="image" :src="image" />
         <span slot="recommend" slot-scope="text,record">{{record.recommend ? '是':'否'}}</span>
         <span slot="category" slot-scope="text,record">{{record.category?record.category.name:''}}</span>

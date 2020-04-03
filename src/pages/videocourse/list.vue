@@ -34,7 +34,7 @@
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
         <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
-        <span slot="createdAt" slot-scope="text,record">{{formateTime(record.createdAt)}}</span>
+        <span slot="createdAt" slot-scope="text,record">{{record.createdAt}}</span>
         <img style="width: 100px" slot="avatar" slot-scope="avatar" :src="avatar" />
         <span slot="price" slot-scope="text,record">{{record.price===0?'免费':record.price}}</span>
         <span
