@@ -9,7 +9,7 @@
       </a-form-item>
       <a-form-item label="文章摘要" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
         <a-input
-          v-decorator="['content', {rules: [{ required: true, message: '请输入文章摘要' }]}]"
+          v-decorator="['description', {rules: [{ required: true, message: '请输入文章摘要' }]}]"
           placeholder="请输入文章摘要"
         />
       </a-form-item>
@@ -62,7 +62,7 @@
         <div
           style="width:550px"
           ref="editor"
-          v-decorator="['description', {rules: [{ required: true, message: '请填写详细内容' }]}]"
+          v-decorator="['content', {rules: [{ required: true, message: '请填写详细内容' }]}]"
         ></div>
       </a-form-item>
       <!-- <a-form-item label="是否启用" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
