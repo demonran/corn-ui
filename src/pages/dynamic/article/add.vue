@@ -219,11 +219,12 @@ export default {
       //     this.$message.error("You can only upload JPG file!");
       //   }
       // 暂时只判断图片大小不超过10M
-      const isLt10M = file.size / 1024 / 1024 < 10;
-      if (!isLt10M) {
-        this.$message.error("图片不要超过10M哟");
-      }
-      return isLt10M;
+      // const isLt10M = file.size / 1024 / 1024 < 10;
+      // if (!isLt10M) {
+      //   this.$message.error("图片不要超过10M哟");
+      // }
+      // return isLt10M;
+      return true
     },
     // 上传图片
     uploadimg(option) {

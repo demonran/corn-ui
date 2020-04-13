@@ -9,6 +9,23 @@
             placeholder="请输入机构名称"
           />
         </a-form-item>
+        <a-form-item label="图片" :labelCol="{span: 5}" :wrapperCol="{span: 12}">
+          <a-upload
+            action
+            listType="picture-card"
+            :fileList="myFileList"
+            :multiple="true"
+            accept=".jpg, .jpeg, .gif, .png, .bmp"
+            :remove="removeClick"
+            :customRequest="uploadimgs"
+            v-decorator="['images', {rules: [{ required: true, message: '请上传' }]}]"
+          >
+            <div>
+              <a-icon type="plus" />
+              <!-- <div class="ant-upload-text">Upload</div> -->
+            </div>
+          </a-upload>
+        </a-form-item>
         <a-form-item label="幻灯图片" :labelCol="{span: 5}" :wrapperCol="{span: 12}">
           <a-upload
             name="avatar"
@@ -65,7 +82,8 @@ export default {
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
       cover: "",
-      loading: false
+      loading: false,
+      myFileList: []
     };
   },
   computed: {
@@ -84,11 +102,15 @@ export default {
           cover: data.cover,
           description: data.description,
           name: data.name,
-          tel: data.tel
+          tel: data.tel,
+          images: data.images
         });
         this.cover = data.cover;
         this.description = data.description;
         this.editor.txt.html(this.description);
+        data.images.forEach((item, index) => {
+          this.myFileList.push({ url: item, name: item.split('/')[item.split('/').length-1], uid: '-' + index });
+        });
       })
       .catch(e => {
         console.log("error:", e);
@@ -153,7 +175,7 @@ export default {
           .catch(e => {
             that.toast(e, true);
             console.log("something error", e);
-          })
+          });
       };
       this.editor.customConfig.onchange = html => {
         this.description = html; // 绑定当前逐渐地值
@@ -164,23 +186,61 @@ export default {
       // 创建富文本编辑器
       this.editor.create();
     },
+    // 多图改变
+    // handleChange({ fileList }) {
+    //   this.fileList = fileList;
+    // },
     beforeUpload(file) {
       //   const isJPG = file.type === "image/jpeg";
       //   if (!isJPG) {
       //     this.$message.error("You can only upload JPG file!");
       //   }
       // 暂时只判断图片大小不超过10M
-      const isLt10M = file.size / 1024 / 1024 < 10;
-      if (!isLt10M) {
-        this.$message.error("图片不要超过10M哟");
-      }
-      return isLt10M;
+      // const isLt10M = file.size / 1024 / 1024 < 10;
+      // if (!isLt10M) {
+      //   this.$message.error("图片不要超过10M哟");
+      // }
+      // return isLt10M;
+      return true;
+    },
+    // 多图移除
+    removeClick(file) {
+      this.myFileList.forEach((item, i) => {
+        if (item.url === file.url) {
+          this.myFileList.splice(i, 1);
+        }
+      });
+    },
+    // 上传多图
+    uploadimgs(option) {
+      const formData = new FormData();
+      formData.append("file", option.file);
+      this.loading = true;
+      const that = this;
+      this.showLoading();
+      CommonRequest.uploadImg(formData)
+        .then(res => {
+          console.log("res:", res);
+          that.myFileList.push({
+            url: res.result,
+            uid: option.file.uid,
+            name: option.file.name
+          });
+        })
+        .catch(e => {
+          console.log("something error");
+        })
+        .finally(e => {
+          this.loading = false;
+          this.hideLoading();
+        });
     },
     // 上传图片
     uploadimg(option) {
       const formData = new FormData();
       formData.append("file", option.file);
       this.loading = true;
+      this.showLoading();
       CommonRequest.uploadImg(formData)
         .then(res => {
           console.log("res:", res);
@@ -189,7 +249,10 @@ export default {
         .catch(e => {
           console.log("something error");
         })
-        .finally((this.loading = false));
+        .finally(e => {
+          this.loading = false;
+          this.hideLoading();
+        });
     },
     onsubmit() {
       let that = this;
@@ -198,6 +261,10 @@ export default {
           var param = Object.assign(values);
           param.description = this.description;
           param.cover = this.cover;
+          param.images = [];
+          this.myFileList.forEach(item => {
+            param.images.push(item.url);
+          });
           console.log(param);
           //编辑
           InfoRequest.edtItem(param)
@@ -219,12 +286,13 @@ export default {
 .btn {
   margin-top: 3px;
 }
-.avatar-uploader {
+.avatar-uploader > .ant-upload {
   width: 128px;
   height: 128px;
   .imgshow {
     width: 128px;
     height: 128px;
+    object-fit: cover;
   }
 }
 .search-btn {

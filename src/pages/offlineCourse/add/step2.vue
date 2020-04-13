@@ -153,11 +153,12 @@ export default {
       this.form.resetFields();
     },
     beforeUpload(file) {
-      const isLt10M = file.size / 1024 / 1024 < 10;
-      if (!isLt10M) {
-        this.$message.error("图片不要超过10M哟");
-      }
-      return isLt10M;
+      // const isLt10M = file.size / 1024 / 1024 < 10;
+      // if (!isLt10M) {
+      //   this.$message.error("图片不要超过10M哟");
+      // }
+      // return isLt10M;
+      return true
     },
     // 上传图片
     uploadimg(option) {
