@@ -9,7 +9,7 @@
             placeholder="请输入机构名称"
           />
         </a-form-item>
-        <a-form-item label="图片" :labelCol="{span: 5}" :wrapperCol="{span: 12}">
+        <a-form-item label="幻灯图片" :labelCol="{span: 5}" :wrapperCol="{span: 12}">
           <a-upload
             action
             listType="picture-card"
@@ -26,7 +26,7 @@
             </div>
           </a-upload>
         </a-form-item>
-        <a-form-item label="幻灯图片" :labelCol="{span: 5}" :wrapperCol="{span: 12}">
+        <a-form-item label="logo" :labelCol="{span: 5}" :wrapperCol="{span: 12}">
           <a-upload
             name="avatar"
             listType="picture-card"
