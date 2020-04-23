@@ -3,7 +3,7 @@ import patch from "./httpPatch";
 
 let opt = {
   // baseURL: 'https://www.infish.cn/xwjErpApi', //https://www.infish.cn/xwjErpApi
-  timeout: 60000, // http://192.168.1.53:8088
+  timeout: 120000, // http://192.168.1.53:8088
   headers: { "Content-Type": "application/json" }, // 'application/x-www-form-urlencoded'
   baseURL: "/api-yumimiao"
 };
