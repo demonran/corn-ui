@@ -1,22 +1,66 @@
 import http from "./http";
 import qs from "qs";
+import * as qiniu from 'qiniu-js'
 
 export default {
   uploadImg(param) {
+    var file = param.get('file')
+    var that = this
     return new Promise((resolve, reject) => {
-      http
-        .post("/image/upload", param)
-        .then(e => {
-          if (e.errorNo == 200) {
-            resolve(e);
-          } else {
-            reject(e);
+      this.get("/qiniu/token").then(res => {
+        var token = res.result
+        var observable = qiniu.upload(file, this.getKey(file.name), token, { fname: file.name, mimeType: null }, { useCdnDomain: true })
+        var subscription = observable.subscribe({
+          next(res) {
+            // resolve(res)
+          },
+          error(err) {
+            reject(err)
+          },
+          complete(res) {
+            resolve({ result: 'http://image.yumimiao.cn/' + that.getKey(file.name) })
           }
-        })
-        .catch(e => {
-          reject(e);
-        });
+        }) // 上传开始
+      }).catch(e => {
+        reject(e)
+      })
+      // http
+      //   .post("/image/upload", param)
+      //   .then(e => {
+      //     if (e.errorNo == 200) {
+      //       resolve(e);
+      //     } else {
+      //       reject(e);
+      //     }
+      //   })
+      //   .catch(e => {
+      //     reject(e);
+      //   });
     });
+  },
+  getKey(name) {
+    var result =  this.randomCoding(10) + '.' + name.split('.')[1]
+    return name;
+    // return 'temp'
+  },
+  dateFormat(fmt, date) {
+    let ret;
+    const opt = {
+        "Y+": date.getFullYear().toString(),        // 年
+        "m+": (date.getMonth() + 1).toString(),     // 月
+        "d+": date.getDate().toString(),            // 日
+        "H+": date.getHours().toString(),           // 时
+        "M+": date.getMinutes().toString(),         // 分
+        "S+": date.getSeconds().toString()          // 秒
+        // 有其他格式化字符需求可以继续添加，必须转化成字符串
+    };
+    for (let k in opt) {
+        ret = new RegExp("(" + k + ")").exec(fmt);
+        if (ret) {
+            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+        };
+    };
+    return fmt;
   },
   get(url, data) {
     return new Promise((resolve, reject) => {

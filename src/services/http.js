@@ -3,9 +3,10 @@ import patch from "./httpPatch";
 
 let opt = {
   // baseURL: 'https://www.infish.cn/xwjErpApi', //https://www.infish.cn/xwjErpApi
-  timeout: 120000, // http://192.168.1.53:8088
+  timeout: 10000, // http://192.168.1.53:8088
+  // headers: { "Content-Type": "multipart/form-data" },
   headers: { "Content-Type": "application/json" }, // 'application/x-www-form-urlencoded'
-  baseURL: "/api-yumimiao"
+  baseURL: "/api-yumimiao",
 };
 
 const http = axios.create(opt);
