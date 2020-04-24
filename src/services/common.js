@@ -9,7 +9,8 @@ export default {
     return new Promise((resolve, reject) => {
       this.get("/qiniu/token").then(res => {
         var token = res.result
-        var observable = qiniu.upload(file, this.getKey(file.name), token, { fname: file.name, mimeType: null }, { useCdnDomain: true })
+        var myKey = this.getKey(file.name)
+        var observable = qiniu.upload(file, myKey, token, { fname: file.name, mimeType: null }, { useCdnDomain: true })
         var subscription = observable.subscribe({
           next(res) {
             // resolve(res)
@@ -18,7 +19,7 @@ export default {
             reject(err)
           },
           complete(res) {
-            resolve({ result: 'http://image.yumimiao.cn/' + that.getKey(file.name) })
+            resolve({ result: 'http://image.yumimiao.cn/' + myKey })
           }
         }) // 上传开始
       }).catch(e => {
@@ -39,8 +40,8 @@ export default {
     });
   },
   getKey(name) {
-    var result =  this.randomCoding(10) + '.' + name.split('.')[1]
-    return name;
+    var result = this.dateFormat('YYYYmmddHHMMSS', new Date()) + Math.ceil(Math.random()*1000) + '.' + name.split('.')[1]
+    return result;
     // return 'temp'
   },
   dateFormat(fmt, date) {

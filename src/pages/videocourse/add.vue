@@ -377,7 +377,7 @@ export default {
           this.cover = res.result;
         })
         .catch(e => {
-          console.log("something error");
+          console.log("something error", e);
         })
         .finally(e => {
           this.loading = false;
