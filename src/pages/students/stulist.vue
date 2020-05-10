@@ -84,19 +84,19 @@
           </div>
           <div class="list-content">
             <div class="list-content-head">
-              <div class="left">爱</div>
+              <div class="left">{{firstName(item.name)}}</div>
               <div class="name">
-                李希爱
-                <div class="age">男 | 12岁</div>
+                {{item.name}}
+                <div class="age">{{item.gender}} | {{age(item.birthday)}}岁</div>
               </div>
             </div>
             <div class="list-content-item">
               <span>家长电话</span>
-              <p>1626162929（李龙飞）{{item.title}}</p>
+              <p>{{ item.guardianPhone }}（{{item.guardianName}}）</p>
             </div>
             <div class="list-content-item">
               <span>居住地址</span>
-              <p>成都市金牛区茶店子正街99号</p>
+              <p>{{item.address}}</p>
             </div>
             <div class="list-content-item">
               <span>开始时间</span>
@@ -104,7 +104,7 @@
             </div>
             <div class="list-content-item">
               <span>状态</span>
-              <p class="status_stop">停课中</p>
+              <p class="status_stop">{{item.status}}</p>
             </div>
           </div>
         </a-list-item>
@@ -115,7 +115,7 @@
 
 <script>
 import PageLayout from "../../layouts/PageLayout";
-import Signup from "@/services/signup";
+import Student from "@/services/student";
 import comm from "../mix";
 
 export default {
@@ -128,13 +128,7 @@ export default {
         pageSize: 20,
         pageNum: 1
       },
-      dataSource: [
-        { title: "123" },
-        { title: "456" },
-        { title: "789" },
-        { title: "012" },
-        { title: "345" }
-      ],
+      dataSource: [],
       form: this.$form.createForm(this),
       beginDate: "",
       endDate: "",
@@ -169,7 +163,7 @@ export default {
       // 页码改变的回调，参数是改变后的页码及每页条数
       that.page.pageNum = index;
       that.page.pageSize = pageSize;
-      that.fetchData();
+
       // console.log("change", current + ":" + count);
     };
     this.listPagination.onShowSizeChange = (index, pageSize) => {
@@ -179,38 +173,42 @@ export default {
       that.fetchData();
       // console.log("showSizeChange", current + ":" + count);
     };
+    this.fetchData();
   },
-  // mounted() {
-    // this.fetchData();
-  // },
+
+  computed: {
+
+  },
+
   methods: {
     // 点击全部学习中的已学完的
     onSelectChange(e) {
       const value = e.target.value;
     },
-    // 请求列表数据
-    async fetchData(filter) {
-      this.showLoading();
-      var param = null;
-      if (filter) {
-        param = Object.assign(filter);
-        delete param["time"];
-        param.beginDate = this.beginDate;
-        param.endDate = this.endDate;
+    firstName(name) {
+      return name ? name.substr(0, 1) : '无';
+    },
+    age(birthday) {
+      if (!birthday) {
+        return 0;
       }
-      let res = await Signup.list(
-        Object.assign(this.page, filter ? param : {})
-      );
+      let yearNow = new Date().getFullYear();
+      let birthYear = parseInt(birthday.substr(0,4));
+      return yearNow - birthYear;
+    },
+    // 请求列表数据
+    async fetchData(params = {}) {
+      this.showLoading();
+
+      let res = await Student.list(params);
       console.log(res);
       this.hideLoading();
       if (res.errorNo != 200) {
         this.toast(res.errorDesc, true);
         return;
       }
-      this.dataSource =
-        this.page.currentPage === 1
-          ? res.result
-          : this.dataSource.concat(res.result);
+      this.dataSource = res.result.content;
+      this.listPagination.total = res.result.total;
       console.log("datasource:", this.dataSource);
     },
     // 点击查看
