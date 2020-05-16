@@ -293,7 +293,25 @@ const routes = [
             icon: "none",
             invisible: true,
             component: () => import("@/pages/settings/teacher/add")
-          }
+          },
+          {
+            path: "/settings/marketing",
+            name: "拉新设置",
+            component: () => import("@/pages/settings/marketing"),
+            icon: "none",
+            children: [{
+              path: "/settings/marketing/newer-coupon",
+              name: "拉新设置",
+              component: () => import("@/pages/settings/marketing/newer-coupon"),
+              icon: "none"
+            },
+              {
+                path: "/settings/marketing/withdraw",
+                name: "拉新设置",
+                component: () => import("@/pages/settings/marketing/withdraw"),
+                icon: "none"
+              }]
+          },
         ]
       },
       {
@@ -547,4 +565,4 @@ const routes = [
 //     root.push(currRoute);
 //   }
 // }
-export default new Router({ routes });
+export default new Router({routes});
