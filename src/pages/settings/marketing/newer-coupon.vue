@@ -30,7 +30,10 @@
         </a-form-model-item>
       </a-form-model>
     </a-modal>
-    <a-table :columns="columns" rowKey="id" :data-source="crud.data">
+    <a-table :columns="columns"
+             :pagination="false"
+             rowKey="id"
+             :data-source="crud.data">
      <span slot="status" slot-scope="status">
        <a-tag v-if="status === 'OPENED'" color="green">启用中</a-tag>
        <a-tag v-if="status !=='OPENED'" color="red">停用</a-tag>
@@ -39,6 +42,7 @@
         <ud-operation :data="record"></ud-operation>
     </span>
     </a-table>
+    <pagination></pagination>
   </div>
 </template>
 
@@ -88,6 +92,7 @@
   import CRUD, {presenter, form, crud} from '@/components/Crud/curd'
   import udOperation from "@/components/Crud/udOperation";
   import crudOperation from "@/components/Crud/crudOperation";
+  import Pagination from "@/components/Crud/Pagination";
 
   export default {
     name: "newer-coupon",
@@ -97,7 +102,8 @@
     mixins: [presenter(), form(defaultForm), crud()],
     components: {
       udOperation,
-      crudOperation
+      crudOperation,
+      Pagination
     },
     data() {
       return {

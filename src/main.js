@@ -16,6 +16,8 @@ import store from './store';
 import PouchDB from 'pouchdb';
 import services from './services/index';
 
+import './assets/style/index.less'
+
 Vue.prototype.$srv = services;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
