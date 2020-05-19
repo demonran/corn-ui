@@ -12,7 +12,10 @@
       <div :style="{height: '100vh',overflow:'auto', padding: '82px 24px 0'}" class="scroll">
         <transition name="page-toggle">
           <keep-alive v-if="multipage">
-            <router-view />
+            <div class="app-container">
+              <router-view />
+            </div>
+
           </keep-alive>
           <router-view v-else />
         </transition>
@@ -136,5 +139,9 @@ export default {
     box-sizing: border-box;
     padding: 80px 14px 0;
     overflow-x: hidden;
+  }
+  //main-container全局样式
+  .app-container {
+    padding: 20px 20px 45px 20px;
   }
 </style>

@@ -1,7 +1,6 @@
 <template>
   <div>
     <edit></edit>
-    <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="true">
       <crud-operation></crud-operation>
 
       <a-table
@@ -19,7 +18,6 @@
           <ud-operation :data="record"></ud-operation>
         </template>
       </a-table>
-    </a-card>
   </div>
 </template>
 

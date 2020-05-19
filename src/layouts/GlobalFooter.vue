@@ -15,9 +15,16 @@ export default {
 
 <style lang="less" scoped>
   .footer{
+    background: none repeat scroll 0 0 white;
+    overflow: hidden;
+    border-top: 1px solid #e7eaec;
     padding: 0 16px;
-    margin: 48px 0 24px;
-    text-align: center;
+    letter-spacing: 0.8px;
+    height: 38px;
+    position: fixed;
+    bottom: 0;
+    z-index: 99;
+    width: 100%;
     .copyright{
       color: rgba(0,0,0,.45);
       font-size: 14px;
