@@ -105,30 +105,8 @@ const routes = [
       {
         path: "/painting",
         name: "作品",
-        component: RouteView,
-        icon: "book",
-        children: [
-          {
-            path: "/painting/list",
-            name: "所有作品",
-            component: () => import("@/pages/painting/list"),
-            icon: "none"
-          },
-          {
-            path: "/painting/add",
-            name: "新增作品",
-            invisible: true,
-            component: () => import("@/pages/painting/add"),
-            icon: "none"
-          },
-          {
-            path: "/painting/edt",
-            name: "编辑作品",
-            invisible: true,
-            component: () => import("@/pages/painting/add"),
-            icon: "none"
-          }
-        ]
+        component: () => import("@/pages/painting/list"),
+        icon: "book"
       },
 
       // 动态模块
@@ -143,18 +121,6 @@ const routes = [
             name: "首页幻灯",
             component: () => import("@/pages/dynamic/banner/list"),
             icon: "none"
-          },
-          {
-            path: "/dynamic/addbanner",
-            name: "新增banner",
-            invisible: true,
-            component: () => import("@/pages/dynamic/banner/add")
-          },
-          {
-            path: "/dynamic/edtbanner",
-            name: "编辑banner",
-            invisible: true,
-            component: () => import("@/pages/dynamic/banner/add")
           },
           {
             path: "/dynamic/article",
@@ -296,7 +262,7 @@ const routes = [
           },
           {
             path: "/settings/marketing",
-            name: "拉新设置",
+            name: "活动推广",
             component: () => import("@/pages/settings/marketing"),
             icon: "none",
             children: [{
@@ -307,7 +273,7 @@ const routes = [
             },
               {
                 path: "/settings/marketing/withdraw",
-                name: "拉新设置",
+                name: "提现申请",
                 component: () => import("@/pages/settings/marketing/withdraw"),
                 icon: "none"
               }]

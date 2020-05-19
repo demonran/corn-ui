@@ -12,8 +12,8 @@ export default {
   getItem(id) {
     return common.get("/painting/" + id);
   },
-  edtItem(param) {
-    return common.put("/painting/" + param.id, param);
+  eidt(data) {
+    return common.put("/painting/" + data.id, data);
   },
   // 删除单项
   del(id) {

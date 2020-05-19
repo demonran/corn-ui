@@ -16,8 +16,8 @@ export default {
     return common.get("/banners/" + id);
   },
   // 编辑单项banner
-  bannerEdtItem(param) {
-    return common.put("/banners/" + param.id, param);
+  edit(data) {
+    return common.put("/banners/" + data.id, data);
   },
   // 删除单项
   del(id) {

@@ -1,7 +1,8 @@
 <template>
-  <page-layout title="painting">
+  <div>
+    <edit></edit>
     <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="false">
-      <a-button class="btn" @click="addClick" type="primary">添加</a-button>
+
 
       <div class="search" slot="extra">
         <a-form layout="inline" :form="form" @submit="submitClick">
@@ -25,12 +26,13 @@
           </span>
         </a-form>
       </div>
+      <crud-operation></crud-operation>
       <a-table
         class="table"
         :columns="columns"
         rowKey="id"
-        :dataSource="dataSource"
-        :pagination="pagination"
+        :dataSource="crud.data"
+        :pagination=false
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
       >
         <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
@@ -39,29 +41,30 @@
         <span slot="recommend" slot-scope="text,record">{{record.recommend ? '是':'否'}}</span>
         <span slot="category" slot-scope="text,record">{{record.category?record.category.name:''}}</span>
         <template slot="action" slot-scope="text,record">
-          <div class="action_class">
-            <div class="build" @click="edt(record)">编辑</div>
-            <!-- <div class="build" v-if="!record.recommend" @click="recommend(record)">推荐</div> -->
-            <!-- <div class="build" v-else @click="recommend(record)">取消推荐</div> -->
-            <a-popconfirm title="是否要删除此行？" @confirm="deleteRow(record.id)">
-              <div class="build">删除</div>
-            </a-popconfirm>
-          </div>
+          <ud-operation :data="record"></ud-operation>
         </template>
       </a-table>
+      <!-- 分页组件-->
+      <pagination/>
     </a-card>
-  </page-layout>
+  </div>
 </template>
 
 <script>
-import PageLayout from "@/layouts/PageLayout";
 import PaintRequest from "@/services/painting";
+import CRUD ,{presenter} from "@/components/Crud/curd";
+import udOperation from "@/components/Crud/udOperation";
+import crudOperation from "@/components/Crud/crudOperation";
+import Pagination from  "@/components/Crud/Pagination"
 import comm from "../mix";
+import edit from './edit'
 
 export default {
-  name: "PageView",
-  mixins: [comm],
-  components: { PageLayout },
+  mixins: [comm, presenter()],
+  cruds() {
+    return CRUD({crudMethod: {...PaintRequest}})
+  },
+  components: { edit,udOperation ,crudOperation, Pagination},
   data() {
     return {
       filterStatus: 1,
@@ -109,7 +112,6 @@ export default {
           scopedSlots: { customRender: "action" }
         }
       ],
-      dataSource: [],
       page: {
         pageSize: 20,
         pageNum: 1
@@ -129,7 +131,6 @@ export default {
       selectedRowKeys: [] // Check here to configure the default column
     };
   },
-  computed: {},
   mounted() {
     const that = this;
     this.pagination.onChange = (index, pageSize) => {
@@ -147,9 +148,7 @@ export default {
       that.list();
     };
   },
-  activated() {
-    this.list();
-  },
+
 
   methods: {
     // 点击搜索
@@ -192,37 +191,7 @@ export default {
     addClick() {
       this.$router.push("/painting/add");
     },
-    edt(data) {
-      this.$router.push({
-        path: "/painting/edt",
-        query: { id: data.id }
-      });
-    },
-    // 设置推荐
-    recommend(data) {
-      var param = {
-        id: data.id,
-        recommend: !data.recommend
-      };
-      PaintRequest.changeRecommend(param)
-        .then(res => {
-          this.toast("操作成功");
-          this.list();
-        })
-        .catch(e => {
-          console.log("error:", e);
-        });
-    },
-    deleteRow(id) {
-      PaintRequest.del(id)
-        .then(res => {
-          this.toast("删除成功");
-          this.list();
-        })
-        .catch(e => {
-          console.log("error:", e);
-        });
-    },
+
     // 选中项改变
     onSelectChange(selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys;

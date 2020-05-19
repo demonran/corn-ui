@@ -1,12 +1,29 @@
 import newerCoupon from "@/services/newer-coupon";
+import Vue from 'vue'
 
-function CRUD() {
-
-}
-
-function crud(options = {}) {
-  let data = {
-    datasource: [],
+function CRUD(options = {}) {
+  const defaultOptions = {
+    // 表格数据
+    data: [],
+    //标题
+    title: '',
+    // 待查询的对象
+    query: {},
+    // Form 表单
+    form: {},
+    // table加载loading
+    loading: false,
+    // 重置表单
+    defaultForm: () => {
+    },
+    page: {
+      // 页码
+      page: 0,
+      // 每页数据条数
+      size: 10,
+      // 总数据条数
+      total: 0
+    },
     isAdd: true,
     visible: false,
     crudMethod: {
@@ -16,71 +33,322 @@ function crud(options = {}) {
       },
       del: (id) => {
       },
-      list: (params) => {}
+      list: (params) => {
+      }
     }
   }
-  data = Object.assign(data, options);
-  console.log(data)
+  options = Object.assign(defaultOptions, options)
+  const data = {
+    ...options,
+    status: {
+      add: CRUD.STATUS.NORMAL,
+      edit: CRUD.STATUS.NORMAL,
+      // 添加或编辑状态
+      get cu() {
+        if (this.add === CRUD.STATUS.NORMAL && this.edit === CRUD.STATUS.NORMAL) {
+          return CRUD.STATUS.NORMAL
+        } else if (this.add === CRUD.STATUS.PREPARED || this.edit === CRUD.STATUS.PREPARED) {
+          return CRUD.STATUS.PREPARED
+        } else if (this.add === CRUD.STATUS.PROCESSING || this.edit === CRUD.STATUS.PROCESSING) {
+          return CRUD.STATUS.PROCESSING
+        }
+        throw new Error('wrong crud\'s cu status')
+      },
+      // 标题
+      get title() {
+        return this.add > CRUD.STATUS.NORMAL ? `新增${crud.title}` : this.edit > CRUD.STATUS.NORMAL ? `编辑${crud.title}` : crud.title
+      },
+    }
+  }
+
+
+  const methods = {
+    // 搜索
+    toQuery() {
+      crud.page.page = 1
+      crud.refresh()
+    },
+    // 刷新
+    refresh() {
+      crud.crudMethod.list(crud.getQueryParams()).then(res => {
+        if (res.result.content) {
+          crud.data = res.result.content
+          crud.page.page = res.result.current
+          crud.page.size = res.result.pageSize
+          crud.page.total = res.result.total
+        } else {
+          crud.data = res.result
+        }
+
+      })
+    },
+    /**
+     * 启动添加
+     */
+    toAdd() {
+      crud.resetForm()
+      if (!(callVmHook(crud, CRUD.HOOK.beforeToAdd, crud.form) && callVmHook(crud, CRUD.HOOK.beforeToCU, crud.form))) {
+        return
+      }
+      crud.status.add = CRUD.STATUS.PREPARED
+    },
+    toEdit(data) {
+      crud.resetForm(data)
+      if (!(callVmHook(crud, CRUD.HOOK.beforeToEdit, crud.form) && callVmHook(crud, CRUD.HOOK.beforeToCU, crud.form))) {
+        return
+      }
+      crud.status.edit = CRUD.STATUS.PREPARED
+      crud.resetForm(data)
+
+    },
+
+    doEdit() {
+      if (!callVmHook(crud, CRUD.HOOK.beforeSubmit)) {
+        return
+      }
+      crud.status.edit = CRUD.STATUS.PROCESSING
+      crud.crudMethod.edit(crud.form).then((res) => {
+        crud.status.edit = CRUD.STATUS.NORMAL
+        crud.refresh()
+      }).catch(() => {
+        crud.status.edit = CRUD.STATUS.PREPARED
+        callVmHook(crud, CRUD.HOOK.afterEditError)
+      });
+    },
+
+    doAdd() {
+      if (!callVmHook(crud, CRUD.HOOK.beforeSubmit)) {
+        return
+      }
+      crud.status.add = CRUD.STATUS.PROCESSING
+      crud.crudMethod.add(crud.form).then((res) => {
+        crud.status.add = CRUD.STATUS.NORMAL
+        crud.refresh()
+      }).catch(() => {
+        crud.status.add = CRUD.STATUS.PREPARED
+        callVmHook(crud, CRUD.HOOK.afterEditError)
+      })
+    },
+    doDelete(data) {
+      crud.crudMethod.del(data.id).then(res => {
+        crud.refresh()
+      })
+    },
+
+    submitCU() {
+      crud.findVM('form').$refs.form.validate(valid => {
+        console.log(valid)
+        if (valid) {
+          if (crud.status.add === CRUD.STATUS.PREPARED) {
+            crud.doAdd()
+          } else if (crud.status.edit === CRUD.STATUS.PREPARED) {
+            crud.doEdit()
+          }
+        }
+      })
+    },
+    /**
+     * 取消新增/编辑
+     */
+    cancelCU() {
+      const addStatus = crud.status.add
+      const editStatus = crud.status.edit
+      if (addStatus === CRUD.STATUS.PREPARED) {
+        crud.status.add = CRUD.STATUS.NORMAL
+      }
+      if (editStatus === CRUD.STATUS.PREPARED) {
+        crud.status.edit = CRUD.STATUS.NORMAL
+      }
+      crud.resetForm()
+
+    },
+
+    getQueryParams() {
+      // 清除参数无值的情况
+      Object.keys(crud.query).length !== 0 && Object.keys(crud.query).forEach(item => {
+        if (crud.query[item] === null || crud.query[item] === '') crud.query[item] = undefined
+      })
+      return {
+        pageNum: crud.page.page,
+        pageSize: crud.page.size,
+        sort: crud.sort,
+        ...crud.query,
+      }
+    },
+    // 当前页改变
+    pageChangeHandler(page, size) {
+      console.log(page)
+      crud.page.page = page
+      crud.page.size = size
+      crud.refresh()
+    },
+    // 每页条数改变
+    sizeChangeHandler(current, size) {
+      crud.page.size = size
+      crud.page.page = 1
+      crud.refresh()
+    },
+    /**
+     * 重置表单
+     * @param {Array} data 数据
+     */
+    resetForm(data) {
+      const form = data || (typeof crud.defaultForm === 'object' ? JSON.parse(JSON.stringify(crud.defaultForm)) : crud.defaultForm.apply(crud.findVM('form')))
+      const crudForm = crud.form
+
+      if (Object.keys(form).length === 0) {
+        for (const key in crudForm) {
+          crudForm[key] = undefined
+        }
+        return
+      }
+      for (const key in form) {
+        if (crudForm.hasOwnProperty(key)) {
+          crudForm[key] = form[key]
+        } else {
+          Vue.set(crudForm, key, form[key])
+        }
+      }
+    },
+  }
+
+  const crud = Object.assign({}, data);
+  Vue.observable(crud);
+// 附加方法
+  Object.assign(crud, methods)
+
+  Object.assign(crud, {
+    vms: [],
+    /**
+     * 注册组件实例
+     * @param {String} type 类型
+     * @param {*} vm 组件实例
+     */
+    registerVM(type, vm) {
+      const vmObj = {
+        type,
+        vm: vm
+      }
+      this.vms.push(vmObj)
+
+    },
+
+    findVM(type) {
+      return this.vms.find(vm => vm && vm.type === type).vm
+    },
+
+    unregisterVM(type, vm) {
+      for (let i = this.vms.length - 1; i >= 0; i--) {
+        if (this.vms[i] === undefined) {
+          continue
+        }
+        if (this.vms[i].type === type && this.vms[i].vm === vm) {
+          this.vms.splice(i, 1)
+          break
+        }
+      }
+
+    },
+  })
+
+  Object.freeze(crud)
+  return crud
+}
+
+
+function presenter(crud) {
   return {
     data() {
-      return data
+      // 在data中返回crud，是为了将crud与当前实例关联，组件观测crud相关属性变化
+      return {
+        crud: this.crud
+      }
     },
-    mounted() {
-      this.refresh();
+    beforeCreate() {
+      let cruds = this.$options.cruds instanceof Function ? this.$options.cruds() : crud
+      this.crud = cruds;
+      this.crud.registerVM('presenter', this)
     },
-    methods: {
-      refresh() {
-        this.crudMethod.list().then(res => {
-          this.datasource = res.result.content
-        })
-      },
-      toEdit(data) {
-        this.isAdd = false
-        this.visible = true
-        this.form = data;
-
-      },
-      doEdit(data) {
-        if (this.beforeToEdit) {
-          this.beforeToEdit(data);
-        }
-        this.crudMethod.edit(data).then(res => {
-          console.log(res)
-          this.confirmLoading = false
-          this.visible = false
-          this.refresh()
-        });
-      },
-      doAdd(data) {
-        if (this.beforeToAdd) {
-          this.beforeToAdd(data);
-        }
-        this.crudMethod.add(data).then(res => {
-          this.confirmLoading = false
-          this.visible = false
-          this.refresh()
-        })
-      },
-      doDelete(data) {
-        this.crudMethod.del(data.id).then(res => {
-          this.refresh()
-        })
-      },
-      submitCU() {
-        this.$refs.form.validate(valid => {
-          console.log(valid)
-          if (valid) {
-            this.confirmLoading = true
-            if (this.isAdd) {
-              this.doAdd(this.form);
-            } else {
-              this.doEdit(this.form);
-            }
-          }
-        })
-      },
+    created() {
+      this.crud.toQuery()
+    },
+    destroyed() {
+      this.crud.unregisterVM('presenter', this)
     }
   }
+}
+
+/**
+ * 分页
+ */
+function pagination() {
+  return {
+    data() {
+      return {
+        crud: this.crud,
+        page: this.crud.page
+      }
+    },
+    beforeCreate() {
+      this.crud = lookupCrud(this)
+      this.crud.registerVM('pagination', this)
+    },
+    destroyed() {
+      this.crud.unregisterVM('pagination', this)
+    }
+  }
+}
+
+/**
+ * 表单
+ */
+function form(defaultForm) {
+  return {
+    data() {
+      return {
+        crud: this.crud,
+        form: this.crud.form
+      }
+    },
+    beforeCreate() {
+      this.crud = lookupCrud(this)
+      this.crud.registerVM('form', this)
+    },
+    created() {
+      if (defaultForm) {
+        this.crud.defaultForm = defaultForm;
+      }
+      this.crud.resetForm()
+    },
+    destroyed() {
+      this.crud.unregisterVM('form', this)
+    }
+  }
+}
+
+function crud() {
+  return {
+    data() {
+      return {
+        crud: this.crud
+      }
+    },
+    beforeCreate() {
+      this.crud = lookupCrud(this)
+    }
+  }
+}
+
+/**
+ * 查找crud
+ * @param {*} vm
+ */
+function lookupCrud(vm) {
+  // function lookupCrud(vm, tag) {
+  if (vm.crud) {
+    return vm.crud
+  }
+  return vm.$parent ? lookupCrud(vm.$parent) : undefined
 }
 
 // hook VM
@@ -88,7 +356,6 @@ function callVmHook(crud, hook) {
   if (crud.debug) {
     console.log('callVmHook: ' + hook)
   }
-  const tagHook = crud.tag ? hook + '$' + crud.tag : null
   let ret = true
   const nargs = [crud]
   for (let i = 2; i < arguments.length; ++i) {
@@ -101,13 +368,17 @@ function callVmHook(crud, hook) {
     if (vm[hook]) {
       ret = vm[hook].apply(vm, nargs) !== false && ret
     }
-    if (tagHook && vm[tagHook]) {
-      ret = vm[tagHook].apply(vm, nargs) !== false && ret
-    }
   })
-  let vm = this;
-  vm[hook].apply(vm, nargs)
   return ret
+}
+
+/**
+ * CRUD状态
+ */
+CRUD.STATUS = {
+  NORMAL: 0,
+  PREPARED: 1,
+  PROCESSING: 2
 }
 
 /**
@@ -161,5 +432,8 @@ CRUD.HOOK = {
 export default CRUD
 
 export {
+  presenter,
+  pagination,
+  form,
   crud
 }

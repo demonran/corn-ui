@@ -1,32 +1,29 @@
-<style lang="less" scoped>
-.upload-img-preview{
-    width: 120px;
-}
-
-</style>
-
 <template>
     <a-upload
-        name="avatar"
         listType="picture-card"
         class="avatar-uploader"
         :showUploadList="false"
-        :beforeUpload="beforeUpload"
-        accept=".png,.jpg"
+        :customRequest="uploadImg"
+        accept=".png,.jpg,.mp4"
     >
-        <img v-if="value" :src="value" alt="avatar" class="upload-img-preview"/>
+        <img v-if="image" :src="image" alt="image" class="upload-img-preview"/>
+        <img v-else-if="value" :src="value" alt="image" class="upload-img-preview"/>
         <div v-else>
             <a-icon :type="loading ? 'loading' : 'plus'" />
-            <div class="ant-upload-text">Upload</div>
+            <div class="ant-upload-text">上传</div>
         </div>
   </a-upload>
 </template>
 <script>
 import {mapActions} from 'vuex';
+import CommonRequest from "@/services/common";
+import comm from "@/pages/mix";
 export default {
+  mixins: [comm],
   data () {
     return {
-      loading: false
+      loading: false,
+      image: undefined
     };
   },
 
@@ -36,17 +33,34 @@ export default {
   methods: {
     ...mapActions('comm', ['postImages']),
 
-    beforeUpload (file, fileList) {
-      this.loading = true;
-      this.postImages(fileList).then((ret) => {
-        this.loading = false;
-        if (ret.length < 1) return;
 
-        console.log(ret[0]);
-        this.$emit('change', ret[0]);
-      });
-      return false;
-    }
+    // 上传图片
+    uploadImg(option) {
+      const formData = new FormData();
+      formData.append("file", option.file);
+      this.loading = true;
+      this.showLoading();
+      CommonRequest.uploadImg(formData)
+        .then(res => {
+          console.log("res:", res);
+          this.image = res.result;
+          this.$emit("success", this.image);
+        })
+        .catch(e => {
+          console.log("something error");
+        })
+        .finally(e => {
+          this.loading = false;
+          this.hideLoading();
+        });
+    },
+
   }
 };
 </script>
+<style lang="less" scoped>
+  .upload-img-preview{
+    width: 120px;
+  }
+
+</style>

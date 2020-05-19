@@ -1,16 +1,12 @@
 <template>
   <div>
-    <div class="crud-opts">
-      <span class="crud-opts-left">
-        <a-button icon="plus" type="primary" @click="visible = true">新增</a-button>
-      </span>
-    </div>
+    <crud-operation/>
     <a-modal
-      title="Title"
-      :visible="visible"
-      :confirm-loading="confirmLoading"
-      @cancel="cancel"
-      @ok="submitCU"
+      :title="crud.status.title"
+      :visible="crud.status.cu > 0"
+      :confirm-loading="crud.status.cu == 2"
+      @cancel="crud.cancelCU"
+      @ok="crud.submitCU"
     >
       <a-form-model ref="form" :rules="rules" :label-col="{span:4}" :wrapper-col="{span:20}" :model="form">
         <a-form-model-item label="优惠券金额" prop="amount">
@@ -30,33 +26,26 @@
         </a-form-model-item>
 
         <a-form-model-item label="是否启用">
-          <a-switch v-model="form.enable"/>
+          <a-switch @change="change" v-model="form.status === 'OPENED'"/>
         </a-form-model-item>
       </a-form-model>
     </a-modal>
-    <a-table :columns="columns" :data-source="datasource">
+    <a-table :columns="columns" rowKey="id" :data-source="crud.data">
      <span slot="status" slot-scope="status">
        <a-tag v-if="status === 'OPENED'" color="green">启用中</a-tag>
        <a-tag v-if="status !=='OPENED'" color="red">停用</a-tag>
      </span>
       <span slot="action" slot-scope="text, record">
-        <a-button size="small" type="primary" icon="edit" @click="toEdit(record)"/>
-            <a-popconfirm title="是否要删除此行？" @confirm="doDelete(record)">
-              <a-button size="small" type="danger" icon="delete"></a-button>
-            </a-popconfirm>
+        <ud-operation :data="record"></ud-operation>
     </span>
     </a-table>
   </div>
 </template>
 
 <script>
+
   const columns = [
-    {
-      dataIndex: 'name',
-      key: 'name',
-      slots: {title: 'customTitle'},
-      scopedSlots: {customRender: 'name'},
-    },
+
     {
       title: '优惠金额',
       dataIndex: 'amount',
@@ -79,8 +68,8 @@
     },
     {
       title: '领取人数',
-      dataIndex: 'count',
-      key: 'count',
+      dataIndex: 'receivedCount',
+      key: 'receivedCount',
     },
     {
       title: '状态',
@@ -94,20 +83,26 @@
       scopedSlots: {customRender: 'action'},
     },
   ];
-
+  const defaultForm = {amount: '', commission: '', minUsed: '', expiryDate: '', rule: '', status: 'OPENED'}
   import newerCoupon from '@/services/newer-coupon';
-  import CRUD, {crud} from '@/components/Crud/curd'
+  import CRUD, {presenter, form, crud} from '@/components/Crud/curd'
+  import udOperation from "@/components/Crud/udOperation";
+  import crudOperation from "@/components/Crud/crudOperation";
 
   export default {
     name: "newer-coupon",
-    mixins: [crud({crudMethod: {list: newerCoupon.list,edit: newerCoupon.edit, add: newerCoupon.add, del: newerCoupon.del}})],
+    cruds() {
+      return CRUD({crudMethod: {...newerCoupon}})
+    },
+    mixins: [presenter(), form(defaultForm), crud()],
+    components: {
+      udOperation,
+      crudOperation
+    },
     data() {
       return {
         columns,
-        datasource: [],
-        form: {enable: true},
         confirmLoading: false,
-        visible: false,
         rules: {
           amount: [
             {required: true, message: '请输入优惠券金额', trigger: 'change'},
@@ -119,13 +114,13 @@
       }
     },
 
-
     methods: {
-      cancel() {
-        this.visible = false;
-      },
-      beforeToEdit(form) {
-        form.status = form.enable ? 'OPENED' : "CLOSED";
+      change(val) {
+        if (val) {
+          this.form.status = 'OPENED'
+        } else {
+          this.form.status = 'CLOSED'
+        }
       }
     }
   }

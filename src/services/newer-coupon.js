@@ -4,6 +4,7 @@ import common from "./common";
 const url = 'coupon/newer';
 export default {
   list(param) {
+    console.log(param)
     return common.get(url, qs.stringify(param));
   },
 

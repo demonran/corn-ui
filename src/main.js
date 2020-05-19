@@ -9,7 +9,6 @@ import './components/confirm';
 import './components/ui';
 import './components/tableCell';
 
-// import { Form } from 'ant-design-vue'
 import Viser from 'viser-vue';
 import axios from 'axios';
 import '@/mock';
