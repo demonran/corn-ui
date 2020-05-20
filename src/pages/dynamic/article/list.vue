@@ -1,43 +1,57 @@
 <template>
-  <page-layout title="article">
-    <a-card class="course-list" :body-style="{padding: '10px'}" :bordered="false">
-      <a-button class="btn" @click="addClick" type="primary">添加</a-button>
+  <div>
+    <div class="search" slot="extra">
+      <a-form layout="inline" :form="form" @submit="submitClick">
+        <a-form-item label="名称">
+          <a-input class="style_input" placeholder="请输入" v-decorator="['teachCategory']" />
+        </a-form-item>
+        <a-form-item label="状态">
+          <a-select
+            class="style_input"
+            placeholder="请选择"
+            :allowClear="true"
+            v-decorator="['status']"
+          >
+            <a-select-option :value="1">状态1</a-select-option>
+            <a-select-option :value="2">状态2</a-select-option>
+          </a-select>
+        </a-form-item>
+        <span style="float: right; margin-top: 3px;">
+          <a-button type="primary" html-type="submit">查询</a-button>
+          <a-button style="margin-left: 8px" @click="resetClick">重置</a-button>
+        </span>
+      </a-form>
+    </div>
+	<crud-operation/>
+	<a-modal
+	  :title="crud.status.title"
+	  :visible="crud.status.cu > 0"
+	  :confirm-loading="crud.status.cu == 2"
+	  @cancel="crud.cancelCU"
+	  @ok="crud.submitCU"
+	>
+    <a-form-model ref="form" :rules="rules" :label-col="{span:4}" :wrapper-col="{span:20}" :model="form">
+      <a-form-model-item label="优惠券金额" prop="amount">
+        <a-input prefix="¥" v-model="form.amount"/>
+      </a-form-model-item>
+    </a-form-model>
+  </a-modal>
 
-      <div class="search" slot="extra">
-        <a-form layout="inline" :form="form" @submit="submitClick">
-          <a-form-item label="名称">
-            <a-input class="style_input" placeholder="请输入" v-decorator="['teachCategory']" />
-          </a-form-item>
-          <a-form-item label="状态">
-            <a-select
-              class="style_input"
-              placeholder="请选择"
-              :allowClear="true"
-              v-decorator="['status']"
-            >
-              <a-select-option :value="1">状态1</a-select-option>
-              <a-select-option :value="2">状态2</a-select-option>
-            </a-select>
-          </a-form-item>
-          <span style="float: right; margin-top: 3px;">
-            <a-button type="primary" html-type="submit">查询</a-button>
-            <a-button style="margin-left: 8px" @click="resetClick">重置</a-button>
-          </span>
-        </a-form>
-      </div>
-      <a-table
-        class="table"
-        :columns="columns"
-        rowKey="id"
-        :dataSource="dataSource"
-        :pagination="pagination"
-        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-      >
-        <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
-        <span slot="createdAt" slot-scope="text,record">{{record.createdAt}}</span>
-        <img style="width: 100px" slot="cover" slot-scope="text,record" :src="record.cover" />
-        <span slot="recommend" slot-scope="text,record">{{record.recommend ? '是':'否'}}</span>
-        <span slot="category" slot-scope="text,record">{{record.category?record.category.name:''}}</span>
+  <a-table :columns="columns"
+           :pagination="false"
+           rowKey="id"
+           :data-source="crud.data">
+    <span slot="columnId" slot-scope="text,record,index">{{index+1}}</span>
+    <span slot="category" slot-scope="text,record">{{record.category?record.category.name:''}}</span>
+    <img style="width: 100px" slot="cover" slot-scope="text,record" :src="record.cover" />
+    <span slot="recommend" slot-scope="text,record">{{record.recommend ? '是':'否'}}</span>
+    <span slot="action" slot-scope="text, record">
+      <ud-operation :data="record"></ud-operation>
+  </span>
+  </a-table>
+  <pagination></pagination>
+
+
         <template slot="action" slot-scope="text,record">
           <div class="action_class">
             <div class="build" @click="edt(record)">编辑</div>
@@ -48,26 +62,32 @@
             </a-popconfirm>
           </div>
         </template>
-      </a-table>
-    </a-card>
-  </page-layout>
+
+  </div>
 </template>
 
 <script>
-import PageLayout from "@/layouts/PageLayout";
+
 import ArticleRequest from "@/services/article";
 import comm from "../../mix";
 
+
+ const defaultForm = {}
+  
+  import CRUD, {presenter, form, crud} from '@/components/Crud/curd'
+  import udOperation from "@/components/Crud/udOperation";
+  import crudOperation from "@/components/Crud/crudOperation";
+  import Pagination from "@/components/Crud/Pagination";
 export default {
   name: "PageView",
-  mixins: [comm],
-  components: { PageLayout },
+  mixins: [comm, presenter()],
+  cruds() {
+    return CRUD({crudMethod: {...ArticleRequest}})
+  },
+  components: { udOperation ,crudOperation, Pagination},
   data() {
     return {
-      filterStatus: 1,
-      filterKeyword: "",
-      formateTime: this.fmtTime,
-      form: this.$form.createForm(this),
+form: this.$form.createForm(this),
       columns: [
         {
           title: "序号",
@@ -109,110 +129,23 @@ export default {
           scopedSlots: { customRender: "action" }
         }
       ],
-      dataSource: [],
-      page: {
-        pageSize: 20,
-        pageNum: 1
-      },
-      pagination: {
-        pageSize: 20,
-        total: 0,
-        defaultCurrent: 1,
-        showQuickJumper: true,
-        showSizeChanger: true,
-        pageSizeOptions: ["10", "20", "30", "40"],
-        showTotal(total) {
-          return `共${total}项`;
+
+
+rules: {
+          amount: [
+            {required: true, message: '请输入优惠券金额', trigger: 'change'},
+          ],
+          commission: [
+            {required: true, message: '请输入反佣金额', trigger: 'change'},
+          ],
         }
-      },
-      selectedRows: [],
-      selectedRowKeys: [] // Check here to configure the default column
     };
   },
   computed: {},
   mounted() {
-    const that = this;
-    this.pagination.onChange = (index, pageSize) => {
-      // 页码改变的回调，参数是改变后的页码及每页条数
-      that.page.pageNum = index;
-      that.page.pageSize = pageSize;
-      that.list();
-      // console.log("change", current + ":" + count);
-    };
-    this.pagination.onShowSizeChange = (index, pageSize) => {
-      // pageSize 变化的回调
-      that.page.pageNum = index;
-      that.page.pageSize = pageSize;
-      that.list();
-      // console.log("showSizeChange", current + ":" + count);
-    };
   },
-  activated() {
-    this.list();
-  },
-
   methods: {
-    // 点击搜索
-    search() {
-      this.page.pageNum = 1;
-      this.list();
-    },
-    submitClick(e) {
-      e.preventDefault();
-      this.form.validateFields((err, values) => {
-        console.log("coming...", values);
-        // 参数先不管 直接搜索
-        this.page.pageNum = 1;
-        this.list();
-      });
-    },
-    resetClick() {
-      this.form.resetFields();
-    },
-    list() {
-      // todo 参数需要修改
-      ArticleRequest.list(
-        Object.assign(this.page, { filterKeyword: this.filterKeyword })
-      )
-        .then(res => {
-          console.log(res);
-          this.dataSource =
-            this.page.pageNum === 1
-              ? res.result.content
-              : this.dataSource.concat(res.result.content);
-          this.pagination.total = res.result.total || 0;
-        })
-        .catch(e => {
-          // this.toast(e.errorDesc, true);
-          // this.pagination.total = 0;
-          console.log(e);
-        });
-    },
 
-    addClick() {
-      this.$router.push("/dynamic/addarticle");
-    },
-    edt(data) {
-      this.$router.push({
-        path: "/dynamic/edtarticle",
-        query: { id: data.id }
-      });
-    },
-    deleteRow(id) {
-      ArticleRequest.del(id)
-        .then(res => {
-          this.toast("删除成功");
-          this.list();
-        })
-        .catch(e => {
-          console.log("error:", e);
-        });
-    },
-    // 选中项改变
-    onSelectChange(selectedRowKeys, selectedRows) {
-      this.selectedRowKeys = selectedRowKeys;
-      this.selectedRows = selectedRows;
-    }
   }
 };
 </script>
