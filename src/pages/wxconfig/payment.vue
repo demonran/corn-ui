@@ -15,6 +15,9 @@
       <a-input placeholder="请输入商户密玥" v-model="form.mchKey"/>
       <p>获取方式：商户号后台 » 账户中心 » 账户设置 » API安全 » 32位支付密钥</p>
     </a-form-model-item>
+    <a-form-model-item label="回调URL">
+      <a-input placeholder="请输入回调URL" v-model="form.notifyUrl"/>
+    </a-form-model-item>
     <a-form-model-item label="支付证书">
       <div style="line-height: 25px">
         <h3>为什么需要支付证书</h3>

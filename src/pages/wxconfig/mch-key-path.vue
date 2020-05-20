@@ -25,7 +25,7 @@
         upload(option) {
           const formData = new FormData();
           formData.append("file", option.file);
-          const file = {uid: '1',name: option.file.name, status: 'uploading'}
+          const file = {uid: new Date().getTime(),name: option.file.name, status: 'uploading'}
           this.fileList.push(file)
           CommonRequest.uploadImg(formData).then(res => {
             file.status = 'done'
