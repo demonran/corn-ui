@@ -11,7 +11,6 @@ import './components/tableCell';
 
 import Viser from 'viser-vue';
 import axios from 'axios';
-import '@/mock';
 import store from './store';
 import PouchDB from 'pouchdb';
 import services from './services/index';

@@ -124,7 +124,6 @@
 import PageLayout from '../../layouts/PageLayout';
 import DetailList from '../../components/tool/DetailList';
 import AStepItem from '../../components/tool/AStepItem';
-import {operation1, operation2, operation3, operationColumns} from '../../mock/common/tableData';
 
 const DetailListItem = DetailList.Item;
 const AStepItemGroup = AStepItem.Group;

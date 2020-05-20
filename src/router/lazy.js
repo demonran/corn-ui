@@ -1,10 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
-import PageView from "@/layouts/PageView";
 import RouteView from "@/layouts/RouteView";
 import MenuView from "@/layouts/MenuView2";
 import Login from "@/pages/login/Login";
-import Tables from "@/tables/index";
 
 Vue.use(Router);
 // const originalPush = Router.prototype.push
@@ -280,128 +278,10 @@ const routes = [
           },
         ]
       },
-      {
-        path: "/form",
-        name: "表单页",
-        component: PageView,
-        icon: "form",
-        invisible: true,
-        children: [
-          {
-            path: "/form/basic",
-            name: "基础表单",
-            component: () => import("@/pages/form/BasicForm"),
-            icon: "none"
-          },
-          {
-            path: "/form/step",
-            name: "分步表单",
-            component: () => import("@/pages/form/stepForm/StepForm"),
-            icon: "none"
-          },
-          {
-            path: "/form/advanced",
-            name: "高级表单",
-            component: () => import("@/pages/form/advancedForm/AdvancedForm"),
-            icon: "none"
-          }
-        ]
-      },
-      {
-        path: "/list",
-        name: "列表页",
-        component: PageView,
-        icon: "table",
-        invisible: true,
-        children: [
-          {
-            path: "/list/query",
-            name: "查询表格",
-            component: () => import("@/pages/list/QueryList"),
-            icon: "none"
-          },
-          {
-            path: "/list/primary",
-            name: "标准列表",
-            component: () => import("@/pages/list/StandardList"),
-            icon: "none"
-          },
-          {
-            path: "/list/card",
-            name: "卡片列表",
-            component: () => import("@/pages/list/CardList"),
-            icon: "none"
-          },
-          {
-            path: "/list/search",
-            name: "搜索列表",
-            component: () => import("@/pages/list/search/SearchLayout"),
-            icon: "none",
-            children: [
-              {
-                path: "/list/search/article",
-                name: "文章",
-                component: () => import("@/pages/list/search/ArticleList"),
-                icon: "none"
-              },
-              {
-                path: "/list/search/application",
-                name: "应用",
-                component: () => import("@/pages/list/search/ApplicationList"),
-                icon: "none"
-              },
-              {
-                path: "/list/search/project",
-                name: "项目",
-                component: () => import("@/pages/list/search/ProjectList"),
-                icon: "none"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        path: "/detail",
-        name: "详情页",
-        icon: "profile",
-        component: RouteView,
-        invisible: true,
-        children: [
-          {
-            path: "/detail/basic",
-            name: "基础详情页",
-            icon: "none",
-            component: () => import("@/pages/detail/BasicDetail")
-          },
-          {
-            path: "/detail/advanced",
-            name: "高级详情页",
-            icon: "none",
-            component: () => import("@/pages/detail/AdvancedDetail")
-          }
-        ]
-      },
-      {
-        path: "/result",
-        name: "结果页",
-        icon: "check-circle-o",
-        component: PageView,
-        invisible: true,
-        children: [
-          {
-            path: "/result/success",
-            name: "成功",
-            icon: "none",
-            component: () => import("@/pages/result/Success")
-          },
-          {
-            path: "/result/error",
-            name: "失败",
-            icon: "none",
-            component: () => import("@/pages/result/Error")
-          }
-        ]
-      },
+
+
+
+
       {
         path: "/exception",
         name: "异常页",
@@ -429,106 +309,9 @@ const routes = [
           }
         ]
       },
-      {
-        path: "/components",
-        redirect: "/components/taskcard",
-        name: "小组件",
-        icon: "appstore-o",
-        invisible: true,
-        component: PageView,
-        children: [
-          {
-            path: "/components/taskcard",
-            name: "任务卡片",
-            icon: "none",
-            component: () => import("@/pages/components/TaskCard")
-          },
-          {
-            path: "/components/palette",
-            name: "颜色复选框",
-            icon: "none",
-            component: () => import("@/pages/components/Palette")
-          }
-        ]
-      }
+
     ]
   }
 ];
 
-// let n = Tables.routes.length;
-// for (let i = 0; i < n; i++) {
-//   let pos = Tables.routes[i].pos;
-//   let currRoute = Tables.routes[i].route;
-//
-//   if (!pos.parent) { //没有父级放在根路
-//     let inserted = false;
-//     if (pos.pre) {
-//       let len = routes.length;
-//       for (let k = 0; k < len; k++) {
-//         if (routes[k].name == pos.pre) {
-//           routes.splice(k + 1, 0, currRoute);
-//           inserted = true;
-//           break;
-//         }
-//       }
-//     }
-//     if (pos.post && !inserted) {
-//       let len = routes.length;
-//       for (let k = 0; k < len; k++) {
-//         if (routes[k].name == pos.post) {
-//           routes.splice(k, 0, currRoute);
-//           inserted = true;
-//           break;
-//         }
-//       }
-//     }
-//     if (!inserted) {
-//       routes.push(currRoute);
-//     }
-//     continue;
-//   }
-//
-//   //有parent
-//   function findNode(nodes, name) {
-//     let n = nodes.length;
-//     for (let i = 0; i < n; i++) {
-//       let item = nodes[i];
-//       if (item.name == name) {
-//         return item;
-//       }
-//       if (item.children) {
-//         let ret = findNode(item.children, name);
-//         if (ret) return ret;
-//       }
-//     }
-//   }
-//
-//   let parentNode = findNode(routes, pos.parent);
-//   if (!parentNode) {
-//     console.error('not find ' + pos.parent, pos);
-//     continue;
-//   }
-//   let root = parentNode.children;
-//   let len = root.length;
-//   let inserted = false;
-//
-//   for (let k = 0; k < len; k++) {
-//     let item = root[k];
-//
-//     if (pos.pre && item.name == pos.pre) {
-//       root.splice(k + 1, 0, currRoute);
-//       inserted = true;
-//       break;
-//     }
-//
-//     if (pos.post && item.name == pos.post) {
-//       root.splice(k, 0, currRoute);
-//       inserted = true;
-//       break;
-//     }
-//   }
-//   if (!inserted) {
-//     root.push(currRoute);
-//   }
-// }
 export default new Router({routes});
