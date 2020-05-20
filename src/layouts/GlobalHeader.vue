@@ -27,7 +27,7 @@
       </div>
       <div :class="['global-header-right', theme]">
           <!-- <header-search class="header-item" /> -->
-          <header-notice class="header-item"/>
+<!--          <header-notice class="header-item"/>-->
           <header-avatar class="header-item"/>
       </div>
     </div>

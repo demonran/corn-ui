@@ -1,24 +1,28 @@
 <template>
- <a-locale-provider :locale="local">
+ <a-config-provider :locale="local">
   <div id="app">
     <router-view/>
     <div class="g-loading" v-if="showLoading">
         <span class="ant-spin-dot ant-spin-dot-spin"><i/><i/><i /><i /></span>
     </div>
   </div>
-  </a-locale-provider>
+  </a-config-provider>
 </template>
 
 <script>
 import enquireScreen from './utils/device';
-import zh from 'ant-design-vue/lib/locale-provider/zh_CN';
+import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+
+moment.locale('zh-cn');
 
 export default {
   name: 'App',
   data () {
     return {
       showLoading: false,
-      local: zh
+      local: zhCN
     };
   },
   created () {

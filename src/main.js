@@ -6,7 +6,6 @@ import router from './router/lazy';
 import 'ant-design-vue/dist/antd.css';
 import Antd from 'ant-design-vue';
 import './components/confirm';
-import './components/ui';
 import './components/tableCell';
 
 import Viser from 'viser-vue';
