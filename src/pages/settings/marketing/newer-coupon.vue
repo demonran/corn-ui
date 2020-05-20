@@ -97,7 +97,7 @@
   export default {
     name: "newer-coupon",
     cruds() {
-      return CRUD({crudMethod: {...newerCoupon}})
+      return CRUD({title:'优惠券',rudMethod: {...newerCoupon}})
     },
     mixins: [presenter(), form(defaultForm), crud()],
     components: {

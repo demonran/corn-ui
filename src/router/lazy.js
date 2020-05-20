@@ -143,6 +143,8 @@ const routes = [
         ]
       },
 
+
+
       // 报名模块
       {
         path: "/signUp",
@@ -279,6 +281,21 @@ const routes = [
         ]
       },
 
+      // 小程序设置
+      {
+        path: "/wxconfig",
+        name: "小程序设置",
+        component: RouteView,
+        icon: "book",
+        children: [
+          {
+            path: "/wxconfig/payment",
+            name: "微信支付",
+            component: () => import('@/pages/wxconfig/payment'),
+            icon: "book"
+          }
+        ]
+      },
 
 
 
