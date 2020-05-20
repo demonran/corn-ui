@@ -10,7 +10,6 @@ export default new Vuex.Store({
   modules: {
     account,
     setting,
-    offline,
-    table
+    offline
   }
 });
