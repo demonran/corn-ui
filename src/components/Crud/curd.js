@@ -130,7 +130,7 @@ function CRUD(options = {}) {
       })
     },
     doDelete(data) {
-      crud.crudMethod.del(data.id).then(res => {
+      crud.crudMethod.del({id:data.id}).then(res => {
         crud.refresh()
       })
     },

@@ -1,20 +1,12 @@
-import qs from "qs";
-import common from "./common";
+import {apiGen} from '@/utils/request'
 
 const url = 'coupon/newer';
-export default {
-  list(param) {
-    console.log(param)
-    return common.get(url, qs.stringify(param));
-  },
 
-  add(data) {
-    return common.post(url, data);
-  },
-  edit(data) {
-    return common.put(url, data);
-  },
-  del(id) {
-    return common.delete(url + '/' + id);
-  },
+const api = {
+  list: `get ${url}`,
+  add: `post ${url}`,
+  edit: `put ${url}`,
+  del: `delete ${url}/:id`,
 }
+
+export default apiGen(api)

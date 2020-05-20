@@ -1,22 +1,13 @@
-import qs from "qs";
-import common from "./common";
+import {apiGen} from "@/utils/request";
 
-export default {
-  list(param) {
-    return common.get("/painting?" + qs.stringify(param));
-  },
 
-  add(param) {
-    return common.post("/painting", param);
-  },
-  getItem(id) {
-    return common.get("/painting/" + id);
-  },
-  eidt(data) {
-    return common.put("/painting/" + data.id, data);
-  },
-  // 删除单项
-  del(id) {
-    return common.delete("/painting/" + id);
-  }
-};
+const url = '/painting'
+const api = {
+  list: `get ${url}`,
+  add: `post ${url}`,
+  edit: `put ${url}`,
+  del: `delete ${url}/:id`,
+  getItem: `get ${url}/:id`
+}
+
+export default apiGen(api)

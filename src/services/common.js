@@ -1,6 +1,7 @@
 import http from "./http";
 import qs from "qs";
 import * as qiniu from 'qiniu-js'
+import patch from "@/services/httpPatch";
 
 export default {
   uploadImg(param) {
