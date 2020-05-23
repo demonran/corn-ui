@@ -4,7 +4,7 @@
                 :label-col="{span:4}"
                 :wrapper-col="{span:12, offset:2}"
                 :model="form"
-                @submit="update">
+               >
     <a-form-model-item label="小程序Id">
       <a-input placeholder="请输入小程序ID" v-model="form.appId"/>
     </a-form-model-item>
@@ -34,7 +34,7 @@
     <a-form-model-item>
       <a-button
         type="primary"
-        html-type="submit"
+        @change="update"
       >
         修改
       </a-button>
@@ -62,12 +62,16 @@
     methods: {
       query() {
         wxconfig.query().then(res => {
-          this.form = res.result
+          this.form = res.result ? res.result : {}
         })
       },
       update() {
         wxconfig.update(this.form).then(res => {
-            this.$message.success("修改成功")
+            if (res.errorNo === 200) {
+              this.$message.success("修改成功")
+            }else {
+              this.$error("修改失败")
+            }
         })
       },
       success(keyPath) {

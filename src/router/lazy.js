@@ -260,39 +260,47 @@ const routes = [
             invisible: true,
             component: () => import("@/pages/settings/teacher/add")
           },
-          {
-            path: "/settings/marketing",
-            name: "活动推广",
-            component: () => import("@/pages/settings/marketing"),
-            icon: "none",
-            children: [{
-              path: "/settings/marketing/newer-coupon",
-              name: "拉新设置",
-              component: () => import("@/pages/settings/marketing/newer-coupon"),
-              icon: "none"
-            },
-              {
-                path: "/settings/marketing/withdraw",
-                name: "提现申请",
-                component: () => import("@/pages/settings/marketing/withdraw"),
-                icon: "none"
-              }]
-          },
+
         ]
+      },
+
+      {
+        path: "/marketing",
+        name: "营销管理",
+        component: () => import("@/pages/settings/marketing"),
+        icon: "none",
+        children: [{
+          path: "/marketing/newer-coupon",
+          name: "拉新设置",
+          component: () => import("@/pages/settings/marketing/newer-coupon"),
+          icon: "none"
+        },
+          {
+            path: "/marketing/withdraw",
+            name: "提现申请",
+            component: () => import("@/pages/settings/marketing/withdraw"),
+            icon: "none"
+          }]
       },
 
       // 小程序设置
       {
         path: "/wxconfig",
-        name: "小程序设置",
+        name: "微信设置",
         component: RouteView,
-        icon: "book",
+        icon: "wechat",
         children: [
           {
             path: "/wxconfig/payment",
-            name: "微信支付",
+            name: "支付设置",
             component: () => import('@/pages/wxconfig/payment'),
-            icon: "book"
+            icon: "none"
+          },
+          {
+            path: "/wxconfig/wxmp",
+            name: "公众号设置",
+            component: () => import('@/pages/wxconfig/wxmp'),
+            icon: "none"
           }
         ]
       },
