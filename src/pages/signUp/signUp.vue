@@ -184,8 +184,6 @@
         that.list();
         // console.log("showSizeChange", current + ":" + count);
       };
-    },
-    activated() {
       this.list();
     },
 
