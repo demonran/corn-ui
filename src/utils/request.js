@@ -31,13 +31,17 @@ export default function request(options) {
   options.url = url
   options.params = cloneData
 
+  if(options.method === 'get') {
+    return patch(http, method)(url, {params: data})
+  }
+
   return patch(http, method)(url, cloneData)
 
 }
 
 const gen = params => {
   let url =  params
-  let method = 'GET'
+  let method = 'get'
 
   const paramsArray = params.split(' ')
   if (paramsArray.length === 2) {

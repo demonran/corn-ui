@@ -8,7 +8,7 @@ export default {
       return http.get('/offline-course/search?' + params);
     }, */
   list(param) {
-    return common.get("/offline-course/search?" + qs.stringify(param));
+    return http.get("/offline-course/search?" + qs.stringify(param));
   },
   getItem(id) {
     return http.get('/offline-course/' + id);

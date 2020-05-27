@@ -3,7 +3,7 @@ import common from "./common";
 
 export default {
   categoryList() {
-    return common.get("/categories/all");
+    return http.get("/categories/all");
   },
   list() {
     return http.get("/categories");

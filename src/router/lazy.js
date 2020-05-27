@@ -31,6 +31,12 @@ const routes = [
         component: () => import("@/pages/situation/situation"),
         icon: "solution"
       },
+      {
+        path: "/course-study",
+        name: "考勤",
+        component: () => import("@/pages/coursestudy/index"),
+        icon: "solution"
+      },
       /* {
         path: '/dashboard',
         name: 'DashBoard',

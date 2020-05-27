@@ -3,6 +3,8 @@ import Vue from 'vue'
 
 function CRUD(options = {}) {
   const defaultOptions = {
+    // 是否初始化调用数据
+    init: true,
     // 表格数据
     data: [],
     //标题
@@ -81,6 +83,11 @@ function CRUD(options = {}) {
         }
 
       })
+    },
+
+    clear() {
+      console.log('clear', crud.data)
+      crud.data = []
     },
     /**
      * 启动添加
@@ -270,7 +277,9 @@ function presenter(crud) {
       this.crud.registerVM('presenter', this)
     },
     created() {
-      this.crud.toQuery()
+      if (crud.init) {
+        this.crud.toQuery();
+      }
     },
     destroyed() {
       this.crud.unregisterVM('presenter', this)
@@ -322,6 +331,24 @@ function form(defaultForm) {
     },
     destroyed() {
       this.crud.unregisterVM('form', this)
+    }
+  }
+}
+
+function header() {
+  return {
+    data() {
+      return {
+        crud: this.crud,
+        query: this.crud.query
+      }
+    },
+    beforeCreate() {
+      this.crud = lookupCrud(this)
+      this.crud.registerVM('header', this)
+    },
+    destroyed() {
+      this.crud.unregisterVM('header', this)
     }
   }
 }
@@ -434,6 +461,7 @@ export default CRUD
 export {
   presenter,
   pagination,
+  header,
   form,
   crud
 }
