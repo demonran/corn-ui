@@ -96,6 +96,11 @@
       key: "studyDate",
     },
     {
+      title: "总人数",
+      dataIndex: "totalStudentCount",
+      key: "totalStudentCount",
+    },
+    {
       title: "上课时段",
       customRender: (text, record,index) => record.startTime + ' ~ ' + record.endTime,
     },

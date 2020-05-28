@@ -20,7 +20,7 @@
         </div>
         <div class="list-content-item">
           <span>状态</span>
-          <p class="status_stop">{{item.status}}</p>
+          <p class="status_stop">{{item.status == 'STUDYING' ? '学习中' : item.status == 'STOPPING' ? '停课中': '已学完'}}</p>
         </div>
         <div class="list-content-item">
           <span>剩余课时</span>
