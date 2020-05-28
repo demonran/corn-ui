@@ -10,4 +10,5 @@ export default {
   add(data) {
     return http.post(url, data);
   }
+
 }

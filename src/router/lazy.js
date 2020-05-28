@@ -32,10 +32,17 @@ const routes = [
         icon: "solution"
       },
       {
-        path: "/course-study",
-        name: "考勤",
-        component: () => import("@/pages/coursestudy/index"),
-        icon: "solution"
+        path: "/lesson",
+        name: "上课",
+        component: () => import("@/pages/coursestudy/lesson"),
+        icon: "solution",
+      },
+      {
+        path: "/lesson/:id",
+        name: '上课详情',
+        component : ()=> import('@/pages/coursestudy/lesson-detail'),
+        icon: 'none',
+        invisible: true
       },
       /* {
         path: '/dashboard',

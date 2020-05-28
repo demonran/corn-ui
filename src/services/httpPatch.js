@@ -1,13 +1,13 @@
-export default function Patch (http, methods) {
-  let requestMethod = http[methods];
+export default function Patch (http, method) {
 
   async function request (url, data, options) {
     try {
-      let dbid = localStorage.getItem('dbid');
-      if (!options) options = {headers: {}};
-      options.headers['dbid'] = dbid;
+      options = Object.assign({}, options)
+      options.url = url
+      options.method = method
+      options.data = data
 
-      let ret = await requestMethod.call(http, url, data, options);
+      let ret = await  http(options)
 
       if (ret.status >= 200 && ret.status <= 300) {
         let data = ret.data;

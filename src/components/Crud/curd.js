@@ -277,7 +277,7 @@ function presenter(crud) {
       this.crud.registerVM('presenter', this)
     },
     created() {
-      if (crud.init) {
+      if (this.crud.init) {
         this.crud.toQuery();
       }
     },

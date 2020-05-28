@@ -30,12 +30,8 @@ export default function request(options) {
 
   options.url = url
   options.params = cloneData
-
-  if(options.method === 'get') {
-    return patch(http, method)(url, {params: data})
-  }
-
-  return patch(http, method)(url, cloneData)
+  console.log(options)
+  return patch(http, method)(url, cloneData, options)
 
 }
 

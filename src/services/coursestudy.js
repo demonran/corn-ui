@@ -6,7 +6,8 @@ const api = {
   query: `get ${url}`,
   list: `get ${url}`,
   update: `post ${url}`,
-  signIn: `post ${url}/sign`
+  signIn: `post ${url}/sign`,
+  listStudent: `get ${url}/lesson-student`
 }
 
 export default apiGen(api)
