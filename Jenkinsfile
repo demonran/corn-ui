@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
             // Run Maven on a Unix agent.
-            sh "cnpm run build"
+            sh "cnpm install && cnpm run build"
             }
         }
 
