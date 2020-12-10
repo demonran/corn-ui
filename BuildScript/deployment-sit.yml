@@ -7,9 +7,9 @@ spec:
     - host: www.sit.yumimiao.cn
       http:
         paths:
-          - ui:
-            serviceName: corn-ui
-            servicePort: 80
+          - backend:
+              serviceName: corn-ui
+              servicePort: 80
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -22,7 +22,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: corn-api
+      app: corn-ui
   template:
     metadata:
       labels:
