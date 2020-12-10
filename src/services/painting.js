@@ -5,7 +5,7 @@ const url = '/painting'
 const api = {
   list: `get ${url}`,
   add: `post ${url}`,
-  edit: `put ${url}`,
+  edit: `put ${url}/:id`,
   del: `delete ${url}/:id`,
   getItem: `get ${url}/:id`
 }

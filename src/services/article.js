@@ -1,25 +1,13 @@
-import qs from "qs";
-import patch from "./httpPatch";
-import common from "./common";
+import {apiGen} from "@/utils/request";
 
-export default {
-  list(param) {
-    return common.get("/article?" + qs.stringify(param));
-  },
+const url = '/article'
+const api = {
+  list: `get ${url}`,
+  add: `post ${url}`,
+  edit: `put ${url}/:id`,
+  del: `delete ${url}/:id`,
+  getItem: `get ${url}/:id`
+}
 
-  add(param) {
-    return common.post("/article?", param);
-  },
-  // 获取单项banner
-  getItem(id) {
-    return common.get("/article/" + id);
-  },
-  // 编辑单项banner
-  edtItem(param) {
-    return common.put("/article/" + param.id, param);
-  },
-  // 删除单项
-  del(id) {
-    return common.delete("/article/" + id);
-  }
-};
+export default apiGen(api)
+

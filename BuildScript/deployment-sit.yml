@@ -1,0 +1,58 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ui-ingress
+spec:
+  rules:
+    - host: apibe.sit.yumimiao.cn
+      http:
+        paths:
+          - backend:
+              serviceName: corn-ui
+              servicePort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: corn-ui
+  labels:
+    app: corn-ui
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: corn-api
+  template:
+    metadata:
+      labels:
+        app: corn-ui
+    spec:
+      imagePullSecrets:
+        - name: aliyun-docker-registry
+      containers:
+        - name: corn-ui
+          image: registry.cn-chengdu.aliyuncs.com/lura/corn-ui:build-${BUILD_NUMBER}
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+#      tolerations:
+#        - key: node-role.kubernetes.io/master
+#          effect: NoSchedule
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: corn-ui
+  namespace: default
+  labels:
+    app: corn-ui
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: corn-ui
+  type: NodePort

@@ -6,7 +6,7 @@ export default function Patch (http, method) {
       options.url = url
       options.method = method
       options.data = data
-
+      console.log(options)
       let ret = await  http(options)
 
       if (ret.status >= 200 && ret.status <= 300) {

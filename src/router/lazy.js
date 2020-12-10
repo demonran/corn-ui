@@ -138,20 +138,6 @@ const routes = [
             name: "文章管理",
             component: () => import("@/pages/dynamic/article/list"),
             icon: "none"
-          },
-          {
-            path: "/dynamic/addarticle",
-            name: "新增文章",
-            invisible: true,
-            component: () => import("@/pages/dynamic/article/add"),
-            icon: "none"
-          },
-          {
-            path: "/dynamic/edtarticle",
-            name: "编辑文章",
-            invisible: true,
-            component: () => import("@/pages/dynamic/article/add"),
-            icon: "none"
           }
         ]
       },
