@@ -17,7 +17,7 @@ pipeline {
          stage("dockerize") {
             steps {
                 withCredentials([string(credentialsId: 'docker-registry-passwd', variable: 'password')]) {
-                        sh 'echo test: ${password}'
+                        sh 'test=${password} && echo test: ${test}'
                         sh 'echo ${password} |sudo docker login --username=liuran_qian@163.com  registry.cn-chengdu.aliyuncs.com --password-stdin'
                         sh 'sudo docker build -t ${CORN_UI_IMAGE} .'
                         sh 'sudo docker push ${CORN_UI_IMAGE}'
